@@ -9,7 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Questionnaire.MvvmBase", "C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Questionnaire.Data", "Code\Questionnaire.Data\Questionnaire.Data.csproj", "{D72CB11E-FE82-4BDF-8F52-841645851D36}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NpoiExcel", "Code\NpoiExcel\NpoiExcel.csproj", "{47680BF8-C76A-44B9-BDE3-694F1A73CCB1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NpoiExcel", "..\..\WorkSpeed\Code\NpoiExcel\NpoiExcel.csproj", "{47680BF8-C76A-44B9-BDE3-694F1A73CCB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helpers", "..\..\WorkSpeed\Code\Helpers\Helpers.csproj", "{12FAA7BD-A5D4-48E3-80C4-6D7A72BE99B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{47680BF8-C76A-44B9-BDE3-694F1A73CCB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47680BF8-C76A-44B9-BDE3-694F1A73CCB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47680BF8-C76A-44B9-BDE3-694F1A73CCB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12FAA7BD-A5D4-48E3-80C4-6D7A72BE99B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12FAA7BD-A5D4-48E3-80C4-6D7A72BE99B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12FAA7BD-A5D4-48E3-80C4-6D7A72BE99B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12FAA7BD-A5D4-48E3-80C4-6D7A72BE99B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

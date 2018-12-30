@@ -7,18 +7,22 @@ using NpoiExcel.Attributes;
 
 namespace Questionnaire.Data.Models
 {
-    public class Firm
+    public class City
     {
+        public City ()
+        {
+            FirmCollection = new List< Firm >(242);
+        }
+
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public int FirmTypeId { get; set; }
-        public int CityId { get; set; }
+        public int RegionId { get; set; }
 
         [ Hidden ]
-        public FirmType FirmType { get; set; }
+        public Region Region { get; set; }
 
         [ Hidden ]
-        public City City { get; set; }
+        public ICollection< Firm > FirmCollection { get; set; }
     }
 }
