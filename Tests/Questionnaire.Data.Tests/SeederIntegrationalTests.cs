@@ -14,6 +14,75 @@ namespace Questionnaire.Data.Tests
     public class SeederIntegrationalTests
     {
         [ Test ]
+        public void GetRegions_FileExists_Returns14Regions ()
+        {
+            var res = Seeder.GetRegions();
+
+            Assert.That( 14 == res.Count() );
+        }
+
+        [ Test ]
+        public void Getegions_FileDoesNotExists_ReturnEmptyRegionCollection ()
+        {
+            // Arrange:
+            var originFile = Seeder.FileWithRegionsName;
+            Seeder.FileWithRegionsName = "";
+
+            // Action:
+            var res = Seeder.GetRegions();
+
+            // Assert:
+            Assert.That( !res.Any() );
+            FileWithRegionsName = originFile;
+        }
+
+        [ Test ]
+        public void GetCities_FileExists_Returns67Cities ()
+        {
+            var res = Seeder.GetCities();
+
+            Assert.That( 67 == res.Count() );
+        }
+
+        [ Test ]
+        public void GetCities_FileDoesNotExists_ReturnEmptyCityCollection ()
+        {
+            // Arrange:
+            var originFile = Seeder.FileWithCitiesName;
+            Seeder.FileWithCitiesName = "";
+
+            // Action:
+            var res = Seeder.GetCities();
+
+            // Assert:
+            Assert.That( !res.Any() );
+            FileWithCitiesName = originFile;
+        }
+
+        [ Test ]
+        public void GetFirmTypes_FileExists_Returns10FirmTypes ()
+        {
+            var res = Seeder.GetFirmTypes();
+
+            Assert.That( 10 == res.Count() );
+        }
+
+        [ Test ]
+        public void GetFirmTypes_FileDoesNotExists_ReturnEmptyFirmTypeCollection ()
+        {
+            // Arrange:
+            var originFile = Seeder.FileWithFirmTypesName;
+            Seeder.FileWithFirmTypesName = "";
+
+            // Action:
+            var res = Seeder.GetCities();
+
+            // Assert:
+            Assert.That( !res.Any() );
+            FileWithFirmTypesName = originFile;
+        }
+
+        [ Test ]
         public void GetFirms_FileExists_Returns243Firms ()
         {
             var res = Seeder.GetFirms();
@@ -22,44 +91,18 @@ namespace Questionnaire.Data.Tests
         }
 
         [ Test ]
-        public void GetFirms_FileDoesNotExists_Throws ()
+        public void GetFirms_FileDoesNotExists_ReturnEmptyFirmCollection ()
         {
-            bool ok = true;
+            // Arrange:
+            var originFile = Seeder.FileWithFirmsName;
+            Seeder.FileWithFirmsName = "";
 
-            try {
-                File.Move( @"/../../../../Code/Questionnaire.Data/SeedFiles/Firms.xlsx",
-                          @"/../../../../Code/Questionnaire.Data/SeedFiles/Firms.xlsx1" );
-            }
-            catch ( DirectoryNotFoundException ) {
-                Debug.WriteLine( "Path invalid" );
-                throw;
-            }
-            catch ( IOException ) {
-                ok = false;
-            }
-
+            // Action:
             var res = Seeder.GetFirms();
 
-            if ( ok ) {
-                File.Move( @"/../../../../Code/Questionnaire.Data/SeedFiles/Firms.xlsx1",
-                          @"/../../../../Code/Questionnaire.Data/SeedFiles/Firms.xlsx" );
-            }
-
-        }
-
-        [ Test ]
-        public void GetFirms_FileAccessDenied_Throws ()
-        {
-            FileStream fs = null;
-
-            try {
-                fs = new FileStream( @"/../../../../Code/Questionnaire.Data/SeedFiles/Firms.xlsx",
-                                               FileMode.Open );
-            }
-            finally {
-                fs?.Close();
-            }
-
+            // Assert:
+            Assert.That( !res.Any() );
+            FileWithFirmsName = originFile;
         }
 
     }
