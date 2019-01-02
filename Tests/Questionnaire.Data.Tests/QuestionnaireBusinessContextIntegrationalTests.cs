@@ -49,7 +49,7 @@ namespace Questionnaire.Data.Tests
 
             var firms = context.GetFirms();
 
-            Assert.That( firms.First().City != null );
+            Assert.That( firms.All( f => f.City != null && f.CityId > 0 ) );
         }
 
         [ Test ]
@@ -59,7 +59,7 @@ namespace Questionnaire.Data.Tests
 
             var firms = context.GetFirms();
 
-            Assert.That( firms.First().FirmType != null );
+            Assert.That( firms.All( f => f.FirmType != null && f.FirmTypeId > 0 ) );
         }
 
 
