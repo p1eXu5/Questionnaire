@@ -54,6 +54,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\WorkSpeed\Code\Helpers\Helpers.csproj">
+      <Project>{12faa7bd-a5d4-48e3-80c4-6d7a72be99b0}</Project>
+      <Name>Helpers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Code\Questionnaire.Data\Questionnaire.Data.csproj">
       <Project>{d72cb11e-fe82-4bdf-8f52-841645851d36}</Project>
       <Name>Questionnaire.Data</Name>
