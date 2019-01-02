@@ -11,14 +11,24 @@ namespace Questionnaire.DesktopClient.ViewModels
 {
     public class MainViewModel : ViewModel
     {
-        private readonly IQuestionnaireBusinessContext businessContext;
+        private readonly IQuestionnaireBusinessContext _businessContext;
+        private Firm _selectedFirm;
 
         public MainViewModel ( IQuestionnaireBusinessContext questionnaireBusinessContext )
         {
-            businessContext = questionnaireBusinessContext ?? throw new ArgumentNullException( nameof( questionnaireBusinessContext ), @"IQuestionnaireBusinessContext cannot be null." );
+            _businessContext = questionnaireBusinessContext ?? throw new ArgumentNullException( nameof( questionnaireBusinessContext ), @"IQuestionnaireBusinessContext cannot be null." );
         }
 
-        public IEnumerable< Firm > Firms => businessContext.GetFirms();
+        public IEnumerable< City > Cities => _businessContext.GetCities();
+        public IEnumerable< Firm > Firms => _businessContext.GetFirms();
 
+        public Firm SelectedFirm
+        {
+            get => _selectedFirm;
+            set {
+                _selectedFirm = value;
+                OnPropertyChanged();
+            }
+        }
     }
 }

@@ -44,7 +44,10 @@
                     MinWidth="100"
                     Margin="20,0"
                     ItemsSource="{Binding Cities}"
-                    Style="{StaticResource MaterialDesignFloatingHintComboBox}">
+                    Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                    SelectedItem="{Binding SelectedFirm.City}"
+                    DisplayMemberPath="Name"
+                    >
                     <ComboBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <VirtualizingStackPanel />
@@ -57,7 +60,10 @@
                     MinWidth="72"
                     Margin="20,0,20,20"
                     ItemsSource="{Binding Firms}"
-                    Style="{StaticResource MaterialDesignFloatingHintComboBox}">
+                    Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                    SelectedItem="{Binding SelectedFirm}"
+                    DisplayMemberPath="Name"
+                    >
                     <ComboBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <VirtualizingStackPanel />

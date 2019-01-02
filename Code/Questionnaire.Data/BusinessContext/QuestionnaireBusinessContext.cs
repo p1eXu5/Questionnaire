@@ -23,12 +23,12 @@ namespace Questionnaire.Data.BusinessContext
 
         public IEnumerable< Firm > GetFirms ()
         {
-            return _firms;
+            return _firms.OrderBy( f => f.Name );
         }
 
         public IEnumerable< City > GetCities ()
         {
-            return _cities;
+            return _cities.OrderBy( c => c.Name );
         }
 
         private void Seed ()
@@ -62,7 +62,7 @@ namespace Questionnaire.Data.BusinessContext
                     region.CityCollection.Add( city );
                 }
 
-                var city1 = _cities.FirstOrDefault( c => c.Id == 1 );
+                var city1 = cities.FirstOrDefault( c => c.Id == 1 );
 
                 if ( city1 == null ) {
                     cities.Add( unknownCity );

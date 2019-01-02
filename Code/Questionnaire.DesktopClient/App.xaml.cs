@@ -5,6 +5,9 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Questionnaire.Data.BusinessContext;
+using Questionnaire.DesktopClient.ViewModels;
+using Questionnaire.DesktopClient.Views;
 
 namespace Questionnaire.DesktopClient
 {
@@ -13,5 +16,17 @@ namespace Questionnaire.DesktopClient
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup ( StartupEventArgs e )
+        {
+            base.OnStartup( e );
+
+            var businessContext = new QuestionnaireBusinessContext();
+            var mainViewModel = new MainViewModel( businessContext );
+
+            var wnd = new MainWindow();
+            wnd.DataContext = mainViewModel;
+
+            wnd.ShowDialog();
+        }
     }
 }
