@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using WorkSpeed.MvvmBaseLibrary.Annotations;
 
 namespace Questionnaire.MvvmBase
 {
@@ -8,7 +7,6 @@ namespace Questionnaire.MvvmBase
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

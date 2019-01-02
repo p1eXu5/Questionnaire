@@ -16,6 +16,23 @@ namespace Questionnaire.Data.BusinessContext
         private readonly List< Answer > _answers;
 
         public QuestionnaireBusinessContext ()
-        { }
+        {
+            Seed();
+        }
+
+        public IEnumerable< Firm > GetFirms ()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable< City > GetCities ()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Seed ()
+        {
+
+        }
     }
 }

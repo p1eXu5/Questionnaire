@@ -19,16 +19,17 @@
         Title="MainWindow" Height="600" Width="800">
 
     <DockPanel>
-        <Menu DockPanel.Dock="Top">
+        <Menu DockPanel.Dock="Top"
+              IsMainMenu="True" >
             <MenuItem>
                 <MenuItem.Header>
                     <TextBlock Text="File" />
                 </MenuItem.Header>
 
-                <MenuItem Header="Выбрать опросник" />
-                <MenuItem Header="Экспорт результатов" />
-                <Separator />
-                <MenuItem Header="Выход" />
+                <MenuItem Header="Выбрать опросник" Style="{x:Null}" />
+                <MenuItem Header="Экспорт результатов" Style="{x:Null}"  />
+                <Separator Style="{x:Null}"  />
+                <MenuItem Header="Выход" Style="{x:Null}"  />
             </MenuItem>
         </Menu>
 
@@ -36,16 +37,34 @@
             <StackPanel VerticalAlignment="Center" 
                         HorizontalAlignment="Center"
                         Visibility="Visible"
+                        MinWidth="300"
                         >
-                <ComboBox Margin="20,20,20,0" ItemsSource="{Binding Firms}" 
-                          SelectedItem="{Binding SelectedFirm}"
-                          Width="300"
-                          
-                          />
-                <ComboBox Margin="20" ItemsSource="{Binding Firms}" 
-                          SelectedItem="{Binding SelectedFirm}"
-                          Width="300"
-                          />
+                <ComboBox
+                    materialDesign:HintAssist.Hint="Город"
+                    MinWidth="100"
+                    Margin="20,0"
+                    ItemsSource="{Binding Cities}"
+                    Style="{StaticResource MaterialDesignFloatingHintComboBox}">
+                    <ComboBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+                </ComboBox>
+
+                <ComboBox
+                    materialDesign:HintAssist.Hint="Филиал"
+                    MinWidth="72"
+                    Margin="20,0,20,20"
+                    ItemsSource="{Binding Firms}"
+                    Style="{StaticResource MaterialDesignFloatingHintComboBox}">
+                    <ComboBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+                </ComboBox>
+
                 <Button Content="Начать тест" Background="Transparent" 
                         Foreground="{DynamicResource MaterialDesignLightForeground}"
                         Width="150"
