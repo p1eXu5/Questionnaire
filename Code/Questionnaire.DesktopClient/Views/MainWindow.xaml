@@ -45,7 +45,7 @@
                     Margin="20,0"
                     ItemsSource="{Binding Cities}"
                     Style="{StaticResource MaterialDesignFloatingHintComboBox}"
-                    SelectedItem="{Binding SelectedFirm.City}"
+                    SelectedItem="{Binding SelectedCity}"
                     DisplayMemberPath="Name"
                     >
                     <ComboBox.ItemsPanel>
