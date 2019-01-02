@@ -47,14 +47,14 @@ namespace Questionnaire.Data.Tests
         }
 
         [Test]
-        public void GetCities_FileExists_Returns67Cities ()
+        public void GetCities_FileExists_Returns4Cities ()
         {
             var oldFileName = Seeder.FileNameCities;
             Seeder.FileNameCities = Seeder.FileNameCities.AppendAssemblyPath();
 
             var res = Seeder.GetCities().ToList();
 
-            Assert.That( 67 == res.Count, $"res.Count: { res.Count }" );
+            Assert.That( 5 == res.Count, $"res.Count: { res.Count }" );
             Seeder.FileNameCities = oldFileName;
         }
 
@@ -101,14 +101,14 @@ namespace Questionnaire.Data.Tests
         }
 
         [ Test ]
-        public void GetFirms_FileExists_Returns243Firms ()
+        public void GetFirms_FileExists_Returns4Firms ()
         {
             var oldFileName = Seeder.FileNameFirms;
             Seeder.FileNameFirms = Seeder.FileNameFirms.AppendAssemblyPath();
 
-            var res = Seeder.GetFirms();
+            var res = Seeder.GetFirms().ToList();
 
-            Assert.That( 243 == res.Count() );
+            Assert.That( 4 == res.Count, $"res.Count: { res.Count }"  );
             Seeder.FileNameFirms = oldFileName;
         }
 
