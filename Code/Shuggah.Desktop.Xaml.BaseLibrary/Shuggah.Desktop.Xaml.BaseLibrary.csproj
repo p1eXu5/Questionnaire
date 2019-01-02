@@ -44,8 +44,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="BorderThicknessToStrokeThicknessConverter.cs" />
     <Compile Include="Directions.cs" />
+    <Compile Include="EvenOddToZeroOneConverter.cs" />
     <Compile Include="IStageViewModel.cs" />
     <Compile Include="MoveRequestedEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

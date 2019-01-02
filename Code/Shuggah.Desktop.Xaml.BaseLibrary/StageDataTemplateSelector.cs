@@ -12,11 +12,21 @@ namespace Shuggah.Desktop.Xaml.BaseLibrary
     {
         private readonly Dictionary< Type, string > _map;
 
-        public StageDataTemplateSelector ( IDictionary< Type, string > map) : base()
+        public StageDataTemplateSelector ( ) : base()
         {
-            if ( map == null ) throw new ArgumentNullException( nameof( map ), "map cannot be null." );
+            _map = new Dictionary< Type, string >();
+        }
 
-            _map = new Dictionary< Type, string >( map );
+        public StageDataTemplateSelector ( IDictionary< Type, string > stageMap ) : base()
+        {
+            if ( stageMap == null ) throw new ArgumentNullException( nameof( stageMap ), "Stage map cannot be null." );
+
+            _map = new Dictionary< Type, string >( stageMap );
+        }
+
+        public void AddStage ( object stage )
+        {
+            var dtName = $"dt_{ stage.GetType().Name }";
         }
 
         public IDictionary< Type, string > Map => _map;
@@ -28,7 +38,14 @@ namespace Shuggah.Desktop.Xaml.BaseLibrary
                 foreach ( var type in _map.Keys ) {
 
                     if ( item.GetType().IsAssignableFrom( type ) ) {
-                        return element.FindResource(_map[ type ]) as DataTemplate;
+
+                        try {
+                            var tmp = element.FindResource( _map[ type ] ) as DataTemplate;
+                            return tmp;
+                        }
+                        catch ( ResourceReferenceKeyNotFoundException ) {
+                            return null;
+                        }
                     }
                 }
             }
