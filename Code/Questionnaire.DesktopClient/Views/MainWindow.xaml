@@ -6,6 +6,16 @@
         xmlns:local="clr-namespace:Questionnaire.DesktopClient"
         xmlns:uc="clr-namespace:Questionnaire.DesktopClient.Views.UserControls"
         mc:Ignorable="d"
+
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+
         Title="MainWindow" Height="600" Width="800">
 
     <DockPanel>
@@ -27,15 +37,19 @@
                         HorizontalAlignment="Center"
                         Visibility="Visible"
                         >
+                <ComboBox Margin="20,20,20,0" ItemsSource="{Binding Firms}" 
+                          SelectedItem="{Binding SelectedFirm}"
+                          Width="300"
+                          
+                          />
                 <ComboBox Margin="20" ItemsSource="{Binding Firms}" 
                           SelectedItem="{Binding SelectedFirm}"
                           Width="300"
                           />
-                <Button Content="Начать тест" Background="Transparent"
-                        BorderBrush="{x:Null}"
+                <Button Content="Начать тест" Background="Transparent" 
+                        Foreground="{DynamicResource MaterialDesignLightForeground}"
                         Width="150"
-                        FontWeight="Bold"
-                        FontSize="20"
+                        Margin="0,20"
                         />
             </StackPanel>
 

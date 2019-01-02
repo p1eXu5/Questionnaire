@@ -7,7 +7,7 @@ using Questionnaire.Data.Models;
 
 namespace Questionnaire.Data.BusinessContext
 {
-    public class QuestionnaireBusinessContext
+    public class QuestionnaireBusinessContext : IQuestionnaireBusinessContext
     {
         private readonly List< Firm > _firms;
         private readonly List< Note > _notes;
@@ -16,8 +16,6 @@ namespace Questionnaire.Data.BusinessContext
         private readonly List< Answer > _answers;
 
         public QuestionnaireBusinessContext ()
-        {
-            
-        }
+        { }
     }
 }

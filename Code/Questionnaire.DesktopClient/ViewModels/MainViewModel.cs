@@ -3,21 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Questionnaire.Data.BusinessContext;
+using Questionnaire.Data.Models;
 using Questionnaire.MvvmBase;
 
 namespace Questionnaire.DesktopClient.ViewModels
 {
     public class MainViewModel : ViewModel
     {
-        private readonly IQuestionRepository _questionRepository;
+        private readonly IQuestionnaireBusinessContext businessContext;
 
-        public MainViewModel ( IQuestionRepository questionRepository )
+        public MainViewModel ( IQuestionnaireBusinessContext questionnaireBusinessContext )
         {
-            _questionRepository = questionRepository ?? throw new ArgumentNullException( nameof( questionRepository ), @"IQuestionRepository cannot be null." );
+            businessContext = questionnaireBusinessContext ?? throw new ArgumentNullException( nameof( questionnaireBusinessContext ), @"IQuestionnaireBusinessContext cannot be null." );
         }
 
-        public bool HasQuestions => _questionRepository.HasQuestions;
-
+        public IEnumerable< Firm > Firms => businessContext.GetFirms();
 
     }
 }
