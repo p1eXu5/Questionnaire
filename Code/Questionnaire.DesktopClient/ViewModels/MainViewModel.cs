@@ -7,6 +7,7 @@ using System.Windows.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Questionnaire.Data.BusinessContext;
 using Questionnaire.Data.Models;
 using Questionnaire.MvvmBase;
@@ -30,10 +31,14 @@ namespace Questionnaire.DesktopClient.ViewModels
             _firmsView = CollectionViewSource.GetDefaultView( Firms );
 
             SelectedCity = Cities.FirstOrDefault();
+
+            StartTestCommand = new MvvmCommand( StartTest, CanStartTest );
         }
 
         public IEnumerable< City > Cities { get; }
         public IEnumerable< Firm > Firms { get; }
+
+        public ICommand StartTestCommand { get; }
 
         public City SelectedCity
         {
@@ -60,6 +65,7 @@ namespace Questionnaire.DesktopClient.ViewModels
                 }
 
                 OnPropertyChanged();
+                ((MvvmCommand)StartTestCommand).RaiseCanExecuteChanged();
             }
         }
 
@@ -74,5 +80,15 @@ namespace Questionnaire.DesktopClient.ViewModels
             _firmsView.Filter = ( firm ) => (( Firm )firm).CityId == cityId;
         }
 
+
+        private void StartTest ( object obj )
+        {
+            throw new NotImplementedException();
+        }
+
+        private bool CanStartTest ( object obj )
+        {
+            return SelectedFirm.Id > 1;
+        }
     }
 }
