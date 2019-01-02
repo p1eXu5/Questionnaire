@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Questionnaire.Data.Tests", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NpoiExcel.Tests", "..\..\WorkSpeed\Tests\NpoiExcel.Tests\NpoiExcel.Tests.csproj", "{0943E858-2173-4084-AFC8-C0524D8CB825}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shuggah.Desktop.Xaml.BaseUserControlLibrary", "Code\Shuggah.Desktop.Xaml.BaseUserControlLibrary\Shuggah.Desktop.Xaml.BaseUserControlLibrary.csproj", "{5CF90FA3-5D12-4101-9028-53ABCC5AC04E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{0943E858-2173-4084-AFC8-C0524D8CB825}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0943E858-2173-4084-AFC8-C0524D8CB825}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0943E858-2173-4084-AFC8-C0524D8CB825}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CF90FA3-5D12-4101-9028-53ABCC5AC04E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CF90FA3-5D12-4101-9028-53ABCC5AC04E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CF90FA3-5D12-4101-9028-53ABCC5AC04E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CF90FA3-5D12-4101-9028-53ABCC5AC04E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +73,7 @@ Global
 		{12FAA7BD-A5D4-48E3-80C4-6D7A72BE99B0} = {73AAD14E-E623-4BF1-A47D-82BA8A342A41}
 		{F846AC63-4C5C-4A1D-BBF9-F53E35F697DF} = {B439C3D8-2BC9-4474-842B-84AE91E3D61C}
 		{0943E858-2173-4084-AFC8-C0524D8CB825} = {B439C3D8-2BC9-4474-842B-84AE91E3D61C}
+		{5CF90FA3-5D12-4101-9028-53ABCC5AC04E} = {73AAD14E-E623-4BF1-A47D-82BA8A342A41}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BDB4E9D8-0978-45D2-82FE-23BD70EAF94C}
