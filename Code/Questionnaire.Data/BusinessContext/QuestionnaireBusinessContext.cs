@@ -3,123 +3,96 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Questionnaire.Data.DataContext;
 using Questionnaire.Data.Models;
 
 namespace Questionnaire.Data.BusinessContext
 {
-    public class QuestionnaireBusinessContext : IQuestionnaireBusinessContext
+    public class QuestionnaireBusinessContext : IQuestionnaireBusinessContext, IDisposable
     {
-        private City[] _cities;
-        private Firm[] _firms;
-        private readonly List< Note > _notes;
-        private readonly List< QuestionBase > _questions;
-        private readonly List< Section > _sections;
-        private readonly List< AnswerMultipleChoice > _answers;
+        private readonly QuestionnaireDbContext _context;
+
+        private bool _disposed;
 
         public QuestionnaireBusinessContext ()
         {
-            Seed();
+            _context = new QuestionnaireDbContext();
+            _context.Database.Migrate();
+            SeedData();
         }
 
-        public IEnumerable< Firm > GetFirms ()
+        public QuestionnaireBusinessContext ( DbContextOptions< QuestionnaireDbContext > options )
         {
-            return _firms.OrderBy( f => f.Name );
+            _context = options == null ? new QuestionnaireDbContext() : new QuestionnaireDbContext( options );
+
+            SeedData();
         }
 
-        public IEnumerable< City > GetCities ()
+
+        public QuestionnaireDbContext DbContext => _context;
+
+        public Region[] GetRegions ()
         {
-            return _cities.OrderBy( c => c.Name );
+            return _context.Regions.OrderBy( s => s.Name ).ToArray();
         }
 
-        private void Seed ()
+        public Firm[] GetFirms ()
         {
-            _cities = GetCities( Seeder.GetRegions().ToArray() );
-            _firms = GetFirms( _cities, Seeder.GetFirmTypes().ToArray() );
+            return _context.Firms.OrderBy( f => f.Name ).ToArray();
         }
 
-        private City[] GetCities ( Region[] regions )
+        public City[] GetCities ()
         {
-            var unknownRegion = new Region { Id = 1, Name = "-" };
-            var unknownCity = new City { Id = 1, Name = "-", Region = unknownRegion, RegionId = unknownRegion.Id };
-            unknownRegion.CityCollection.Add( unknownCity );
-
-            var cities = Seeder.GetCities().ToList();
-
-            if ( cities.Count > 0 ) {
-
-                foreach ( var city in cities ) {
-
-                    if ( city.Id <= 0 ) city.Id = cities.Max( c => c.Id ) + 1;
-
-                    var region = regions.FirstOrDefault( r => r.Id == city.RegionId );
-
-                    if ( region == null || region.Id <= 1 ) { 
-                        region = unknownRegion;
-                    }
-
-                    city.Region = region;
-                    city.RegionId = region.Id;
-                    region.CityCollection.Add( city );
-                }
-
-                var city1 = cities.FirstOrDefault( c => c.Id == 1 );
-
-                if ( city1 == null ) {
-                    cities.Add( unknownCity );
-                }
-
-                return cities.OrderBy( c => c.Id ).ToArray();
-            }
-
-            return new[] { unknownCity };
+            return _context.Cities.OrderBy( c => c.Name ).ToArray();
         }
 
-        private Firm[] GetFirms ( City[] cities, FirmType[] firmTypes )
+        public Section[] GetSections ()
         {
-            var unknownFirmType = new FirmType { Id = 1, Name = "-" };
-            var unknownFirm = new Firm { Id = 1, Name = "-", City = cities[0], CityId = cities[0].Id, FirmType = unknownFirmType, FirmTypeId = unknownFirmType.Id };
-            cities[0].FirmCollection.Add( unknownFirm );
-            unknownFirmType.FirmCollection.Add( unknownFirm );
-
-            var firms = Seeder.GetFirms().ToList();
-
-            if ( firms.Count > 0 ) {
-
-                foreach ( var firm in firms ) {
-
-                    if ( firm.Id <= 0 ) firm.Id = firms.Max( f => f.Id ) + 1;
-
-                    var city = _cities.FirstOrDefault( c => firm.CityId == c.Id );
-
-                    if ( city == null || firm.CityId <= 1 ) {
-                        city = _cities[0];
-                    }
-
-                    var firmType = firmTypes.FirstOrDefault( f => firm.FirmTypeId == f.Id );
-
-                    if ( firmType == null || firmType.Id <= 1 ) {
-                        firmType = unknownFirmType;
-                    }
-
-                    firm.City = city;
-                    firm.CityId = city.Id;
-                    city.FirmCollection.Add( firm );
-
-                    firm.FirmType = firmType;
-                    firm.FirmTypeId = firmType.Id;
-                    firmType.FirmCollection.Add( firm );
-                }
-
-                var firm1 = firms.FirstOrDefault( f => f.Id == 1 );
-
-                if ( firm1 == null ) {
-                    firms.Add( unknownFirm );
-                }
-
-                return firms.OrderBy( f => f.Id ).ToArray();
-            }
-
-            return new[] { unknownFirm };
+            return _context.Sections.OrderBy( s => s.Id ).ToArray();
         }
+
+        public void AddFirm ( Firm firm )
+        {
+
+        }
+
+        private void SeedData ()
+        {
+            _context.Regions.AddRange( Seeder.GetRegions() );
+            //_context.Cities.AddRange( Seeder.GetCities() );
+            //_context.FirmTypes.AddRange( Seeder.GetFirmTypes() );
+            //_context.Firms.AddRange( Seeder.GetFirms() );
+            //_context.Categories.AddRange( Seeder.GetCategories() );
+            //_context.Sections.AddRange( Seeder.GetSections() );
+            //_context.QuestionMultipleChoiceCollection.AddRange( Seeder.GetQuestionMultipleChoiceList() );
+            //_context.QuestionOpenCollection.AddRange( Seeder.GetQuestionOpenList() );
+
+            _context.Database.ExecuteSqlCommand( @"SET IDENTITY_INSERT dbo.Regions ON" );
+            _context.SaveChanges();
+            _context.Database.ExecuteSqlCommand( @"SET IDENTITY_INSERT dbo.Regions OFF" );
+        }
+
+        static class Check
+        {
+
+        }
+
+        #region IDisposable
+
+        public void Dispose ()
+        {
+            Dispose( true );
+        }
+
+        private void Dispose ( bool disposing )
+        {
+            if ( !disposing || _disposed ) return;
+
+            _context?.Dispose();
+            _disposed = true;
+        }
+
+        #endregion
     }
 }

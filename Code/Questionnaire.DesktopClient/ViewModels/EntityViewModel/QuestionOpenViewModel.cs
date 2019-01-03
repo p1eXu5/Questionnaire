@@ -9,11 +9,11 @@ using Questionnaire.MvvmBase;
 
 namespace Questionnaire.DesktopClient.ViewModels.EntityViewModel
 {
-    public class QuestionViewModel : ViewModel
+    public class QuestionOpenViewModel : ViewModel
     {
-        private readonly QuestionBase _question;
+        private readonly QuestionOpen _question;
 
-        public QuestionViewModel ( QuestionBase question )
+        public QuestionOpenViewModel ( QuestionOpen question )
         {
             _question = question ?? throw new ArgumentNullException( nameof( question ), @"Question cannot be null." );
         }

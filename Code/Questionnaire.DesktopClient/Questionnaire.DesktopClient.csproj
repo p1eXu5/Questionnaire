@@ -61,7 +61,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ViewModels\EntityViewModel\QuestionViewModel.cs" />
+    <Compile Include="ViewModels\EntityViewModel\QuestionOpenViewModel.cs" />
     <Compile Include="ViewModels\EntityViewModel\SectionViewModel.cs" />
     <Compile Include="ViewModels\QuestionnaireRunnerViewModel.cs" />
     <Compile Include="Views\UserControls\QuestionsView.xaml.cs">

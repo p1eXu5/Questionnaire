@@ -3,72 +3,86 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Helpers;
+using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
-using NUnit.Framework.Internal;
 using Questionnaire.Data.BusinessContext;
+using Questionnaire.Data.DataContext;
 
 namespace Questionnaire.Data.Tests.BusinessContext.IntegrationalTests
 {
-    [TestFixture]
+    [ TestFixture ]
     public class QuestionnaireBusinessContextTests
     {
-        [ Test ]
-        public void Ctor_ByDefault_LoadsCities ()
+        private string[] _paths = new string[8];
+
+        [ SetUp ]
+        public void SavePaths ()
         {
-            var context = GetQuestionnaireBusinessContext();
+            _paths[ 0 ] = Seeder.FileNameRegions;
+            Seeder.FileNameRegions = Seeder.FileNameRegions.AppendAssemblyPath();
 
-            var cities = context.GetCities();
+            _paths[ 1 ] = Seeder.FileNameCities;
+            Seeder.FileNameCities = Seeder.FileNameCities.AppendAssemblyPath();
 
-            Assert.That( cities.Any() );
+            _paths[ 2 ] = Seeder.FileNameFirmTypes;
+            Seeder.FileNameFirmTypes = Seeder.FileNameFirmTypes.AppendAssemblyPath();
+
+            _paths[ 3 ] = Seeder.FileNameFirms;
+            Seeder.FileNameFirms = Seeder.FileNameFirms.AppendAssemblyPath();
+        }
+
+        [ TearDown ]
+        public void RestorePath ()
+        {
+            Seeder.FileNameFirms = _paths[ 3 ];
+            Seeder.FileNameFirmTypes = _paths[ 2 ];
+            Seeder.FileNameCities = _paths[ 1 ];
+            Seeder.FileNameSections = _paths[ 0 ];
         }
 
         [ Test ]
-        public void Ctor_ByDefault_LoadsCitiesWithRegions ()
+        public void Ctor_ByDefault_CreatesDb ()
         {
-            var context = GetQuestionnaireBusinessContext();
+            using ( var context = new QuestionnaireBusinessContext() ) {
 
-            var cities = context.GetCities();
+                Assert.That( context.DbContext.Database.CanConnect );
 
-            Assert.That( cities.First().Region != null );
+                context.DbContext.Database.EnsureDeleted();
+            }
         }
 
         [ Test ]
-        public void Ctor_ByDefault_LoadsFirms ()
+        public void GetFirms_UnitByDefault_ReturnsFirms ()
         {
-            var context = GetQuestionnaireBusinessContext();
+            using ( var context = GetContext() ) {
 
-            var firms = context.GetFirms();
+                var firms = context.GetFirms();
 
-            Assert.That( firms.Any() );
+                Assert.That( firms.Any() );
+            }
         }
 
         [ Test ]
-        public void Ctor_ByDefault_LoadsFirmsWithCities ()
+        public void GetFirms_ByDefault_ReturnsRegions ()
         {
-            var context = GetQuestionnaireBusinessContext();
+            using ( var context = new QuestionnaireBusinessContext() ) {
 
-            var firms = context.GetFirms();
+                var regions = context.GetRegions();
 
-            Assert.That( firms.All( f => f.City != null && f.CityId > 0 ) );
+                Assert.That( regions.Any() );
+
+                context.DbContext.Database.EnsureDeleted();
+            }
         }
 
-        [ Test ]
-        public void Ctor_ByDefault_LoadsFirmsWithFirmTypes ()
+        private QuestionnaireBusinessContext GetContext ()
         {
-            var context = GetQuestionnaireBusinessContext();
+            var options = new DbContextOptionsBuilder< QuestionnaireDbContext >()
+                          .UseInMemoryDatabase( databaseName: "TestDb" )
+                          .Options;
 
-            var firms = context.GetFirms();
-
-            Assert.That( firms.All( f => f.FirmType != null && f.FirmTypeId > 0 ) );
+            return new QuestionnaireBusinessContext( options );
         }
-
-
-        #region Factory
-
-        private IQuestionnaireBusinessContext GetQuestionnaireBusinessContext ()
-        {
-            return new QuestionnaireBusinessContext();
-        }
-        #endregion
     }
 }

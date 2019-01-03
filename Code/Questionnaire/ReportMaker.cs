@@ -9,7 +9,7 @@ namespace Questionnaire
 {
     public static class ReportMaker
     {
-        public static void MakeReport ( string fileName, IEnumerable< EmployeeAnswer > answers, ReportOrientation orientation = ReportOrientation.Horizontal )
+        public static void MakeReport ( string fileName, IEnumerable< AnswerMultipleChoice > answers, ReportOrientation orientation = ReportOrientation.Horizontal )
         {
 
         }

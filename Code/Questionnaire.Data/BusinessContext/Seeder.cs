@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NpoiExcel;
+using Questionnaire.Data.DataContext;
 using Questionnaire.Data.Models;
 
 namespace Questionnaire.Data.BusinessContext
@@ -142,6 +143,11 @@ namespace Questionnaire.Data.BusinessContext
             catch {
                 return new QuestionOpen[0];
             }
+        }
+
+        public static void SeedData ( QuestionnaireDbContext context )
+        {
+
         }
     }
 }

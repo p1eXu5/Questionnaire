@@ -20,7 +20,7 @@ namespace Questionnaire.DesktopClient
         {
             base.OnStartup( e );
 
-            var businessContext = new QuestionnaireBusinessContext();
+            var businessContext = new QuestionnaireRuntimeContext();
             var mainViewModel = new MainViewModel( businessContext );
 
             var wnd = new MainWindow();

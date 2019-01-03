@@ -16,13 +16,12 @@ namespace Questionnaire.DesktopClient.ViewModels.EntityViewModel
         {
             _section = section ?? throw new ArgumentNullException( nameof( section ), @"Section cannot be null." ); ;
 
-            Questions = new List< QuestionViewModel >( _section.Questions.Select( q => new QuestionViewModel( q ) ) );
+            QuestionOpenCollection = new List< QuestionOpenViewModel >( _section.QuestionOpenCollection.Select( q => new QuestionOpenViewModel( q ) ) );
         }
 
         public int Id => _section.Id;
 
-        public IEnumerable< QuestionViewModel > Questions { get; }
+        public IEnumerable< QuestionOpenViewModel > QuestionOpenCollection { get; }
 
-        public string 
     }
 }

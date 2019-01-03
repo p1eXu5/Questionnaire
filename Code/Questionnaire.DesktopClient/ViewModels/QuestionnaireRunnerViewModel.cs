@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Questionnaire.Data.BusinessContext;
+using Questionnaire.DesktopClient.ViewModels.EntityViewModel;
 using Questionnaire.MvvmBase;
 
 namespace Questionnaire.DesktopClient.ViewModels
@@ -13,10 +14,10 @@ namespace Questionnaire.DesktopClient.ViewModels
     {
         private readonly IQuestionnaireBusinessContext _businessContext;
 
-        private Queue< QuestionViewModel > _questions;
+        private Queue< SectionViewModel > _questions;
 
-        private QuestionViewModel _questionA;
-        private QuestionViewModel _questionB;
+        private SectionViewModel _questionA;
+        private SectionViewModel _questionB;
 
         private bool _isNextQuestionA;
         private int _iter;
@@ -25,7 +26,7 @@ namespace Questionnaire.DesktopClient.ViewModels
         {
             _businessContext = businessContext ?? throw new ArgumentNullException( nameof( businessContext ), @"IBusinessContext cannot be null." );
 
-            _questions = new Queue< QuestionViewModel >( _businessContext.GetQuestions() );
+            _questions = new Queue< SectionViewModel >( _businessContext.GetSections().Select( s => new SectionViewModel( s ) ) );
 
             if ( _questions.Any() ) {
 
@@ -42,8 +43,23 @@ namespace Questionnaire.DesktopClient.ViewModels
 
         public int Count => _questions.Count;
 
-        public QuestionViewModel QuestionA { get; private set; }
-        public QuestionViewModel QuestionB { get; private set; }
+        public SectionViewModel QuestionA
+        {
+            get => _questionA;
+            private set {
+                _questionA = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public SectionViewModel QuestionB
+        {
+            get => _questionB;
+            private set {
+                _questionB = value;
+                OnPropertyChanged();
+            }
+        }
 
         public ICommand NextQuestionCommand;
 
