@@ -21,6 +21,8 @@ namespace Questionnaire.DesktopClient.ViewModels
         private Firm _selectedFirm;
         private readonly ICollectionView _firmsView;
 
+        private bool _isRunning;
+
         public MainViewModel ( IQuestionnaireBusinessContext questionnaireBusinessContext )
         {
             _businessContext = questionnaireBusinessContext ?? throw new ArgumentNullException( nameof( questionnaireBusinessContext ), @"IQuestionnaireBusinessContext cannot be null." );
@@ -34,6 +36,7 @@ namespace Questionnaire.DesktopClient.ViewModels
 
             StartTestCommand = new MvvmCommand( StartTest, CanStartTest );
         }
+
 
         public IEnumerable< City > Cities { get; }
         public IEnumerable< Firm > Firms { get; }
@@ -69,6 +72,18 @@ namespace Questionnaire.DesktopClient.ViewModels
             }
         }
 
+        public bool IsRunning
+        {
+            get => _isRunning;
+            set {
+                _isRunning = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+
+
         private void SetFirmsFilter ( int cityId )
         {
             if ( cityId == 1 ) {
@@ -79,7 +94,6 @@ namespace Questionnaire.DesktopClient.ViewModels
 
             _firmsView.Filter = ( firm ) => (( Firm )firm).CityId == cityId;
         }
-
 
         private void StartTest ( object obj )
         {

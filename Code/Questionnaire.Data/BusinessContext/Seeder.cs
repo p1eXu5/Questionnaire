@@ -15,10 +15,22 @@ namespace Questionnaire.Data.BusinessContext
         public static string FileNameFirmTypes { get; set; } = @"SeedFiles/FirmTypes.xlsx";
         public static string FileNameFirms { get; set; } = @"SeedFiles/Firms.xlsx";
 
+        public static string FileNameCategories { get; set; } = @"SeedFiles/Categories.xlsx";
+        public static string FileNameSections { get; set; } = @"SeedFiles/Sections.xlsx";
+        public static string FileNameQuestionMultipleChoiceList { get; set; } = @"SeedFiles/QuestionMultipleChoiceList.xlsx";
+        public static string FileNameQuestionOpenList { get; set; } = @"SeedFiles/QuestionOpenList.xlsx";
+
+
         public static SheetTable RegionSheetTable { get; private set; }
         public static SheetTable CitySheetTable { get; private set; }
         public static SheetTable FirmTypeSheetTable { get; private set; }
         public static SheetTable FirmSheetTable { get; private set; }
+
+        public static SheetTable CategoryTable { get; private set; }
+        public static SheetTable SectionTable { get; private set; }
+        public static SheetTable QuestionOpenTable { get; private set; }
+        public static SheetTable QuestionMultipleChoiceTable { get; private set; }
+        
 
         public static IEnumerable< Region > GetRegions ()
         {
@@ -73,6 +85,62 @@ namespace Questionnaire.Data.BusinessContext
             }
             catch {
                 return new Firm[0];
+            }
+        }
+
+        public static IEnumerable< Category > GetCategories ()
+        {
+            try {
+                if ( CategoryTable == default( SheetTable ) ) {
+                    CategoryTable = ExcelImporter.ImportData( FileNameCategories );
+                }
+
+                return ExcelImporter.GetEnumerable< Category >( CategoryTable );
+            }
+            catch {
+                return new Category[0];
+            }
+        }
+
+        public static IEnumerable< Section > GetSections ()
+        {
+            try {
+                if ( SectionTable == default( SheetTable ) ) {
+                    SectionTable = ExcelImporter.ImportData( FileNameSections );
+                }
+
+                return ExcelImporter.GetEnumerable< Section >( SectionTable );
+            }
+            catch {
+                return new Section[0];
+            }
+        }
+
+        public static IEnumerable< QuestionMultipleChoice > GetQuestionMultipleChoiceList ()
+        {
+            try {
+                if ( QuestionMultipleChoiceTable == default( SheetTable ) ) {
+                    QuestionMultipleChoiceTable = ExcelImporter.ImportData( FileNameQuestionMultipleChoiceList );
+                }
+
+                return ExcelImporter.GetEnumerable< QuestionMultipleChoice >( QuestionMultipleChoiceTable );
+            }
+            catch {
+                return new QuestionMultipleChoice[0];
+            }
+        }
+
+        public static IEnumerable< QuestionOpen > GetQuestionOpenList ()
+        {
+            try {
+                if ( QuestionOpenTable == default( SheetTable ) ) {
+                    QuestionOpenTable = ExcelImporter.ImportData( FileNameQuestionOpenList );
+                }
+
+                return ExcelImporter.GetEnumerable< QuestionOpen >( QuestionOpenTable );
+            }
+            catch {
+                return new QuestionOpen[0];
             }
         }
     }

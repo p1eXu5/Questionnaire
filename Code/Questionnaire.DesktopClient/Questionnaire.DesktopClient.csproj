@@ -61,9 +61,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModels\EntityViewModel\QuestionViewModel.cs" />
+    <Compile Include="ViewModels\EntityViewModel\SectionViewModel.cs" />
+    <Compile Include="ViewModels\QuestionnaireRunnerViewModel.cs" />
     <Compile Include="Views\UserControls\QuestionsView.xaml.cs">
       <DependentUpon>QuestionsView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Resources\Animations.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -118,6 +125,10 @@
       <Project>{0fa54730-640d-4d62-a58d-261e32c87fff}</Project>
       <Name>Questionnaire.MvvmBase</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Converters\" />
+    <Folder Include="Selectors\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

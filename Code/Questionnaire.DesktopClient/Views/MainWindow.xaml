@@ -38,6 +38,8 @@
                         HorizontalAlignment="Center"
                         Visibility="Visible"
                         MinWidth="300"
+                        Opacity="1"
+                        IsHitTestVisible="True"
                         >
                 <ComboBox
                     materialDesign:HintAssist.Hint="Город"
@@ -77,9 +79,26 @@
                         Margin="0,20"
                         Command="{Binding StartTestCommand}"
                         />
+
+                <StackPanel.Style>
+                    <Style TargetType="StackPanel">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsRunning}" Value="False">
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard Storyboard="{StaticResource an_Appearance}" />
+                                </DataTrigger.EnterActions>
+                                <DataTrigger.ExitActions>
+                                    <BeginStoryboard Storyboard="{StaticResource an_Disappearance}" />
+                                </DataTrigger.ExitActions>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
             </StackPanel>
 
-            <Grid Visibility="Collapsed">
+            <Grid Opacity="0"
+                  IsHitTestVisible="False"
+                  >
                 <uc:QuestionsView Width="700" Height="Auto" >
                     <uc:QuestionsView.Style>
                         <Style TargetType="UserControl">
@@ -97,6 +116,21 @@
                         </Style>
                     </uc:QuestionsView.Style>
                 </uc:QuestionsView>
+
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsRunning}" Value="True">
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard Storyboard="{StaticResource an_Appearance}" />
+                                </DataTrigger.EnterActions>
+                                <DataTrigger.ExitActions>
+                                    <BeginStoryboard Storyboard="{StaticResource an_Disappearance}" />
+                                </DataTrigger.ExitActions>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
             </Grid>
 
         </Grid>

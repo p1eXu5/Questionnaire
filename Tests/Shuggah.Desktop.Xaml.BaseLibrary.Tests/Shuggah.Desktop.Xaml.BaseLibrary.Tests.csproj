@@ -56,12 +56,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Code\Shuggah.Desktop.Xaml.BaseLibrary\Shuggah.Desktop.Xaml.BaseLibrary.csproj">
-      <Project>{ad18635b-8752-44c6-9b0c-642b643801d6}</Project>
-      <Name>Shuggah.Desktop.Xaml.BaseLibrary</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

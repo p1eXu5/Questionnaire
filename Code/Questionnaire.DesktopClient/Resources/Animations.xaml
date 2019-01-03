@@ -1,0 +1,19 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    >
+
+    <Storyboard x:Key="an_Appearance">
+        <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1.0" Duration="0:0:.4" />
+        <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="IsHitTestVisible" Duration="0:0:0.1">
+            <DiscreteBooleanKeyFrame Value="True" KeyTime="0" />
+        </BooleanAnimationUsingKeyFrames>
+    </Storyboard>
+
+    <Storyboard x:Key="an_Disappearance">
+        <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0.0" Duration="0:0:.4" />
+        <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="IsHitTestVisible" Duration="0:0:0.1">
+            <DiscreteBooleanKeyFrame Value="False" KeyTime="0" />
+        </BooleanAnimationUsingKeyFrames>
+    </Storyboard>
+
+</ResourceDictionary>

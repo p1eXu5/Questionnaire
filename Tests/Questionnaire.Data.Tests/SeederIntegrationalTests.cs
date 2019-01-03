@@ -46,6 +46,7 @@ namespace Questionnaire.Data.Tests
             Seeder.FileNameRegions = originFile;
         }
 
+
         [Test]
         public void GetCities_FileExists_Returns4Cities ()
         {
@@ -72,6 +73,7 @@ namespace Questionnaire.Data.Tests
             Assert.That( !res.Any() );
             Seeder.FileNameCities = originFile;
         }
+
 
         [ Test ]
         public void GetFirmTypes_FileExists_Returns10FirmTypes ()
@@ -100,6 +102,7 @@ namespace Questionnaire.Data.Tests
             Seeder.FileNameFirmTypes = originFile;
         }
 
+
         [ Test ]
         public void GetFirms_FileExists_Returns4Firms ()
         {
@@ -125,6 +128,34 @@ namespace Questionnaire.Data.Tests
             // Assert:
             Assert.That( !res.Any() );
             Seeder.FileNameFirms = originFile;
+        }
+
+
+        [ Test ]
+        public void GetCategories_FileExists_Returns3Categories ()
+        {
+            var oldFileName = Seeder.FileNameCategories;
+            Seeder.FileNameCategories = Seeder.FileNameCategories.AppendAssemblyPath();
+
+            var res = Seeder.GetCategories().ToList();
+
+            Assert.That( 3 == res.Count, $"res.Count: { res.Count }"  );
+            Seeder.FileNameCategories = oldFileName;
+        }
+
+        [ Test ]
+        public void GetFirms_FileDoesNotExists_ReturnEmptyCategoryCollection ()
+        {
+            // Arrange:
+            var originFile = Seeder.FileNameCategories;
+            Seeder.FileNameCategories = "";
+
+            // Action:
+            var res = Seeder.GetCategories();
+
+            // Assert:
+            Assert.That( !res.Any() );
+            Seeder.FileNameCategories = originFile;
         }
 
     }

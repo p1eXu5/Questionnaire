@@ -12,9 +12,9 @@ namespace Questionnaire.Data.BusinessContext
         private City[] _cities;
         private Firm[] _firms;
         private readonly List< Note > _notes;
-        private readonly List< Question > _questions;
+        private readonly List< QuestionBase > _questions;
         private readonly List< Section > _sections;
-        private readonly List< Answer > _answers;
+        private readonly List< AnswerMultipleChoice > _answers;
 
         public QuestionnaireBusinessContext ()
         {
