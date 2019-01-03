@@ -9,10 +9,10 @@ using Helpers;
 using NUnit.Framework;
 using Questionnaire.Data.BusinessContext;
 
-namespace Questionnaire.Data.Tests
+namespace Questionnaire.Data.Tests.BusinessContext.IntegrationalTests
 {
     [ TestFixture ]
-    public class SeederIntegrationalTests
+    public class SeederTests
     {
         [Test]
         public void GetRegions_FileExists_Returns14Regions ()

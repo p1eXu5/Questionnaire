@@ -7,10 +7,10 @@ using NUnit.Framework;
 using NUnit.Framework.Internal;
 using Questionnaire.Data.BusinessContext;
 
-namespace Questionnaire.Data.Tests
+namespace Questionnaire.Data.Tests.BusinessContext.IntegrationalTests
 {
     [TestFixture]
-    public class QuestionnaireBusinessContextIntegrationalTests
+    public class QuestionnaireBusinessContextTests
     {
         [ Test ]
         public void Ctor_ByDefault_LoadsCities ()
