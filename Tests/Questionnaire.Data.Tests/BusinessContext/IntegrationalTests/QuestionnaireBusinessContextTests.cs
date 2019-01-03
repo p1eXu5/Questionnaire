@@ -68,16 +68,38 @@ namespace Questionnaire.Data.Tests.BusinessContext.IntegrationalTests
         {
             QuestionnaireBusinessContext context = null;
 
-            using ( context = new QuestionnaireBusinessContext() ) {
+            try {
+                context = new QuestionnaireBusinessContext();
 
                 var regions = context.GetRegions();
 
                 Assert.That( regions.Any() );
 
             }
-
-            context.DbContext.Database.EnsureDeleted();
+            finally {
+                context?.DbContext.Database.EnsureDeleted();
+            }
         }
+
+        [ Test ]
+        public void GetFirms_ByDefault_ReturnsCities ()
+        {
+            QuestionnaireBusinessContext context = null;
+
+            try {
+                context = new QuestionnaireBusinessContext();
+
+                var regions = context.GetCities();
+
+                Assert.That( regions.Any() );
+
+            }
+            finally {
+                context?.DbContext.Database.EnsureDeleted();
+            }
+        }
+
+
 
         private QuestionnaireBusinessContext GetContext ()
         {

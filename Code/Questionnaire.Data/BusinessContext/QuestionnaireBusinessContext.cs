@@ -59,8 +59,17 @@ namespace Questionnaire.Data.BusinessContext
 
         private void SeedData ()
         {
-            _context.Regions.AddRange( Seeder.GetRegions().Select( r => new Region() { Name = r.Name } ) );
-            //_context.Cities.AddRange( Seeder.GetCities() );
+
+            foreach ( var region in Seeder.GetRegions() ) {
+                _context.Database.ExecuteSqlCommand( $"SET IDENTITY_INSERT dbo.Regions ON; INSERT INTO dbo.Regions ( [Id], [Name] ) VALUES ( { region.Id }, '{ region.Name }' )" );
+            }
+
+            foreach ( var city in Seeder.GetCities() ) {
+                _context.Database.ExecuteSqlCommand( $"SET IDENTITY_INSERT dbo.Cities ON; INSERT INTO dbo.Cities ( [Id], [Name], [RegionId] ) VALUES ( { city.Id }, '{ city.Name }', { city.RegionId } )" );
+            }
+            
+
+
             //_context.FirmTypes.AddRange( Seeder.GetFirmTypes() );
             //_context.Firms.AddRange( Seeder.GetFirms() );
             //_context.Categories.AddRange( Seeder.GetCategories() );
@@ -68,7 +77,7 @@ namespace Questionnaire.Data.BusinessContext
             //_context.QuestionMultipleChoiceCollection.AddRange( Seeder.GetQuestionMultipleChoiceList() );
             //_context.QuestionOpenCollection.AddRange( Seeder.GetQuestionOpenList() );
 
-            _context.SaveChanges();
+            //_context.SaveChanges();
         }
 
         static class Check
