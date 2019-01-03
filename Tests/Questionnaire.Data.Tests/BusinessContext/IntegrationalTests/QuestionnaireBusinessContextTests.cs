@@ -66,14 +66,17 @@ namespace Questionnaire.Data.Tests.BusinessContext.IntegrationalTests
         [ Test ]
         public void GetFirms_ByDefault_ReturnsRegions ()
         {
-            using ( var context = new QuestionnaireBusinessContext() ) {
+            QuestionnaireBusinessContext context = null;
+
+            using ( context = new QuestionnaireBusinessContext() ) {
 
                 var regions = context.GetRegions();
 
                 Assert.That( regions.Any() );
 
-                context.DbContext.Database.EnsureDeleted();
             }
+
+            context.DbContext.Database.EnsureDeleted();
         }
 
         private QuestionnaireBusinessContext GetContext ()

@@ -59,7 +59,7 @@ namespace Questionnaire.Data.BusinessContext
 
         private void SeedData ()
         {
-            _context.Regions.AddRange( Seeder.GetRegions() );
+            _context.Regions.AddRange( Seeder.GetRegions().Select( r => new Region() { Name = r.Name } ) );
             //_context.Cities.AddRange( Seeder.GetCities() );
             //_context.FirmTypes.AddRange( Seeder.GetFirmTypes() );
             //_context.Firms.AddRange( Seeder.GetFirms() );
@@ -68,9 +68,7 @@ namespace Questionnaire.Data.BusinessContext
             //_context.QuestionMultipleChoiceCollection.AddRange( Seeder.GetQuestionMultipleChoiceList() );
             //_context.QuestionOpenCollection.AddRange( Seeder.GetQuestionOpenList() );
 
-            _context.Database.ExecuteSqlCommand( @"SET IDENTITY_INSERT dbo.Regions ON" );
             _context.SaveChanges();
-            _context.Database.ExecuteSqlCommand( @"SET IDENTITY_INSERT dbo.Regions OFF" );
         }
 
         static class Check
