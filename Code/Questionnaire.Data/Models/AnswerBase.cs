@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Questionnaire.Data.Models
 {
-    public class AnswerBase
+    public abstract class AnswerBase
     {
         public int Id { get; set; }
+        public int Num { get; set; }
 
         public Firm Firm { get; set; }
     }

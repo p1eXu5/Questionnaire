@@ -7,7 +7,7 @@ using NpoiExcel.Attributes;
 
 namespace Questionnaire.Data.Models
 {
-    public class QuestionBase
+    public abstract class QuestionBase
     {
         public int Id { get; set; }
         public string Text { get; set; }

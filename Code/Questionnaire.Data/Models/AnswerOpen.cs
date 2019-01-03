@@ -11,8 +11,5 @@ namespace Questionnaire.Data.Models
         public string Answer { get; set; }
 
         public QuestionOpen Question { get; set; }
-
-        public int EmployeeAnswerId { get; set; }
-        public EmployeeAnswer EmployeeAnswer { get; set; }
     }
 }
