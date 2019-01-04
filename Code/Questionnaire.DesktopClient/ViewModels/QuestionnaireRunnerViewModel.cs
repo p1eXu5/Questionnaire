@@ -14,7 +14,7 @@ namespace Questionnaire.DesktopClient.ViewModels
 {
     public class QuestionnaireRunnerViewModel : ViewModel
     {
-        private readonly IQuestionnaire _businessContext;
+        private readonly IQuestionnaireContext _businessContext;
 
         private Queue< SectionViewModel > _sections;
 
@@ -24,9 +24,9 @@ namespace Questionnaire.DesktopClient.ViewModels
         private bool _isNextSectionA;
         private int _testedNum;
 
-        public QuestionnaireRunnerViewModel ( IQuestionnaire businessContext )
+        public QuestionnaireRunnerViewModel ( IQuestionnaireContext businessContext )
         {
-            _businessContext = businessContext ?? throw new ArgumentNullException( nameof( businessContext ), @"IQuestionnaire cannot be null." );
+            _businessContext = businessContext ?? throw new ArgumentNullException( nameof( businessContext ), @"IQuestionnaireContext cannot be null." );
 
             _sections = new Queue< SectionViewModel >();
         }

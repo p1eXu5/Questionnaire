@@ -8,12 +8,12 @@ using Questionnaire.Data.Models;
 
 namespace Questionnaire
 {
-    public class Questionnaire : IQuestionnaire
+    public class QuestionnaireContextContext : IQuestionnaireContext
     {
         private readonly IQuestionnaireBusinessContext _context;
         private readonly IAnswerValueConverter _converter = new AnswerValueConverter();
 
-        public Questionnaire ( IQuestionnaireBusinessContext context )
+        public QuestionnaireContextContext ( IQuestionnaireBusinessContext context )
         {
             _context = context ?? throw new ArgumentNullException( nameof( context ), "context cannot be null." ); ;
         }

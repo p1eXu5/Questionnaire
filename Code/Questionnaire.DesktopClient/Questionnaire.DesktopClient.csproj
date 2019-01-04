@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CE841117-15AD-469A-89B5-422F6D1265D8}</ProjectGuid>
+    <ProjectGuid>{2C425EB3-88A6-4825-ADD0-7A0274463237}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Questionnaire.DesktopClient</RootNamespace>
     <AssemblyName>Questionnaire.DesktopClient</AssemblyName>
@@ -65,31 +65,30 @@
     <Compile Include="ViewModels\EntityViewModel\QuestionOpenViewModel.cs" />
     <Compile Include="ViewModels\EntityViewModel\SectionViewModel.cs" />
     <Compile Include="ViewModels\IStageViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\NextSectionRequestedEventArgs.cs" />
     <Compile Include="ViewModels\QuestionnaireRunnerViewModel.cs" />
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Views\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\QuestionsView.xaml.cs">
       <DependentUpon>QuestionsView.xaml</DependentUpon>
     </Compile>
     <Page Include="Resources\Animations.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="Views\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
     <Page Include="Views\UserControls\QuestionsView.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -132,10 +131,6 @@
       <Project>{17193bc6-f247-4f03-a85e-0a96907ee842}</Project>
       <Name>Questionnaire</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Converters\" />
-    <Folder Include="Selectors\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

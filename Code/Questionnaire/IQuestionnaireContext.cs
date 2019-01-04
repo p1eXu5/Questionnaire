@@ -3,7 +3,7 @@ using Questionnaire.Data.Models;
 
 namespace Questionnaire
 {
-    public interface IQuestionnaire
+    public interface IQuestionnaireContext
     {
         IEnumerable< City > GetCities ();
         IEnumerable< Firm > GetFirms ();
@@ -20,3 +20,4 @@ namespace Questionnaire
         void SaveChanges ();
     }
 }
+

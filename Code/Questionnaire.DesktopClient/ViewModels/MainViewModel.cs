@@ -16,16 +16,16 @@ namespace Questionnaire.DesktopClient.ViewModels
 {
     public class MainViewModel : ViewModel
     {
-        private readonly IQuestionnaire _businessContext;
+        private readonly IQuestionnaireContext _businessContext;
         private City _selectedCity;
         private Firm _selectedFirm;
         private readonly ICollectionView _firmsView;
 
         private bool _isRunning;
 
-        public MainViewModel ( IQuestionnaire questionnaireBusinessContext )
+        public MainViewModel ( IQuestionnaireContext questionnaireContextBusinessContext )
         {
-            _businessContext = questionnaireBusinessContext ?? throw new ArgumentNullException( nameof( questionnaireBusinessContext ), @"IQuestionnaire cannot be null." );
+            _businessContext = questionnaireContextBusinessContext ?? throw new ArgumentNullException( nameof( questionnaireContextBusinessContext ), @"IQuestionnaireContext cannot be null." );
 
             Cities = _businessContext.GetCities().ToArray();
             Firms = _businessContext.GetFirms().Where( f => f.Id > 1 ).ToArray();
