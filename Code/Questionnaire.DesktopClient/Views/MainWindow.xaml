@@ -99,7 +99,7 @@
             <Grid Opacity="0"
                   IsHitTestVisible="False"
                   >
-                <uc:QuestionsView Width="700" Height="Auto" >
+                <uc:QuestionsView Width="700" Height="YesAnsweruto" >
                     <uc:QuestionsView.Style>
                         <Style TargetType="UserControl">
                             <Setter Property="Opacity" Value="1" />

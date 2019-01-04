@@ -20,9 +20,41 @@ namespace Questionnaire.DesktopClient.ViewModels.EntityViewModel
 
         public string Text => _question.Text;
 
-        public bool IsAnswered => throw new NotImplementedException();
+        public bool IsAnswered => YesAnswer || NoAnswer || UndefinedAnswer;
 
         public AnswerMultipleChoice AnswerMultipleChoice { get; }
 
+        private bool _yesAnswer;
+
+        public bool YesAnswer
+        {
+            get => _yesAnswer;
+            set {
+                _yesAnswer = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _noAnswer;
+
+        public bool NoAnswer
+        {
+            get => _noAnswer;
+            set {
+                _noAnswer = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _undefinedAnswer;
+
+        public bool UndefinedAnswer
+        {
+            get => _undefinedAnswer;
+            set {
+                _undefinedAnswer = value;
+                OnPropertyChanged();
+            }
+        }
     }
 }
