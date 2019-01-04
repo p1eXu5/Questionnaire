@@ -81,12 +81,12 @@ namespace Questionnaire.Data.BusinessContext
 
         public void AddAnswers ( IEnumerable< AnswerMultipleChoice > answers )
         {
-            throw new NotImplementedException();
+            _context.MultipleChoiceAnswers.AddRange( answers.Where( Check.Checked ) );
         }
 
         public void AddAnswers ( IEnumerable< AnswerOpen > answers )
         {
-            throw new NotImplementedException();
+            _context.OpenAnswers.AddRange( answers.Where( Check.Checked ) );
         }
 
         public IEnumerable< dynamic > GetMultipleChoiceAnswers ()
@@ -160,7 +160,13 @@ namespace Questionnaire.Data.BusinessContext
 
         static class Check
         {
+            public static bool Checked ( dynamic answer )
+            {
+                if ( answer.Num <= 0 ) throw new ArgumentException("EmployeeNum cannot be not greater than zero");
+                if ( answer.Question == null ) throw new ArgumentNullException( nameof(answer.Question), "Question cannot be null.");
 
+                return true;
+            }
         }
 
         #region IDisposable

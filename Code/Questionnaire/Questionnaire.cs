@@ -27,6 +27,6 @@ namespace Questionnaire
         public void AddAnswers ( IEnumerable< AnswerOpen > answers ) => _context.AddAnswers( answers );
 
         public void MakeReport ( string fileName ) =>
-            ReportMaker.MakeReport( fileName, _context.GetMultipleChoiceAnswers() );
+            ReportMaker.MakeReport( fileName, _context.GetMultipleChoiceAnswers().Cast< AnswerMultipleChoice >() );
     }
 }
