@@ -67,14 +67,15 @@ namespace Questionnaire.Data.BusinessContext
             return _context.Sections.AsNoTracking().OrderBy( s => s.Id );
         }
 
+
         public IEnumerable< QuestionMultipleChoice > GetMultipleChoiceQuestions ()
         {
-            throw new NotImplementedException();
+            return _context.MultipleChoiceQuestions.AsNoTracking().OrderBy( q => q.Id );
         }
 
         public IEnumerable< QuestionOpen > GetOpenQuestions ()
         {
-            throw new NotImplementedException();
+            return _context.OpenQuestions.AsNoTracking().OrderBy( q => q.Id );
         }
 
 
@@ -88,9 +89,25 @@ namespace Questionnaire.Data.BusinessContext
             throw new NotImplementedException();
         }
 
-        public IEnumerable< AnswerMultipleChoice > GetMultipleChoiceAnswers ()
+        public IEnumerable< dynamic > GetMultipleChoiceAnswers ()
         {
-            throw new NotImplementedException();
+            return ( from a in _context.MultipleChoiceAnswers
+                     group a by new { FirmId = a.FirmId, EmployeeId = a.Num } into firms
+                     select new {
+                         FirmId = firms.Key.FirmId,
+                         EmployeeId = firms.Key.EmployeeId,
+                         Categories = from c in firms
+                                      group c by c.Question.Section.CategoryId into cat
+                                      select new {
+                                          CategoryId = cat.Key,
+                                          Sections = from s in cat
+                                                     group s by s.Question.SectionId into sec
+                                                     select new {
+                                                         SectionId = sec.Key,
+                                                         Answer = sec.Sum( s => s.Answer )
+                                                     }
+                                      }				  
+                     }).ToArray();
         }
 
         public IEnumerable< AnswerOpen > GetOpenAnswers ()

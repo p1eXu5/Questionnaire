@@ -11,6 +11,7 @@ namespace Questionnaire.Data.Models
         public int Id { get; set; }
         public int Num { get; set; }
 
+        public int FirmId { get; set; }
         public Firm Firm { get; set; }
     }
 }

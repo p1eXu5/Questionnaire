@@ -19,7 +19,6 @@ namespace Questionnaire.Data.BusinessContext
         void AddAnswers ( IEnumerable< AnswerMultipleChoice > answers );
         void AddAnswers ( IEnumerable< AnswerOpen > answers );
 
-        IEnumerable< AnswerMultipleChoice > GetMultipleChoiceAnswers ();
-        IEnumerable< AnswerOpen > GetOpenAnswers ();
+        IEnumerable< dynamic > GetMultipleChoiceAnswers ();
     }
 }

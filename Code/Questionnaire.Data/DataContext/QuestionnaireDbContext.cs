@@ -37,7 +37,7 @@ namespace Questionnaire.Data.DataContext
         public DbSet< QuestionOpen > OpenQuestions { get; set; }
         public DbSet< QuestionMultipleChoice > MultipleChoiceQuestions { get; set; }
 
-        public DbSet< AnswerOpen > AnswerOpenCollection { get; set; }
-        public DbSet< AnswerMultipleChoice > AnswerMultipleChoiceCollection { get; set; }
+        public DbSet< AnswerOpen > OpenAnswers { get; set; }
+        public DbSet< AnswerMultipleChoice > MultipleChoiceAnswers { get; set; }
     }
 }
