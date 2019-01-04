@@ -16,16 +16,16 @@ namespace Questionnaire.DesktopClient.ViewModels
 {
     public class MainViewModel : ViewModel
     {
-        private readonly IQuestionnaireBusinessContext _businessContext;
+        private readonly IQuestionnaire _businessContext;
         private City _selectedCity;
         private Firm _selectedFirm;
         private readonly ICollectionView _firmsView;
 
         private bool _isRunning;
 
-        public MainViewModel ( IQuestionnaireBusinessContext questionnaireBusinessContext )
+        public MainViewModel ( IQuestionnaire questionnaireBusinessContext )
         {
-            _businessContext = questionnaireBusinessContext ?? throw new ArgumentNullException( nameof( questionnaireBusinessContext ), @"IQuestionnaireBusinessContext cannot be null." );
+            _businessContext = questionnaireBusinessContext ?? throw new ArgumentNullException( nameof( questionnaireBusinessContext ), @"IQuestionnaire cannot be null." );
 
             Cities = _businessContext.GetCities().ToArray();
             Firms = _businessContext.GetFirms().Where( f => f.Id > 1 ).ToArray();
@@ -35,14 +35,12 @@ namespace Questionnaire.DesktopClient.ViewModels
             SelectedCity = Cities.FirstOrDefault();
 
             StartTestCommand = new MvvmCommand( StartTest, CanStartTest );
+
+            QuestionnairRunnerViewModel = new QuestionnaireRunnerViewModel( _businessContext );
+            QuestionnairRunnerViewModel.QuestionnaireStoped += OnStopped;
         }
 
-
         public IEnumerable< City > Cities { get; }
-        public IEnumerable< Firm > Firms { get; }
-
-        public ICommand StartTestCommand { get; }
-
         public City SelectedCity
         {
             get => _selectedCity;
@@ -57,6 +55,7 @@ namespace Questionnaire.DesktopClient.ViewModels
             }
         }
 
+        public IEnumerable< Firm > Firms { get; }
         public Firm SelectedFirm
         {
             get => _selectedFirm;
@@ -64,13 +63,15 @@ namespace Questionnaire.DesktopClient.ViewModels
                 if ( _selectedFirm?.Id != value?.Id ) {
 
                     _selectedFirm = value;
-                    SelectedCity = _selectedFirm?.City;
+                    SelectedCity = value?.City;
                 }
 
                 OnPropertyChanged();
                 ((MvvmCommand)StartTestCommand).RaiseCanExecuteChanged();
             }
         }
+
+        public QuestionnaireRunnerViewModel QuestionnairRunnerViewModel { get; }
 
         public bool IsRunning
         {
@@ -82,6 +83,7 @@ namespace Questionnaire.DesktopClient.ViewModels
         }
 
 
+        public ICommand StartTestCommand { get; }
 
 
         private void SetFirmsFilter ( int cityId )
@@ -97,12 +99,20 @@ namespace Questionnaire.DesktopClient.ViewModels
 
         private void StartTest ( object obj )
         {
-            throw new NotImplementedException();
+            QuestionnairRunnerViewModel.Firm = _selectedFirm;
+            IsRunning = true;
         }
 
         private bool CanStartTest ( object obj )
         {
-            return SelectedFirm.Id > 1;
+            return SelectedFirm?.Id > 1 && QuestionnairRunnerViewModel.Count > 0;
+        }
+
+        private void OnStopped ( object sender, EventArgs args )
+        {
+            IsRunning = false;
+            QuestionnairRunnerViewModel.Reload();
+            ((MvvmCommand)StartTestCommand).RaiseCanExecuteChanged();
         }
     }
 }

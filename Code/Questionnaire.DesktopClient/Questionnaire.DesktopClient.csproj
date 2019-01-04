@@ -61,8 +61,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModels\EntityViewModel\QuestionMiltipleChoiceViewModel.cs" />
     <Compile Include="ViewModels\EntityViewModel\QuestionOpenViewModel.cs" />
     <Compile Include="ViewModels\EntityViewModel\SectionViewModel.cs" />
+    <Compile Include="ViewModels\IStageViewModel.cs" />
+    <Compile Include="ViewModels\NextSectionRequested.cs" />
     <Compile Include="ViewModels\QuestionnaireRunnerViewModel.cs" />
     <Compile Include="Views\UserControls\QuestionsView.xaml.cs">
       <DependentUpon>QuestionsView.xaml</DependentUpon>
@@ -124,6 +127,10 @@
     <ProjectReference Include="..\Questionnaire.MvvmBase\Questionnaire.MvvmBase.csproj">
       <Project>{0fa54730-640d-4d62-a58d-261e32c87fff}</Project>
       <Name>Questionnaire.MvvmBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Questionnaire\Questionnaire.csproj">
+      <Project>{17193bc6-f247-4f03-a85e-0a96907ee842}</Project>
+      <Name>Questionnaire</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

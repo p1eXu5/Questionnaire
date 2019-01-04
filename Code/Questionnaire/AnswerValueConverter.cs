@@ -9,9 +9,9 @@ namespace Questionnaire
 {
     public class AnswerValueConverter : IAnswerValueConverter
     {
-        private const int NO_ANSWER = -1;
-        private const int UNDEFINED_ANSWER = 0;
-        private const int YES_UNSWER = 1;
+        private const int NO_ANSWER = 1;
+        private const int UNDEFINED_ANSWER = 2;
+        private const int YES_UNSWER = 3;
 
         public AnswerMultipleChoice Convert ( AnswerMultipleChoice answer )
         {

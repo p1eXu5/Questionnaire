@@ -8,7 +8,7 @@ using Questionnaire.Data.Models;
 
 namespace Questionnaire
 {
-    public class Questionnaire
+    public class Questionnaire : IQuestionnaire
     {
         private readonly IQuestionnaireBusinessContext _context;
         private readonly IAnswerValueConverter _converter = new AnswerValueConverter();
@@ -18,9 +18,9 @@ namespace Questionnaire
             _context = context ?? throw new ArgumentNullException( nameof( context ), "context cannot be null." ); ;
         }
 
-        public IEnumerable< City > GetCities => _context.GetCities();
-        public IEnumerable< Firm > GetFirms => _context.GetFirms();
-        public IEnumerable< Section > GetSections => _context.GetSections();
+        public IEnumerable< City > GetCities () => _context.GetCities();
+        public IEnumerable< Firm > GetFirms () => _context.GetFirms();
+        public IEnumerable< Section > GetSections () => _context.GetSections();
         public IEnumerable< QuestionMultipleChoice > GetMultipleChoiceQuestions () => _context.GetMultipleChoiceQuestions();
         public IEnumerable< QuestionOpen > GetOpenQuestions () => _context.GetOpenQuestions();
 

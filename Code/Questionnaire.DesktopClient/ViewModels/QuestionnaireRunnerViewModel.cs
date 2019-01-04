@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Questionnaire.Data.BusinessContext;
+using Questionnaire.Data.Models;
 using Questionnaire.DesktopClient.ViewModels.EntityViewModel;
 using Questionnaire.MvvmBase;
 
@@ -12,7 +13,7 @@ namespace Questionnaire.DesktopClient.ViewModels
 {
     public class QuestionnaireRunnerViewModel : ViewModel
     {
-        private readonly IQuestionnaireBusinessContext _businessContext;
+        private readonly IQuestionnaire _businessContext;
 
         private Queue< SectionViewModel > _sections;
 
@@ -22,17 +23,11 @@ namespace Questionnaire.DesktopClient.ViewModels
         private bool _isNextQuestionA;
         private int _iter;
 
-        public QuestionnaireRunnerViewModel ( IQuestionnaireBusinessContext businessContext )
+        public QuestionnaireRunnerViewModel ( IQuestionnaire businessContext )
         {
-            _businessContext = businessContext ?? throw new ArgumentNullException( nameof( businessContext ), @"IBusinessContext cannot be null." );
+            _businessContext = businessContext ?? throw new ArgumentNullException( nameof( businessContext ), @"IQuestionnaire cannot be null." );
 
-            _sections = new Queue< SectionViewModel >( _businessContext.GetSections().Select( s => new SectionViewModel( s, businessContext ) ) );
-
-            if ( _sections.Any() ) {
-
-                QuestionA = _sections.Dequeue();
-                _isNextQuestionA = false;
-            }
+            _sections = new Queue< SectionViewModel >();
         }
 
         public event EventHandler< EventArgs > QuestionnaireStoped; 
@@ -57,6 +52,20 @@ namespace Questionnaire.DesktopClient.ViewModels
             }
         }
 
+        public Firm Firm { get; set; }
+
+        public void Reload ()
+        {
+            _sections = new Queue< SectionViewModel >( _businessContext.GetSections().Select( s => new SectionViewModel( s, _businessContext ) ) );
+
+            _isNextQuestionA = true;
+
+            if ( _sections.Any() ) {
+
+                QuestionA = _sections.Dequeue();
+                _isNextQuestionA = false;
+            }
+        }
 
         private void OnStageChangeRequested ( object obj, EventArgs args )
         {

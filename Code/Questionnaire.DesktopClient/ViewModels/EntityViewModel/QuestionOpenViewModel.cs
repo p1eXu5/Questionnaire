@@ -16,6 +16,21 @@ namespace Questionnaire.DesktopClient.ViewModels.EntityViewModel
         public QuestionOpenViewModel ( QuestionOpen question )
         {
             _question = question ?? throw new ArgumentNullException( nameof( question ), @"Question cannot be null." );
+            AnswerOpen = new AnswerOpen() { Question = question };
         }
+
+        public bool IsAnswered => !String.IsNullOrWhiteSpace( Answer );
+
+        public AnswerOpen AnswerOpen { get; }
+
+        public string Answer
+        {
+            get => AnswerOpen.Answer;
+            set {
+                AnswerOpen.Answer = value;
+                OnPropertyChanged(  );
+            }
+        }
+        public string Text => _question.Text;
     }
 }

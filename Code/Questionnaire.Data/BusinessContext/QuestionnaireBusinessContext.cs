@@ -64,7 +64,11 @@ namespace Questionnaire.Data.BusinessContext
 
         public IEnumerable< Section > GetSections ()
         {
-            return _context.Sections.AsNoTracking().OrderBy( s => s.Id );
+            return _context.Sections
+                           .Include( section => section.QuestionMultipleChoiceCollection )
+                           .Include( section => section.QuestionOpenCollection )
+                           .AsNoTracking()
+                           .OrderBy( s => s.Id );
         }
 
 
