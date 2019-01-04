@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Questionnaire.Data.Models
 {
+    /// <summary>
+    /// Answer on multiple choice question.
+    /// </summary>
     public class AnswerMultipleChoice : AnswerBase
     {
         public int Answer { get; set; }
