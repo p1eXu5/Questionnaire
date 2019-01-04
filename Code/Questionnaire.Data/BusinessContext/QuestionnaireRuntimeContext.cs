@@ -25,6 +25,46 @@ namespace Questionnaire.Data.BusinessContext
             throw new NotImplementedException();
         }
 
+        IEnumerable< City > IQuestionnaireBusinessContext.GetCities ()
+        {
+            return GetCities();
+        }
+
+        IEnumerable< Firm > IQuestionnaireBusinessContext.GetFirms ()
+        {
+            return GetFirms();
+        }
+
+        public IEnumerable< QuestionMultipleChoice > GetMultipleChoiceQuestions ()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable< QuestionOpen > GetOpenQuestions ()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddAnswers ( IEnumerable< AnswerMultipleChoice > answers )
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddAnswers ( IEnumerable< AnswerOpen > answers )
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable< AnswerMultipleChoice > GetMultipleChoiceAnswers ()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable< AnswerOpen > GetOpenAnswers ()
+        {
+            throw new NotImplementedException();
+        }
+
         public Firm[] GetFirms ()
         {
             return _firms.OrderBy( f => f.Name ).ToArray();
@@ -35,7 +75,7 @@ namespace Questionnaire.Data.BusinessContext
             return _cities.OrderBy( c => c.Name ).ToArray();
         }
 
-        public Section[] GetSections ()
+        public IEnumerable< Section > GetSections ()
         {
             throw new NotImplementedException();
         }

@@ -14,7 +14,7 @@ namespace Questionnaire.DesktopClient.ViewModels
     {
         private readonly IQuestionnaireBusinessContext _businessContext;
 
-        private Queue< SectionViewModel > _questions;
+        private Queue< SectionViewModel > _sections;
 
         private SectionViewModel _questionA;
         private SectionViewModel _questionB;
@@ -26,22 +26,18 @@ namespace Questionnaire.DesktopClient.ViewModels
         {
             _businessContext = businessContext ?? throw new ArgumentNullException( nameof( businessContext ), @"IBusinessContext cannot be null." );
 
-            _questions = new Queue< SectionViewModel >( _businessContext.GetSections().Select( s => new SectionViewModel( s ) ) );
+            _sections = new Queue< SectionViewModel >( _businessContext.GetSections().Select( s => new SectionViewModel( s, businessContext ) ) );
 
-            if ( _questions.Any() ) {
+            if ( _sections.Any() ) {
 
-                QuestionA = _questions.Dequeue();
-                _questions.Enqueue( QuestionA );
-
-                _iter = Count;
+                QuestionA = _sections.Dequeue();
+                _isNextQuestionA = false;
             }
-
-            NextQuestionCommand = new MvvmCommand( NextQuestion, CanNextQuestion );
         }
 
         public event EventHandler< EventArgs > QuestionnaireStoped; 
 
-        public int Count => _questions.Count;
+        public int Count => _sections.Count;
 
         public SectionViewModel QuestionA
         {
@@ -61,24 +57,27 @@ namespace Questionnaire.DesktopClient.ViewModels
             }
         }
 
-        public ICommand NextQuestionCommand;
 
-        private void NextQuestion ( object obj )
+        private void OnStageChangeRequested ( object obj, EventArgs args )
         {
-            if ( _iter > 0 ) {
+            if ( _sections.Any() ) {
 
+                if ( _isNextQuestionA ) {
+                    QuestionA = _sections.Dequeue();
+                }
+                else {
+                    QuestionB = _sections.Dequeue();
+                }
 
-
-                --_iter;
+                return;
             }
-            else {
-                QuestionnaireStoped?.Invoke( this, EventArgs.Empty );
-            }
+
+
         }
 
-        private bool CanNextQuestion ( object obj )
+        private void OnQuestionnaireStopped ()
         {
-            return true;
+            QuestionnaireStoped?.Invoke( this, EventArgs.Empty );
         }
     }
 }

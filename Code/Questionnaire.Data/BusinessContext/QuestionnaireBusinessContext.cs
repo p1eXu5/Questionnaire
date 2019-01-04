@@ -11,9 +11,16 @@ namespace Questionnaire.Data.BusinessContext
 {
     public class QuestionnaireBusinessContext : IQuestionnaireBusinessContext, IDisposable
     {
+        #region Fields
+
         private readonly QuestionnaireDbContext _context;
 
         private bool _disposed;
+
+        #endregion
+
+
+        #region Ctor
 
         public QuestionnaireBusinessContext ()
         {
@@ -29,33 +36,68 @@ namespace Questionnaire.Data.BusinessContext
             SeedData();
         }
 
+        #endregion
+
+
+        #region Properties
 
         public QuestionnaireDbContext DbContext => _context;
 
-        public Region[] GetRegions ()
+        #endregion
+
+
+
+        public IEnumerable< Region > GetRegions ()
         {
-            return _context.Regions.OrderBy( s => s.Name ).ToArray();
+            return _context.Regions.AsNoTracking().OrderBy( s => s.Name );
         }
 
-        public Firm[] GetFirms ()
+        public IEnumerable< Firm > GetFirms ()
         {
-            return _context.Firms.OrderBy( f => f.Name ).ToArray();
+            return _context.Firms.AsNoTracking().OrderBy( f => f.Name );
         }
 
-        public City[] GetCities ()
+        public IEnumerable< City > GetCities ()
         {
-            return _context.Cities.OrderBy( c => c.Name ).ToArray();
+            return _context.Cities.AsNoTracking().OrderBy( c => c.Name );
         }
 
-        public Section[] GetSections ()
+        public IEnumerable< Section > GetSections ()
         {
-            return _context.Sections.OrderBy( s => s.Id ).ToArray();
+            return _context.Sections.AsNoTracking().OrderBy( s => s.Id );
         }
 
-        public void AddFirm ( Firm firm )
+        public IEnumerable< QuestionMultipleChoice > GetMultipleChoiceQuestions ()
         {
-
+            throw new NotImplementedException();
         }
+
+        public IEnumerable< QuestionOpen > GetOpenQuestions ()
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public void AddAnswers ( IEnumerable< AnswerMultipleChoice > answers )
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddAnswers ( IEnumerable< AnswerOpen > answers )
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable< AnswerMultipleChoice > GetMultipleChoiceAnswers ()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable< AnswerOpen > GetOpenAnswers ()
+        {
+            throw new NotImplementedException();
+        }
+
 
         private void SeedData ()
         {
@@ -68,16 +110,35 @@ namespace Questionnaire.Data.BusinessContext
                 _context.Database.ExecuteSqlCommand( $"SET IDENTITY_INSERT dbo.Cities ON; INSERT INTO dbo.Cities ( [Id], [Name], [RegionId] ) VALUES ( { city.Id }, '{ city.Name }', { city.RegionId } )" );
             }
             
+            foreach ( var firmType in Seeder.GetFirmTypes() ) {
+                _context.Database.ExecuteSqlCommand( $"SET IDENTITY_INSERT dbo.FirmTypes ON; INSERT INTO dbo.FirmTypes ( [Id], [Name] ) VALUES ( { firmType.Id }, '{ firmType.Name }' )" );
+            }
 
+            _context.Firms.AddRange( Seeder.GetFirms() );
 
-            //_context.FirmTypes.AddRange( Seeder.GetFirmTypes() );
-            //_context.Firms.AddRange( Seeder.GetFirms() );
-            //_context.Categories.AddRange( Seeder.GetCategories() );
-            //_context.Sections.AddRange( Seeder.GetSections() );
-            //_context.QuestionMultipleChoiceCollection.AddRange( Seeder.GetQuestionMultipleChoiceList() );
-            //_context.QuestionOpenCollection.AddRange( Seeder.GetQuestionOpenList() );
+            foreach ( var category in Seeder.GetCategories() ) {
+                _context.Database.ExecuteSqlCommand( $"SET IDENTITY_INSERT dbo.Categories ON; INSERT INTO dbo.Categories ( [Id], [Name] ) VALUES ( { category.Id }, '{ category.Name }' )" );
+            }
 
-            //_context.SaveChanges();
+            foreach ( var section in Seeder.GetSections() ) {
+                _context.Database.ExecuteSqlCommand( $"SET IDENTITY_INSERT dbo.Sections ON; INSERT INTO dbo.Sections ( [Id], [Name], [CategoryId] ) VALUES ( { section.Id }, '{ section.Name }', { section.CategoryId } )" );
+            }
+
+            foreach ( var questionMultiple in Seeder.GetQuestionMultipleChoiceList() ) {
+
+                _context.Database.ExecuteSqlCommand( $"SET IDENTITY_INSERT dbo.MultipleChoiceQuestions ON; " +
+                                                     $"INSERT INTO dbo.MultipleChoiceQuestions ( [Id], [Name], [CategoryId] ) " +
+                                                     $"VALUES ( { questionMultiple.Id }, '{ questionMultiple.Text }', { questionMultiple.SectionId } )" );
+            }
+
+            foreach ( var questionOpen in Seeder.GetQuestionOpenList() ) {
+
+                _context.Database.ExecuteSqlCommand( $"SET IDENTITY_INSERT dbo.OpenQuestions ON; " +
+                                                     $"INSERT INTO dbo.OpenQuestions ( [Id], [Name], [CategoryId] ) " +
+                                                     $"VALUES ( { questionOpen.Id }, '{ questionOpen.Text }', { questionOpen.SectionId } )" );
+            }
+
+            _context.SaveChanges();
         }
 
         static class Check

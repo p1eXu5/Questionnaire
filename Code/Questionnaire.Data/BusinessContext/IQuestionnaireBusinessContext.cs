@@ -9,9 +9,17 @@ namespace Questionnaire.Data.BusinessContext
 {
     public interface IQuestionnaireBusinessContext
     {
-        Region[] GetRegions ();
-        Firm[] GetFirms ();
-        City[] GetCities ();
-        Section[] GetSections ();
+        IEnumerable< Region > GetRegions ();
+        IEnumerable< City > GetCities ();
+        IEnumerable< Firm > GetFirms ();
+        IEnumerable< Section > GetSections ();
+        IEnumerable< QuestionMultipleChoice > GetMultipleChoiceQuestions ();
+        IEnumerable< QuestionOpen > GetOpenQuestions ();
+
+        void AddAnswers ( IEnumerable< AnswerMultipleChoice > answers );
+        void AddAnswers ( IEnumerable< AnswerOpen > answers );
+
+        IEnumerable< AnswerMultipleChoice > GetMultipleChoiceAnswers ();
+        IEnumerable< AnswerOpen > GetOpenAnswers ();
     }
 }

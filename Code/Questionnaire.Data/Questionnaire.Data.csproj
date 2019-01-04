@@ -131,11 +131,6 @@
     <Compile Include="BusinessContext\Seeder.cs" />
     <Compile Include="DataContext\QuestionnaireDbContext.cs" />
     <Compile Include="ImportModels\FirmImportModel.cs" />
-    <Compile Include="Migrations\20190103173738_InitialCreate.cs" />
-    <Compile Include="Migrations\20190103173738_InitialCreate.designer.cs">
-      <DependentUpon>20190103173738_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\QuestionnaireDbContextModelSnapshot.cs" />
     <Compile Include="Models\AnswerBase.cs" />
     <Compile Include="Models\AnswerMultipleChoice.cs" />
     <Compile Include="Models\Category.cs" />
@@ -175,10 +170,14 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="SeedFiles\QuestionMultipleChoiceList.xlsx" />
+    <None Include="SeedFiles\Sections.xlsx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
