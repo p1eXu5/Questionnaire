@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -17,11 +18,11 @@ namespace Questionnaire.DesktopClient.ViewModels
 
         private Queue< SectionViewModel > _sections;
 
-        private SectionViewModel _questionA;
-        private SectionViewModel _questionB;
+        private SectionViewModel _sectionA;
+        private SectionViewModel _sectionB;
 
-        private bool _isNextQuestionA;
-        private int _iter;
+        private bool _isNextSectionA;
+        private int _testedNum;
 
         public QuestionnaireRunnerViewModel ( IQuestionnaire businessContext )
         {
@@ -30,63 +31,109 @@ namespace Questionnaire.DesktopClient.ViewModels
             _sections = new Queue< SectionViewModel >();
         }
 
-        public event EventHandler< EventArgs > QuestionnaireStoped; 
+        public event EventHandler< EventArgs > StopRequested; 
 
         public int Count => _sections.Count;
 
-        public SectionViewModel QuestionA
+        public SectionViewModel SectionA
         {
-            get => _questionA;
+            get => _sectionA;
             private set {
-                _questionA = value;
+                _sectionA = value;
                 OnPropertyChanged();
             }
         }
 
-        public SectionViewModel QuestionB
+        public SectionViewModel SectionB
         {
-            get => _questionB;
+            get => _sectionB;
             private set {
-                _questionB = value;
+                _sectionB = value;
                 OnPropertyChanged();
             }
         }
 
-        public Firm Firm { get; set; }
+        public Firm Firm { get; private set; }
+
+        public void SetFirm ( Firm firm )
+        {
+            Firm = firm ?? throw new ArgumentNullException( nameof( firm ), @"Firm cannot be null." );
+
+            _testedNum = _businessContext.GetOpenAnswers().Where( a => a.FirmId == Firm.Id ).Max( a => a.Num ) + 1;
+        }
 
         public void Reload ()
         {
-            _sections = new Queue< SectionViewModel >( _businessContext.GetSections().Select( s => new SectionViewModel( s, _businessContext ) ) );
+            _sections = new Queue< SectionViewModel >( _businessContext.GetSections().Select( s => new SectionViewModel( s ) ) );
 
-            _isNextQuestionA = true;
+            _isNextSectionA = true;
 
             if ( _sections.Any() ) {
 
-                QuestionA = _sections.Dequeue();
-                _isNextQuestionA = false;
+                SectionA = _sections.Dequeue();
+                _isNextSectionA = false;
             }
         }
 
-        private void OnStageChangeRequested ( object obj, EventArgs args )
+        private void OnNextSectionRequested ( object obj, NextSectionRequestedEventArgs args )
         {
-            if ( _sections.Any() ) {
+            AddAnswers( args.Answers );
 
-                if ( _isNextQuestionA ) {
-                    QuestionA = _sections.Dequeue();
-                }
-                else {
-                    QuestionB = _sections.Dequeue();
+            if ( _isNextSectionA ) {
+
+                if ( SectionB != null ) {
+                    SectionB.NextSectionRequested -= OnNextSectionRequested;
                 }
 
-                return;
+
+                if ( _sections.Any() ) {
+
+                    SectionA = _sections.Dequeue();
+                    SectionA.NextSectionRequested += OnNextSectionRequested;
+
+                    _isNextSectionA = false;
+                    return;
+                }
+            }
+            else {
+
+                if ( SectionA != null ) {
+                    SectionA.NextSectionRequested -= OnNextSectionRequested;
+                }
+
+                if ( _sections.Any() ) {
+
+                    SectionB = _sections.Dequeue();
+                    SectionB.NextSectionRequested += OnNextSectionRequested;
+
+                    _isNextSectionA = true;
+                    return;
+                }
             }
 
+            OnStopRequested();
 
+            return;
         }
 
-        private void OnQuestionnaireStopped ()
+
+        private void AddAnswers ( IEnumerable< dynamic > answers )
         {
-            QuestionnaireStoped?.Invoke( this, EventArgs.Empty );
+            if ( answers == null ) throw new ArgumentNullException( nameof( answers ), @"Answers cannot be null." );
+
+            if ( !answers.Any() ) return;
+
+            foreach ( var answer in answers ) {
+                answer.Firm = Firm;
+                answer.Num = _testedNum;
+                _businessContext.AddAnswer( answer );
+            }
+        }
+
+        private void OnStopRequested ()
+        {
+            _businessContext.SaveChanges();
+            StopRequested?.Invoke( this, EventArgs.Empty );
         }
     }
 }

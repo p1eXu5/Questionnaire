@@ -37,7 +37,7 @@ namespace Questionnaire.DesktopClient.ViewModels
             StartTestCommand = new MvvmCommand( StartTest, CanStartTest );
 
             QuestionnairRunnerViewModel = new QuestionnaireRunnerViewModel( _businessContext );
-            QuestionnairRunnerViewModel.QuestionnaireStoped += OnStopped;
+            QuestionnairRunnerViewModel.StopRequested += OnStopped;
         }
 
         public IEnumerable< City > Cities { get; }
@@ -99,7 +99,7 @@ namespace Questionnaire.DesktopClient.ViewModels
 
         private void StartTest ( object obj )
         {
-            QuestionnairRunnerViewModel.Firm = _selectedFirm;
+            QuestionnairRunnerViewModel.SetFirm ( _selectedFirm );
             IsRunning = true;
         }
 

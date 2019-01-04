@@ -26,7 +26,7 @@ namespace Questionnaire.DesktopClient.ViewModels.EntityViewModel
             NextSectionCommand = new MvvmCommand( NextSection, CanMoveNextSection );
         }
 
-        public event EventHandler< NextSectionRequested > NextSectionRequested; 
+        public event EventHandler< NextSectionRequestedEventArgs > NextSectionRequested; 
 
         public int Id => _section.Id;
 
@@ -55,7 +55,7 @@ namespace Questionnaire.DesktopClient.ViewModels.EntityViewModel
             var answers = new List< dynamic >( QuestionOpenCollection.Select( q => q.AnswerOpen ) );
             answers.AddRange( QuestionMultipleChoiceCollection.Select( q => q.AnswerMultipleChoice ) );
 
-            NextSectionRequested?.Invoke( this, new NextSectionRequested( answers ) );
+            NextSectionRequested?.Invoke( this, new NextSectionRequestedEventArgs( answers ) );
         }
 
 

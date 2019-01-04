@@ -65,7 +65,7 @@
     <Compile Include="ViewModels\EntityViewModel\QuestionOpenViewModel.cs" />
     <Compile Include="ViewModels\EntityViewModel\SectionViewModel.cs" />
     <Compile Include="ViewModels\IStageViewModel.cs" />
-    <Compile Include="ViewModels\NextSectionRequested.cs" />
+    <Compile Include="ViewModels\NextSectionRequestedEventArgs.cs" />
     <Compile Include="ViewModels\QuestionnaireRunnerViewModel.cs" />
     <Compile Include="Views\UserControls\QuestionsView.xaml.cs">
       <DependentUpon>QuestionsView.xaml</DependentUpon>

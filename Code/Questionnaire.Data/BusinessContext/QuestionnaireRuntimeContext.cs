@@ -20,7 +20,7 @@ namespace Questionnaire.Data.BusinessContext
             Seed();
         }
 
-        public Region[] GetRegions ()
+        public IEnumerable< Region > GetRegions ()
         {
             throw new NotImplementedException();
         }
@@ -35,6 +35,11 @@ namespace Questionnaire.Data.BusinessContext
             return GetFirms();
         }
 
+        public IEnumerable< Section > GetSections ()
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable< QuestionMultipleChoice > GetMultipleChoiceQuestions ()
         {
             throw new NotImplementedException();
@@ -45,25 +50,31 @@ namespace Questionnaire.Data.BusinessContext
             throw new NotImplementedException();
         }
 
-        public void AddAnswers ( IEnumerable< AnswerMultipleChoice > answers )
-        {
-            throw new NotImplementedException();
-        }
-
-        public void AddAnswers ( IEnumerable< AnswerOpen > answers )
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable< AnswerMultipleChoice > GetMultipleChoiceAnswers ()
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable< AnswerOpen > GetOpenAnswers ()
         {
             throw new NotImplementedException();
         }
+
+        public void AddAnswer ( AnswerMultipleChoice answer )
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddAnswer ( AnswerOpen answer )
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable< dynamic > GetMultipleChoiceAnswers ()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SaveChanges ()
+        {
+            throw new NotImplementedException();
+        }
+
 
         public Firm[] GetFirms ()
         {
@@ -73,11 +84,6 @@ namespace Questionnaire.Data.BusinessContext
         public City[] GetCities ()
         {
             return _cities.OrderBy( c => c.Name ).ToArray();
-        }
-
-        public IEnumerable< Section > GetSections ()
-        {
-            throw new NotImplementedException();
         }
 
         private void Seed ()

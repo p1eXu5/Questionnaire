@@ -83,14 +83,14 @@ namespace Questionnaire.Data.BusinessContext
         }
 
 
-        public void AddAnswers ( IEnumerable< AnswerMultipleChoice > answers )
+        public void AddAnswer ( AnswerMultipleChoice answer )
         {
-            _context.MultipleChoiceAnswers.AddRange( answers.Where( Check.Checked ) );
+            _context.MultipleChoiceAnswers.Add( Check.Checked( (dynamic)answer ) );
         }
 
-        public void AddAnswers ( IEnumerable< AnswerOpen > answers )
+        public void AddAnswer ( AnswerOpen answer )
         {
-            _context.OpenAnswers.AddRange( answers.Where( Check.Checked ) );
+            _context.OpenAnswers.Add( Check.Checked( (dynamic)answer ) );
         }
 
         public IEnumerable< dynamic > GetMultipleChoiceAnswers ()
@@ -116,9 +116,10 @@ namespace Questionnaire.Data.BusinessContext
 
         public IEnumerable< AnswerOpen > GetOpenAnswers ()
         {
-            throw new NotImplementedException();
+            return _context.OpenAnswers.OrderBy( a => a.FirmId );
         }
 
+        public void SaveChanges () => _context.SaveChanges();
 
         private void SeedData ()
         {

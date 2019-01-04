@@ -24,10 +24,14 @@ namespace Questionnaire
         public IEnumerable< QuestionMultipleChoice > GetMultipleChoiceQuestions () => _context.GetMultipleChoiceQuestions();
         public IEnumerable< QuestionOpen > GetOpenQuestions () => _context.GetOpenQuestions();
 
-        public void AddAnswers ( IEnumerable< AnswerMultipleChoice > answers ) => _context.AddAnswers( answers.Select( _converter.Convert ) );
-        public void AddAnswers ( IEnumerable< AnswerOpen > answers ) => _context.AddAnswers( answers );
+        public IEnumerable< AnswerOpen > GetOpenAnswers () => _context.GetOpenAnswers();
+
+        public void AddAnswer ( AnswerMultipleChoice answer ) => _context.AddAnswer( _converter.Convert( answer ) );
+        public void AddAnswer ( AnswerOpen answer ) => _context.AddAnswer( answer );
 
         public void MakeReport ( string fileName ) =>
             ReportMaker.MakeReport( fileName, _context.GetMultipleChoiceAnswers().Cast< AnswerMultipleChoice >() );
+
+        public void SaveChanges () => _context.SaveChanges();
     }
 }

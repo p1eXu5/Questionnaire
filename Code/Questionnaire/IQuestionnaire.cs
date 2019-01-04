@@ -10,8 +10,13 @@ namespace Questionnaire
         IEnumerable< Section > GetSections ();
         IEnumerable< QuestionMultipleChoice > GetMultipleChoiceQuestions ();
         IEnumerable< QuestionOpen > GetOpenQuestions ();
-        void AddAnswers ( IEnumerable< AnswerMultipleChoice > answers );
-        void AddAnswers ( IEnumerable< AnswerOpen > answers );
+
+        IEnumerable< AnswerOpen > GetOpenAnswers ();
+
+        void AddAnswer ( AnswerMultipleChoice answers );
+        void AddAnswer ( AnswerOpen answers );
         void MakeReport ( string fileName );
+
+        void SaveChanges ();
     }
 }
