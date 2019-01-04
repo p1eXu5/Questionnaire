@@ -11,6 +11,7 @@ namespace Questionnaire
     public class Questionnaire
     {
         private readonly IQuestionnaireBusinessContext _context;
+        private readonly IAnswerValueConverter _converter = new AnswerValueConverter();
 
         public Questionnaire ( IQuestionnaireBusinessContext context )
         {
@@ -23,7 +24,7 @@ namespace Questionnaire
         public IEnumerable< QuestionMultipleChoice > GetMultipleChoiceQuestions () => _context.GetMultipleChoiceQuestions();
         public IEnumerable< QuestionOpen > GetOpenQuestions () => _context.GetOpenQuestions();
 
-        public void AddAnswers ( IEnumerable< AnswerMultipleChoice > answers ) => _context.AddAnswers( answers );
+        public void AddAnswers ( IEnumerable< AnswerMultipleChoice > answers ) => _context.AddAnswers( answers.Select( _converter.Convert ) );
         public void AddAnswers ( IEnumerable< AnswerOpen > answers ) => _context.AddAnswers( answers );
 
         public void MakeReport ( string fileName ) =>
