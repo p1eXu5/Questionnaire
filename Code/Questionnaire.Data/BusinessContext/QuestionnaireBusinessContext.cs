@@ -116,7 +116,7 @@ namespace Questionnaire.Data.BusinessContext
 
         public IEnumerable< AnswerOpen > GetOpenAnswers ()
         {
-            return _context.OpenAnswers.OrderBy( a => a.FirmId );
+            return _context.OpenAnswers.AsNoTracking().OrderBy( a => a.FirmId );
         }
 
         public void SaveChanges () => _context.SaveChanges();
