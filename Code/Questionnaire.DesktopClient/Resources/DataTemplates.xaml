@@ -4,7 +4,7 @@
                     xmlns:uc="clr-namespace:Questionnaire.DesktopClient.Views.UserControls"
                     >
     
-    <DataTemplate DataType="{x:Type evm:QuestionMiltipleChoiceViewModel}">
+    <DataTemplate DataType="{x:Type evm:QuestionMultipleChoiceViewModel}">
         <uc:QuestionMultipleChoiceView />
     </DataTemplate>
 

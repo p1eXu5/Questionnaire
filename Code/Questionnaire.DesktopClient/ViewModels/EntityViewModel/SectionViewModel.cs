@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,13 +26,31 @@ namespace Questionnaire.DesktopClient.ViewModels.EntityViewModel
         {
             _section = section ?? throw new ArgumentNullException( nameof( section ), @"Section cannot be null." );
 
+            if ( section.QuestionMultipleChoiceCollection.Count <= 0 ) throw new ArgumentException("Section has no Questions of multiple choice");
+            if ( section.QuestionOpenCollection.Count <= 0 ) throw new ArgumentException("Section has no Questions of open answer");
+
             int i = 1;
 
-            QuestionOpenCollection = new List< QuestionOpenViewModel >( _section.QuestionOpenCollection
-                                                                                .Select( q => new QuestionOpenViewModel( q, i++ ) ) );
+            QuestionOpenCollection = new List< QuestionOpenViewModel >( 
+                _section.QuestionOpenCollection
+                        .Select( q => 
+                        {
+                            var question = new QuestionOpenViewModel( q, i++ );
+                            question.PropertyChanged += OnIsAnsweredChanged;
+                            return question;
+                        } ) 
+            );
 
-            QuestionMultipleChoiceCollection = new List< QuestionMiltipleChoiceViewModel >( _section.QuestionMultipleChoiceCollection
-                                                                                                    .Select( q => new QuestionMiltipleChoiceViewModel( q, i++ ) ) ) ;
+
+            QuestionMultipleChoiceCollection = new List< QuestionMultipleChoiceViewModel >( 
+                _section.QuestionMultipleChoiceCollection
+                        .Select( q =>
+                        {
+                            var question = new QuestionMultipleChoiceViewModel( q, i++ );
+                            question.PropertyChanged += OnIsAnsweredChanged;
+                            return question;
+                        } ) 
+            ) ;
 
             NextSectionCommand = new MvvmCommand( NextSection, CanMoveNextSection );
         }
@@ -54,8 +73,8 @@ namespace Questionnaire.DesktopClient.ViewModels.EntityViewModel
 
         public int Id => _section.Id;
 
+        public IEnumerable< QuestionMultipleChoiceViewModel > QuestionMultipleChoiceCollection { get; }
         public IEnumerable< QuestionOpenViewModel > QuestionOpenCollection { get; }
-        public IEnumerable< QuestionMiltipleChoiceViewModel > QuestionMultipleChoiceCollection { get; }
 
         #endregion
 
@@ -71,6 +90,13 @@ namespace Questionnaire.DesktopClient.ViewModels.EntityViewModel
 
         #region Methods
 
+        private void OnIsAnsweredChanged ( object sender, PropertyChangedEventArgs args )
+        {
+            if ( args.PropertyName == "IsAnswered" ) {
+                ((MvvmCommand)NextSectionCommand).RaiseCanExecuteChanged();
+            }
+        }
+
         private void NextSection ( object obj )
         {
             OnNextSectionRequested();
@@ -82,7 +108,7 @@ namespace Questionnaire.DesktopClient.ViewModels.EntityViewModel
                    && QuestionMultipleChoiceCollection.All( q => q.IsAnswered );
         }
 
-        protected virtual void OnNextSectionRequested ()
+        private void OnNextSectionRequested ()
         {
             var answers = new List< dynamic >( QuestionOpenCollection.Select( q => q.AnswerOpen ) );
             answers.AddRange( QuestionMultipleChoiceCollection.Select( q => q.AnswerMultipleChoice ) );

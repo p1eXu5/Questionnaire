@@ -61,7 +61,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ViewModels\EntityViewModel\QuestionMiltipleChoiceViewModel.cs" />
+    <Compile Include="ViewModels\EntityViewModel\QuestionMultipleChoiceViewModel.cs" />
     <Compile Include="ViewModels\EntityViewModel\QuestionOpenViewModel.cs" />
     <Compile Include="ViewModels\EntityViewModel\SectionViewModel.cs" />
     <Compile Include="ViewModels\IStageViewModel.cs" />
@@ -89,6 +89,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\DataTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\SectionGridStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

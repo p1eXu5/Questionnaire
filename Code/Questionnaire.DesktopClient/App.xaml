@@ -13,6 +13,7 @@
 
                 <ResourceDictionary Source="pack://application:,,,/Questionnaire.DesktopClient;component/Resources/Animations.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Questionnaire.DesktopClient;component/Resources/DataTemplates.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Questionnaire.DesktopClient;component/Resources/SectionGridStyles.xaml" />
 
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

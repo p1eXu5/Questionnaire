@@ -5,8 +5,69 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Questionnaire.DesktopClient.Views.UserControls"
              mc:Ignorable="d" 
-             d:DesignHeight="100" d:DesignWidth="300">
-    <Grid>
-            
+             d:DesignHeight="200" d:DesignWidth="600">
+    <Grid VerticalAlignment="Center" HorizontalAlignment="Stretch" 
+          Height="Auto"
+          >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="40" />
+            <ColumnDefinition Width="3*" MinWidth="300" />
+            <ColumnDefinition Width="*" MinWidth="70" />
+            <ColumnDefinition Width="*" MinWidth="70" />
+            <ColumnDefinition Width="*" MinWidth="70" />
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0"
+                Style="{StaticResource st_SectionGrid.Border}"
+                >
+            <TextBlock Text="{Binding Num}"
+                       Style="{StaticResource st_SectionGrid.TextBlock}"
+                       FontWeight="Bold"
+                       />
+        </Border>
+
+        <Border Grid.Column="1"
+                Style="{StaticResource st_SectionGrid.Border}"
+                Padding="10,5,5,5"
+                 >
+            <TextBlock Text="{Binding Text}"
+                       Style="{StaticResource st_SectionGrid.TextBlock}"
+                       HorizontalAlignment="Stretch"
+                       TextWrapping="WrapWithOverflow"
+                       TextAlignment="Justify"
+                       FontSize="14"
+                       />
+        </Border>
+
+
+        <Border Grid.Column="2"
+                Style="{StaticResource st_SectionGrid.Border}"
+                >
+            <RadioButton GroupName="MultipleChoiceQuestion"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center"
+                         IsChecked="{Binding YesAnswer}"
+                         />
+        </Border>
+
+        <Border Grid.Column="3" 
+                Style="{StaticResource st_SectionGrid.Border}"
+                >
+            <RadioButton GroupName="MultipleChoiceQuestion"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center"
+                         IsChecked="{Binding UndefinedAnswer}"
+                         />
+        </Border>
+
+        <Border Grid.Column="4"
+                Style="{StaticResource st_SectionGrid.Border}"
+                >
+            <RadioButton GroupName="MultipleChoiceQuestion"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center"
+                         IsChecked="{Binding NoAnswer}"
+                         />
+        </Border>
     </Grid>
 </UserControl>

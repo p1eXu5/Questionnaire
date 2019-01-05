@@ -8,11 +8,14 @@ using Questionnaire.MvvmBase;
 
 namespace Questionnaire.DesktopClient.ViewModels.EntityViewModel
 {
-    public class QuestionMiltipleChoiceViewModel : ViewModel
+    public class QuestionMultipleChoiceViewModel : ViewModel
     {
         private readonly QuestionMultipleChoice _question;
+        private bool _yesAnswer;
+        private bool _noAnswer;
+        private bool _undefinedAnswer;
 
-        public QuestionMiltipleChoiceViewModel ( QuestionMultipleChoice question, int index )
+        public QuestionMultipleChoiceViewModel ( QuestionMultipleChoice question, int index )
         {
             _question = question ?? throw new ArgumentNullException( nameof( question ), @"Question cannot be null." );
             AnswerMultipleChoice = new AnswerMultipleChoice() { Question = question };
@@ -28,7 +31,6 @@ namespace Questionnaire.DesktopClient.ViewModels.EntityViewModel
 
         public AnswerMultipleChoice AnswerMultipleChoice { get; }
 
-        private bool _yesAnswer;
 
         public bool YesAnswer
         {
@@ -36,10 +38,9 @@ namespace Questionnaire.DesktopClient.ViewModels.EntityViewModel
             set {
                 _yesAnswer = value;
                 OnPropertyChanged();
+                OnPropertyChanged( nameof( IsAnswered ) );
             }
         }
-
-        private bool _noAnswer;
 
         public bool NoAnswer
         {
@@ -47,10 +48,9 @@ namespace Questionnaire.DesktopClient.ViewModels.EntityViewModel
             set {
                 _noAnswer = value;
                 OnPropertyChanged();
+                OnPropertyChanged( nameof( IsAnswered ) );
             }
         }
-
-        private bool _undefinedAnswer;
 
         public bool UndefinedAnswer
         {
@@ -58,6 +58,7 @@ namespace Questionnaire.DesktopClient.ViewModels.EntityViewModel
             set {
                 _undefinedAnswer = value;
                 OnPropertyChanged();
+                OnPropertyChanged( nameof( IsAnswered ) );
             }
         }
     }
