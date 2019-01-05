@@ -107,7 +107,7 @@ namespace Questionnaire.Data.Tests.BusinessContext.IntegrationalTests
                           .UseInMemoryDatabase( databaseName: "TestDb" )
                           .Options;
 
-            return new QuestionnaireBusinessContext( options );
+            return new QuestionnaireBusinessContext( options, new TestDataSeeder() );
         }
     }
 }

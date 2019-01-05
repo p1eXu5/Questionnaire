@@ -125,17 +125,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BusinessContext\IDataSeeder.cs" />
     <Compile Include="BusinessContext\IQuestionnaireBusinessContext.cs" />
+    <Compile Include="BusinessContext\MainDataSeeder.cs" />
     <Compile Include="BusinessContext\QuestionnaireBusinessContext.cs" />
     <Compile Include="BusinessContext\QuestionnaireRuntimeContext.cs" />
     <Compile Include="BusinessContext\Seeder.cs" />
     <Compile Include="DataContext\QuestionnaireDbContext.cs" />
     <Compile Include="ImportModels\FirmImportModel.cs" />
-    <Compile Include="Migrations\20190105061832_InitialCreate.cs" />
-    <Compile Include="Migrations\20190105061832_InitialCreate.designer.cs">
-      <DependentUpon>20190105061832_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\QuestionnaireDbContextModelSnapshot.cs" />
     <Compile Include="Models\AnswerBase.cs" />
     <Compile Include="Models\AnswerMultipleChoice.cs" />
     <Compile Include="Models\Category.cs" />
@@ -175,7 +172,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />

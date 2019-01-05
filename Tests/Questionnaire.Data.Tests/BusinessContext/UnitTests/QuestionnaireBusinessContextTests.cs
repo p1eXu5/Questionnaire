@@ -9,6 +9,7 @@ using Microsoft.Data.Sqlite;
 using NUnit.Framework;
 using Questionnaire.Data.BusinessContext;
 using Questionnaire.Data.DataContext;
+using Questionnaire.Data.Models;
 
 namespace Questionnaire.Data.Tests.BusinessContext.UnitTests
 {
@@ -60,19 +61,143 @@ namespace Questionnaire.Data.Tests.BusinessContext.UnitTests
         public void GetSections_DbNotExist_ReturnsSectionWithQuestionsCollection ()
         {
             // Arrange:
-            SavePaths();
             var bc = GetQuestionnaireBusinessContext();
 
             // Action:
             var resColl = bc.GetSections().ToArray();
 
             // Assert:
-            Assert.That( resColl.All( q => q.QuestionMultipleChoiceCollection.Any() ) );
-            Assert.That( resColl.All( q => q.QuestionOpenCollection.Any() ) );
+            Assert.That( resColl.Any( q => q.QuestionMultipleChoiceCollection.Any() ) );
+            Assert.That( resColl.Any( q => q.QuestionOpenCollection.Any() ) );
             Assert.That( resColl.All( q => q.CategoryId > 0 ) );
-
-            RestorePath();
         }
+
+        [ Test ]
+        public void AddAnswer__OpenAnswer_FirmIdNotValid__AddsAnswer ()
+        {
+            // Arrange:
+            var bc = GetQuestionnaireBusinessContext();
+            var answer = GetOpenAnswer( bc );
+            answer.FirmId = 0;
+
+            // Action:
+            bc.AddAnswer( answer );
+
+            // Assert:
+            var answerRes = bc.GetOpenAnswers().ToArray()[0];
+            Assert.That( answerRes.Answer.Equals( answer.Answer ) );
+        }
+
+        [ Test ]
+        public void AddAnswer__OpenAnswer_FirmIsNull__Throws ()
+        {
+            // Arrange:
+            var bc = GetQuestionnaireBusinessContext();
+            var answer = GetOpenAnswer( bc );
+            answer.Firm = null;
+
+            // Action:
+            // Assert:
+            var ex = Assert.Catch( () => bc.AddAnswer( answer ) );
+        }
+
+        [ TestCase( 0 ) ]
+        [ TestCase( -1 ) ]
+        public void AddAnswer__OpenAnswer_NumEqualsOrLessThahZero__Throws ( int num )
+        {
+            // Arrange:
+            var bc = GetQuestionnaireBusinessContext();
+            var answer = GetOpenAnswer( bc );
+            answer.Num = num;
+
+            // Action:
+            // Assert:
+            var ex = Assert.Catch< ArgumentException >( () => bc.AddAnswer( answer ) );
+        }
+
+
+        [ Test ]
+        public void AddAnswer__MultipleChoiceAnswer_FirmIdNotValid__AddsAnswer ()
+        {
+            // Arrange:
+            var bc = GetQuestionnaireBusinessContext();
+            var answer = GetMultipleChoiceAnswer( bc );
+            answer.FirmId = 0;
+
+            // Action:
+            bc.AddAnswer( answer );
+
+            // Assert:
+            var answerRes = bc.GetMultipleChoiceAnswers().ToArray()[0];
+            Assert.That( answerRes, Is.Not.Null );
+        }
+
+        [ Test ]
+        public void AddAnswer__MultipleChoiceAnswer_FirmIsNull__Throws ()
+        {
+            // Arrange:
+            var bc = GetQuestionnaireBusinessContext();
+            var answer = GetMultipleChoiceAnswer( bc );
+            answer.Firm = null;
+
+            // Action:
+            // Assert:
+            var ex = Assert.Catch( () => bc.AddAnswer( answer ) );
+        }
+
+        [ TestCase( 0 ) ]
+        [ TestCase( -1 ) ]
+        public void AddAnswer__MultipleChoiceAnswer_NumEqualsOrLessThahZero__Throws ( int num )
+        {
+            // Arrange:
+            var bc = GetQuestionnaireBusinessContext();
+            var answer = GetMultipleChoiceAnswer( bc );
+            answer.Num = num;
+
+            // Action:
+            // Assert:
+            var ex = Assert.Catch< ArgumentException >( () => bc.AddAnswer( answer ) );
+        }
+
+
+
+        [ Test ]
+        public void DeleteAnswers__DbHasOpenAnswers__DeleteAnswers ()
+        {
+            // Arrange:
+            var bc = GetQuestionnaireBusinessContext();
+
+            var answer = GetOpenAnswer( bc );
+            answer.Num = 1;
+            bc.AddAnswer( answer );
+            
+            answer = GetOpenAnswer( bc );
+            answer.Num = 2;
+            bc.AddAnswer( answer );
+
+            var answerMulti = GetMultipleChoiceAnswer( bc );
+            answerMulti.Num = 1;
+            bc.AddAnswer( answerMulti );
+            
+            answerMulti = GetMultipleChoiceAnswer( bc );
+            answerMulti.Num = 2;
+            bc.AddAnswer( answerMulti );
+
+            var openAnswers = bc.GetOpenAnswers();
+            var multiAnswers = bc.GetMultipleChoiceAnswers();
+            Assert.That( openAnswers.Any() );
+            Assert.That( multiAnswers.Any() );
+
+            // Action:
+            bc.DeleteAnswers();
+
+            // Assert:
+            openAnswers = bc.GetOpenAnswers();
+            multiAnswers = bc.GetMultipleChoiceAnswers();
+            Assert.That( !openAnswers.Any() );
+            Assert.That( !multiAnswers.Any() );
+        }
+
 
 
         #region Factory
@@ -108,7 +233,7 @@ namespace Questionnaire.Data.Tests.BusinessContext.UnitTests
             Seeder.FileNameQuestionOpenList = Seeder.FileNameQuestionOpenList.AppendAssemblyPath();
         }
 
-        public void RestorePath ()
+        private void RestorePath ()
         {
             Seeder.FileNameQuestionOpenList = _paths[ 7 ];
             Seeder.FileNameQuestionMultipleChoiceList = _paths[ 6 ];
@@ -126,7 +251,25 @@ namespace Questionnaire.Data.Tests.BusinessContext.UnitTests
                             .UseSqlite( _connection )
                             .Options;
 
-            return new QuestionnaireBusinessContext( options );
+            return new QuestionnaireBusinessContext( options, new TestDataSeeder() );
+        }
+
+        private AnswerOpen GetOpenAnswer ( IQuestionnaireBusinessContext context )
+        {
+            return new AnswerOpen { Firm = context.GetFirms().First(),
+                                    Num = 1,
+                                    Answer = "TestAnswer",
+                                    Question = context.GetOpenQuestions().First()
+                                  };
+        }
+
+        private AnswerMultipleChoice GetMultipleChoiceAnswer ( IQuestionnaireBusinessContext context )
+        {
+            return new AnswerMultipleChoice { Firm = context.GetFirms().First(),
+                                              Num = 1,
+                                              Answer = 2,
+                                              Question = context.GetMultipleChoiceQuestions().First()
+                                            };
         }
 
         #endregion

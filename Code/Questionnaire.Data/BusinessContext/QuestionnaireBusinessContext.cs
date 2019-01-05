@@ -14,6 +14,7 @@ namespace Questionnaire.Data.BusinessContext
         #region Fields
 
         private readonly QuestionnaireDbContext _context;
+        private readonly IDataSeeder _dataSeeder;
 
         private bool _disposed;
 
@@ -23,25 +24,28 @@ namespace Questionnaire.Data.BusinessContext
         #region Ctor
 
         public QuestionnaireBusinessContext ()
+            : this ( new MainDataSeeder() )
         {
             _context = new QuestionnaireDbContext();
             _context.Database.Migrate();
-            SeedData();
+
+            _dataSeeder.SeedData( _context );
         }
 
-        public QuestionnaireBusinessContext ( DbContextOptions< QuestionnaireDbContext > options )
+        private QuestionnaireBusinessContext ( IDataSeeder dataSeeder )
         {
+            _dataSeeder = dataSeeder ?? throw new ArgumentNullException( nameof( dataSeeder ), "IDataSeeder cannot be null." );
+        }
 
-            if ( options == null ) {
+        public QuestionnaireBusinessContext ( DbContextOptions< QuestionnaireDbContext > options, IDataSeeder dataSeeder )
+            : this( dataSeeder )
+        {
+            if ( options == null ) throw new ArgumentNullException( nameof( options ), "Options cannot be null." );
 
-                _context = new QuestionnaireDbContext();
-                SeedData();
-            }
-            else {
-                _context = new QuestionnaireDbContext( options );
-                _context.Database.EnsureCreated();
-                SeedDataForTests();
-            }
+            _context = new QuestionnaireDbContext( options );
+            _context.Database.EnsureCreated();
+
+            _dataSeeder.SeedData( _context );
 
         }
 
@@ -58,17 +62,17 @@ namespace Questionnaire.Data.BusinessContext
 
         public IEnumerable< Region > GetRegions ()
         {
-            return _context.Regions.AsNoTracking().OrderBy( s => s.Name );
+            return _context.Regions.AsNoTracking().OrderBy( s => s.Name ).ToArray();
         }
 
         public IEnumerable< Firm > GetFirms ()
         {
-            return _context.Firms.AsNoTracking().OrderBy( f => f.Name );
+            return _context.Firms.AsNoTracking().OrderBy( f => f.Name ).ToArray();
         }
 
         public IEnumerable< City > GetCities ()
         {
-            return _context.Cities.AsNoTracking().OrderBy( c => c.Name );
+            return _context.Cities.AsNoTracking().OrderBy( c => c.Name ).ToArray();
         }
 
         public IEnumerable< Section > GetSections ()
@@ -77,36 +81,23 @@ namespace Questionnaire.Data.BusinessContext
                            .Include( section => section.QuestionMultipleChoiceCollection )
                            .Include( section => section.QuestionOpenCollection )
                            .AsNoTracking()
-                           .OrderBy( s => s.Id );
+                           .OrderBy( s => s.Id ).ToArray();
         }
 
 
         public IEnumerable< QuestionMultipleChoice > GetMultipleChoiceQuestions ()
         {
-            return _context.MultipleChoiceQuestions.AsNoTracking().OrderBy( q => q.Id );
+            return _context.MultipleChoiceQuestions.AsNoTracking().OrderBy( q => q.Id ).ToArray();
         }
 
         public IEnumerable< QuestionOpen > GetOpenQuestions ()
         {
-            return _context.OpenQuestions.AsNoTracking().OrderBy( q => q.Id );
+            return _context.OpenQuestions.AsNoTracking().OrderBy( q => q.Id ).ToArray();
         }
 
-
-        public void AddAnswer ( AnswerMultipleChoice answer )
+        public IEnumerable< AnswerOpen > GetOpenAnswers ()
         {
-            _context.MultipleChoiceAnswers.Add( Check.Checked( (dynamic)answer ) );
-        }
-
-        public void AddAnswer ( AnswerOpen answer )
-        {
-            _context.OpenAnswers.Add( Check.Checked( (dynamic)answer ) );
-        }
-
-        public void DeleteAnswers ()
-        {
-            _context.OpenAnswers.RemoveRange( _context.OpenAnswers );
-            _context.MultipleChoiceAnswers.RemoveRange( _context.MultipleChoiceAnswers );
-            _context.SaveChanges();
+            return _context.OpenAnswers.Include( answer => answer.Firm ).AsNoTracking().OrderBy( a => a.FirmId ).ToArray();
         }
 
         public IEnumerable< dynamic > GetMultipleChoiceAnswers ()
@@ -130,77 +121,38 @@ namespace Questionnaire.Data.BusinessContext
                      }).ToArray();
         }
 
-        public IEnumerable< AnswerOpen > GetOpenAnswers ()
+
+        public void AddAnswer ( AnswerMultipleChoice answer )
         {
-            return _context.OpenAnswers.AsNoTracking().OrderBy( a => a.FirmId );
+            _context.MultipleChoiceAnswers.Add( Check.Checked( (dynamic)answer ) );
+            _context.SaveChanges();
         }
+
+        public void AddAnswer ( AnswerOpen answer )
+        {
+            _context.OpenAnswers.Add( Check.Checked( (dynamic)answer ) );
+            _context.SaveChanges();
+        }
+
+        public void DeleteAnswers ()
+        {
+            _context.OpenAnswers.RemoveRange( _context.OpenAnswers );
+            _context.MultipleChoiceAnswers.RemoveRange( _context.MultipleChoiceAnswers );
+            _context.SaveChanges();
+        }
+
 
         public void SaveChanges () => _context.SaveChanges();
 
-        private void SeedData ()
-        {
-            foreach ( var region in Seeder.GetRegions() ) {
-                _context.Database.ExecuteSqlCommand( $"SET IDENTITY_INSERT dbo.Regions ON; INSERT INTO dbo.Regions ( [Id], [Name] ) VALUES ( { region.Id }, '{ region.Name }' )" );
-            }
 
-            foreach ( var city in Seeder.GetCities() ) {
-                _context.Database.ExecuteSqlCommand( $"SET IDENTITY_INSERT dbo.Cities ON; INSERT INTO dbo.Cities ( [Id], [Name], [RegionId] ) VALUES ( { city.Id }, '{ city.Name }', { city.RegionId } )" );
-            }
-            
-            foreach ( var firmType in Seeder.GetFirmTypes() ) {
-                _context.Database.ExecuteSqlCommand( $"SET IDENTITY_INSERT dbo.FirmTypes ON; INSERT INTO dbo.FirmTypes ( [Id], [Name] ) VALUES ( { firmType.Id }, '{ firmType.Name }' )" );
-            }
-
-            _context.Firms.AddRange( Seeder.GetFirms() );
-
-            foreach ( var category in Seeder.GetCategories() ) {
-                _context.Database.ExecuteSqlCommand( $"SET IDENTITY_INSERT dbo.Categories ON; INSERT INTO dbo.Categories ( [Id], [Name] ) VALUES ( { category.Id }, '{ category.Name }' )" );
-            }
-
-            foreach ( var section in Seeder.GetSections() ) {
-                _context.Database.ExecuteSqlCommand( $"SET IDENTITY_INSERT dbo.Sections ON; INSERT INTO dbo.Sections ( [Id], [Name], [CategoryId] ) VALUES ( { section.Id }, '{ section.Name }', { section.CategoryId } )" );
-            }
-
-            foreach ( var questionMultiple in Seeder.GetMultipleChoiceQuestions() ) {
-
-                _context.Database.ExecuteSqlCommand( $"SET IDENTITY_INSERT dbo.MultipleChoiceQuestions ON; " +
-                                                     $"INSERT INTO dbo.MultipleChoiceQuestions ( [Id], [Name], [CategoryId] ) " +
-                                                     $"VALUES ( { questionMultiple.Id }, '{ questionMultiple.Text }', { questionMultiple.SectionId } )" );
-            }
-
-            foreach ( var questionOpen in Seeder.GetOpenQuestions() ) {
-
-                _context.Database.ExecuteSqlCommand( $"SET IDENTITY_INSERT dbo.OpenQuestions ON; " +
-                                                     $"INSERT INTO dbo.OpenQuestions ( [Id], [Name], [CategoryId] ) " +
-                                                     $"VALUES ( { questionOpen.Id }, '{ questionOpen.Text }', { questionOpen.SectionId } )" );
-            }
-
-            _context.SaveChanges();
-        }
-
-        private void SeedDataForTests ()
-        {
-            _context.Regions.AddRange( Seeder.GetRegions() );
-            _context.Cities.AddRange( Seeder.GetCities() );
-            _context.FirmTypes.AddRange( Seeder.GetFirmTypes() );
-            _context.Firms.AddRange( Seeder.GetFirms() );
-
-            _context.Categories.AddRange( Seeder.GetCategories() );
-            _context.Sections.AddRange( Seeder.GetSections() );
-            _context.MultipleChoiceQuestions.AddRange( Seeder.GetMultipleChoiceQuestions() );
-            _context.OpenQuestions.AddRange( Seeder.GetOpenQuestions() );
-
-            _context.SaveChanges();
-        }
 
         static class Check
         {
-            public static bool Checked ( dynamic answer )
+            public static dynamic Checked ( dynamic answer )
             {
                 if ( answer.Num <= 0 ) throw new ArgumentException("EmployeeNum cannot be not greater than zero");
-                if ( answer.Question == null ) throw new ArgumentNullException( nameof(answer.Question), "Question cannot be null.");
 
-                return true;
+                return answer;
             }
         }
 

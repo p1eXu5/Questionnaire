@@ -154,6 +154,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BusinessContext\IntegrationalTests\QuestionnaireBusinessContextTests.cs" />
+    <Compile Include="BusinessContext\TestDataSeeder.cs" />
     <Compile Include="BusinessContext\UnitTests\QuestionnaireBusinessContextTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BusinessContext\IntegrationalTests\QuestionnaireRuntimeContextTests.cs" />

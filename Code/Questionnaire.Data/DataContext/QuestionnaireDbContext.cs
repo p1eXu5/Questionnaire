@@ -27,6 +27,12 @@ namespace Questionnaire.Data.DataContext
             }
         }
 
+        protected override void OnModelCreating ( ModelBuilder modelBuilder )
+        {
+            modelBuilder.Entity< AnswerOpen >().HasKey( a => new { a.FirmId, a.Num } );
+            modelBuilder.Entity< AnswerMultipleChoice >().HasKey( a => new { a.FirmId, a.Num } );
+        }
+
         public DbSet< Region > Regions { get; set; }
         public DbSet< City > Cities { get; set; }
         public DbSet< FirmType > FirmTypes { get; set; }
