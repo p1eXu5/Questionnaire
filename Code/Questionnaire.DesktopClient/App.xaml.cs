@@ -21,11 +21,10 @@ namespace Questionnaire.DesktopClient
             base.OnStartup( e );
 
             var businessContext = new QuestionnaireBusinessContext();
-            var questionnaire = new QuestionnaireContextContext( businessContext );
+            var questionnaire = new QuestionnaireContext( businessContext );
             var mainViewModel = new MainViewModel( questionnaire );
 
-            var wnd = new MainWindow();
-            wnd.DataContext = mainViewModel;
+            var wnd = new MainWindow { DataContext = mainViewModel };
 
             wnd.ShowDialog();
         }

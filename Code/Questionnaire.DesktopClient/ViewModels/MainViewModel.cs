@@ -16,29 +16,41 @@ namespace Questionnaire.DesktopClient.ViewModels
 {
     public class MainViewModel : ViewModel
     {
-        private readonly IQuestionnaireContext _businessContext;
+        #region Fields
+
+        private readonly IQuestionnaireContext _questionnaireContext;
         private City _selectedCity;
         private Firm _selectedFirm;
         private readonly ICollectionView _firmsView;
 
         private bool _isRunning;
 
-        public MainViewModel ( IQuestionnaireContext questionnaireContextBusinessContext )
-        {
-            _businessContext = questionnaireContextBusinessContext ?? throw new ArgumentNullException( nameof( questionnaireContextBusinessContext ), @"IQuestionnaireContext cannot be null." );
+        #endregion
 
-            Cities = _businessContext.GetCities().ToArray();
-            Firms = _businessContext.GetFirms().Where( f => f.Id > 1 ).ToArray();
+
+        #region Ctor
+
+        public MainViewModel ( IQuestionnaireContext questionnaireContext )
+        {
+            _questionnaireContext = questionnaireContext ?? throw new ArgumentNullException( nameof( questionnaireContext ), @"IQuestionnaireContext cannot be null." );
+
+            Cities = _questionnaireContext.GetCities().ToArray();
+            Firms = _questionnaireContext.GetFirms().Where( f => f.Id > 1 ).ToArray();
 
             _firmsView = CollectionViewSource.GetDefaultView( Firms );
 
             SelectedCity = Cities.FirstOrDefault();
 
-            StartTestCommand = new MvvmCommand( StartTest, CanStartTest );
+            StartTestCommand = new MvvmCommand( RunTest, CanRunTest );
 
-            QuestionnairRunnerViewModel = new QuestionnaireRunnerViewModel( _businessContext );
+            QuestionnairRunnerViewModel = new QuestionnaireRunnerViewModel( _questionnaireContext );
             QuestionnairRunnerViewModel.StopRequested += OnStopped;
         }
+
+        #endregion
+
+
+        #region Properties
 
         public IEnumerable< City > Cities { get; }
         public City SelectedCity
@@ -82,9 +94,17 @@ namespace Questionnaire.DesktopClient.ViewModels
             }
         }
 
+        #endregion
+
+
+        #region Commands
 
         public ICommand StartTestCommand { get; }
 
+        #endregion
+
+
+        #region Methods
 
         private void SetFirmsFilter ( int cityId )
         {
@@ -97,13 +117,13 @@ namespace Questionnaire.DesktopClient.ViewModels
             _firmsView.Filter = ( firm ) => (( Firm )firm).CityId == cityId;
         }
 
-        private void StartTest ( object obj )
+        private void RunTest ( object obj )
         {
             QuestionnairRunnerViewModel.SetFirm ( _selectedFirm );
             IsRunning = true;
         }
 
-        private bool CanStartTest ( object obj )
+        private bool CanRunTest ( object obj )
         {
             return SelectedFirm?.Id > 1 && QuestionnairRunnerViewModel.Count > 0;
         }
@@ -114,5 +134,7 @@ namespace Questionnaire.DesktopClient.ViewModels
             QuestionnairRunnerViewModel.Reload();
             ((MvvmCommand)StartTestCommand).RaiseCanExecuteChanged();
         }
+
+        #endregion
     }
 }
