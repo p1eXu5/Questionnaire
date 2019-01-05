@@ -65,6 +65,11 @@ namespace Questionnaire.Data.BusinessContext
             throw new NotImplementedException();
         }
 
+        public void DeleteAnswers ()
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable< dynamic > GetMultipleChoiceAnswers ()
         {
             throw new NotImplementedException();

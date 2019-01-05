@@ -74,10 +74,10 @@ namespace Questionnaire.Data.BusinessContext
         public IEnumerable< Section > GetSections ()
         {
             return _context.Sections
-                           //.Include( section => section.QuestionMultipleChoiceCollection )
-                           //.Include( section => section.QuestionOpenCollection )
+                           .Include( section => section.QuestionMultipleChoiceCollection )
+                           .Include( section => section.QuestionOpenCollection )
                            .AsNoTracking()
-                           .OrderBy( s => s.Id ).AsEnumerable();
+                           .OrderBy( s => s.Id );
         }
 
 
@@ -100,6 +100,13 @@ namespace Questionnaire.Data.BusinessContext
         public void AddAnswer ( AnswerOpen answer )
         {
             _context.OpenAnswers.Add( Check.Checked( (dynamic)answer ) );
+        }
+
+        public void DeleteAnswers ()
+        {
+            _context.OpenAnswers.RemoveRange( _context.OpenAnswers );
+            _context.MultipleChoiceAnswers.RemoveRange( _context.MultipleChoiceAnswers );
+            _context.SaveChanges();
         }
 
         public IEnumerable< dynamic > GetMultipleChoiceAnswers ()

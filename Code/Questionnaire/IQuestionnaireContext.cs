@@ -15,6 +15,8 @@ namespace Questionnaire
 
         void AddAnswer ( AnswerMultipleChoice answers );
         void AddAnswer ( AnswerOpen answers );
+        void DeleteAnswers ();
+
         void MakeReport ( string fileName );
 
         void SaveChanges ();

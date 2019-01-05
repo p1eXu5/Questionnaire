@@ -32,7 +32,7 @@ namespace Questionnaire.Data.Tests.BusinessContext.UnitTests
         public void GetOpenAnswers_DbNotExist_ReturnsEmptyCollection ()
         {
             // Arrange:
-            var bc = GetQuestionnaireBusinessContext( "GetOpenAnswers" );
+            var bc = GetQuestionnaireBusinessContext();
 
             // Action:
             var resColl = bc.GetOpenAnswers();
@@ -46,13 +46,31 @@ namespace Questionnaire.Data.Tests.BusinessContext.UnitTests
         {
             // Arrange:
             SavePaths();
-            var bc = GetQuestionnaireBusinessContext( "GetSections" );
+            var bc = GetQuestionnaireBusinessContext();
 
             // Action:
             var resColl = bc.GetSections().ToArray();
 
             // Assert:
             Assert.That( resColl.Any() );
+            RestorePath();
+        }
+
+        [ Test ]
+        public void GetSections_DbNotExist_ReturnsSectionWithQuestionsCollection ()
+        {
+            // Arrange:
+            SavePaths();
+            var bc = GetQuestionnaireBusinessContext();
+
+            // Action:
+            var resColl = bc.GetSections().ToArray();
+
+            // Assert:
+            Assert.That( resColl.All( q => q.QuestionMultipleChoiceCollection.Any() ) );
+            Assert.That( resColl.All( q => q.QuestionOpenCollection.Any() ) );
+            Assert.That( resColl.All( q => q.CategoryId > 0 ) );
+
             RestorePath();
         }
 
@@ -102,10 +120,8 @@ namespace Questionnaire.Data.Tests.BusinessContext.UnitTests
             Seeder.FileNameSections = _paths[ 0 ];
         }
 
-        private QuestionnaireBusinessContext GetQuestionnaireBusinessContext ( string dbName )
+        private QuestionnaireBusinessContext GetQuestionnaireBusinessContext ()
         {
-            if ( String.IsNullOrWhiteSpace( dbName ) ) throw new ArgumentException();
-
             var options = new DbContextOptionsBuilder< QuestionnaireDbContext >()
                             .UseSqlite( _connection )
                             .Options;

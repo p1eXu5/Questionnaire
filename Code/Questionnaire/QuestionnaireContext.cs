@@ -29,6 +29,8 @@ namespace Questionnaire
         public void AddAnswer ( AnswerMultipleChoice answer ) => _context.AddAnswer( _converter.Convert( answer ) );
         public void AddAnswer ( AnswerOpen answer ) => _context.AddAnswer( answer );
 
+        public void DeleteAnswers () => _context.DeleteAnswers();
+
         public void MakeReport ( string fileName ) =>
             ReportMaker.MakeReport( fileName, _context.GetMultipleChoiceAnswers().Cast< AnswerMultipleChoice >() );
 

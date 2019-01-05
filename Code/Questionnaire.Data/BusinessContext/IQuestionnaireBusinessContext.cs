@@ -21,6 +21,8 @@ namespace Questionnaire.Data.BusinessContext
         void AddAnswer ( AnswerMultipleChoice answer );
         void AddAnswer ( AnswerOpen answer );
 
+        void DeleteAnswers ();
+
         IEnumerable< dynamic > GetMultipleChoiceAnswers ();
 
         void SaveChanges ();
