@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Questionnaire.DesktopClient.Views.UserControls
 {
     /// <summary>
-    /// Interaction logic for QuestionsView.xaml
+    /// Interaction logic for QuestionOpenView.xaml
     /// </summary>
-    public partial class QuestionsView : UserControl
+    public partial class QuestionOpenView : UserControl
     {
-        public QuestionsView ()
+        public QuestionOpenView ()
         {
             InitializeComponent();
         }
