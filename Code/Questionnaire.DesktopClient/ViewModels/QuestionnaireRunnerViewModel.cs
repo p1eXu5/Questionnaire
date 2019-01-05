@@ -14,7 +14,9 @@ namespace Questionnaire.DesktopClient.ViewModels
 {
     public class QuestionnaireRunnerViewModel : ViewModel
     {
-        private readonly IQuestionnaireContext _businessContext;
+        #region Fields
+
+        private readonly IQuestionnaireContext _questionnaireContext;
 
         private Queue< SectionViewModel > _sections;
 
@@ -24,14 +26,31 @@ namespace Questionnaire.DesktopClient.ViewModels
         private bool _isNextSectionA;
         private int _testedNum;
 
-        public QuestionnaireRunnerViewModel ( IQuestionnaireContext businessContext )
+        #endregion
+
+
+        #region Ctor
+
+        public QuestionnaireRunnerViewModel ( IQuestionnaireContext questionnairContext )
         {
-            _businessContext = businessContext ?? throw new ArgumentNullException( nameof( businessContext ), @"IQuestionnaireContext cannot be null." );
+            _questionnaireContext = questionnairContext ?? throw new ArgumentNullException( nameof( questionnairContext ), @"IQuestionnaireContext cannot be null." );
 
             _sections = new Queue< SectionViewModel >();
         }
 
-        public event EventHandler< EventArgs > StopRequested; 
+        #endregion
+
+
+        #region Events
+
+        public event EventHandler< EventArgs > StopRequested;
+
+        #endregion
+
+
+        #region Properties
+
+        public Firm Firm { get; private set; }
 
         public int Count => _sections.Count;
 
@@ -53,25 +72,43 @@ namespace Questionnaire.DesktopClient.ViewModels
             }
         }
 
-        public Firm Firm { get; private set; }
+        #endregion
+
+
+        #region Methods
 
         public void SetFirm ( Firm firm )
         {
             Firm = firm ?? throw new ArgumentNullException( nameof( firm ), @"Firm cannot be null." );
 
-            _testedNum = _businessContext.GetOpenAnswers().Where( a => a.FirmId == Firm.Id ).Max( a => a.Num ) + 1;
+            _testedNum = _questionnaireContext.GetOpenAnswers().Where( a => a.FirmId == Firm.Id ).Max( a => a.Num ) + 1;
         }
 
         public void Reload ()
         {
-            _sections = new Queue< SectionViewModel >( _businessContext.GetSections().Select( s => new SectionViewModel( s ) ) );
+            _sections = new Queue< SectionViewModel >( _questionnaireContext.GetSections().Select( s => new SectionViewModel( s ) ) );
 
             _isNextSectionA = true;
 
             if ( _sections.Any() ) {
 
                 SectionA = _sections.Dequeue();
+                SectionA.NextSectionRequested += OnNextSectionRequested;
                 _isNextSectionA = false;
+            }
+        }
+
+
+        private void AddAnswers ( IEnumerable< dynamic > answers )
+        {
+            if ( answers == null ) throw new ArgumentNullException( nameof( answers ), @"Answers cannot be null." );
+
+            if ( !answers.Any() ) return;
+
+            foreach ( var answer in answers ) {
+                answer.Firm = Firm;
+                answer.Num = _testedNum;
+                _questionnaireContext.AddAnswer( answer );
             }
         }
 
@@ -112,28 +149,14 @@ namespace Questionnaire.DesktopClient.ViewModels
             }
 
             OnStopRequested();
-
-            return;
-        }
-
-
-        private void AddAnswers ( IEnumerable< dynamic > answers )
-        {
-            if ( answers == null ) throw new ArgumentNullException( nameof( answers ), @"Answers cannot be null." );
-
-            if ( !answers.Any() ) return;
-
-            foreach ( var answer in answers ) {
-                answer.Firm = Firm;
-                answer.Num = _testedNum;
-                _businessContext.AddAnswer( answer );
-            }
         }
 
         private void OnStopRequested ()
         {
-            _businessContext.SaveChanges();
+            _questionnaireContext.SaveChanges();
             StopRequested?.Invoke( this, EventArgs.Empty );
         }
+
+        #endregion
     }
 }
