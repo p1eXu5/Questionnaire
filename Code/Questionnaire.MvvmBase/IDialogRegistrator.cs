@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Questionnaire.MvvmBase
 {
-    public interface IDialogRepository
+    public interface IDialogRegistrator
     {
         void Register< TViewModel, TView > () 
-            where TView : IDialog, new()
-            where TViewModel : IDialogCloseRequested;
+            where TViewModel : IDialogCloseRequested
+            where TView : IDialog;
 
         IDialog GetView< TViewModel > ( TViewModel viewModel )
             where TViewModel : IDialogCloseRequested;

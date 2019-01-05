@@ -13,5 +13,6 @@ namespace Questionnaire.MvvmBase
         object DataContext { get; set; }
         bool? ShowDialog ();
         bool? DialogResult { get; set; }
+        void Close();
     }
 }

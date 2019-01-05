@@ -7,24 +7,29 @@ using System.Windows;
 
 namespace Questionnaire.MvvmBase
 {
-    public class ViewRepository : IDialogRepository
+    public class DialogRegistrator : IDialogRegistrator
     {
         private readonly Dictionary<Type, Type> _repository;
         private readonly Window _owner;
 
-        public ViewRepository( Window owner )
+
+
+        public DialogRegistrator( Window owner )
         {
             _owner = owner ?? throw new ArgumentNullException();
 
             _repository = new Dictionary<Type, Type>();
         }
 
+
+
         public void Register< TViewModel, TView >() 
-            where      TView : IDialog, new()
             where TViewModel : IDialogCloseRequested
+            where      TView : IDialog
         {
             _repository[ typeof( TViewModel ) ] = typeof( TView );
         }
+
 
         public IDialog GetView< TViewModel >( TViewModel viewModel )
             where TViewModel : IDialogCloseRequested
@@ -36,7 +41,7 @@ namespace Questionnaire.MvvmBase
                 view.DataContext = viewModel;
                 view.Owner = _owner;
 
-                viewModel.CloseRequested += OnCloseDialogHandler;
+                viewModel.DialogCloseRequested += OnCloseDialogHandler;
 
                 return view;
             }
@@ -45,7 +50,7 @@ namespace Questionnaire.MvvmBase
 
             void OnCloseDialogHandler ( object s, CloseRequestedEventArgs e )
                 {
-                    viewModel.CloseRequested -= OnCloseDialogHandler;
+                    viewModel.DialogCloseRequested -= OnCloseDialogHandler;
 
                     ( ( IDialog )s ).DialogResult = e.DialogResult;
                 }
