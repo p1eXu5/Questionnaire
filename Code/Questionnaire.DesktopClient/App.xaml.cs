@@ -45,13 +45,17 @@ namespace Questionnaire.DesktopClient
                 wnd.ShowDialog();
             }
             catch ( Exception ex ) {
+#if DEBUG
+                throw;
+#endif
 
 #if RELEASE
                 string message = $"{ ex.Message } \n { ex.InnerException?.Message }";
                 File.AppendAllText("questionnaire.log", message );
-#endif
 
                 new ExceptionWindow().ShowDialog();
+                App.Current.Shutdown( 0x00040000 );
+#endif
             }
         }
     }

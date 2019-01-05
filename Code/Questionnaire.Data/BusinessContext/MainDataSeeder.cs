@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Questionnaire.Data.DataContext;
+using Questionnaire.Data.Models;
 
 namespace Questionnaire.Data.BusinessContext
 {
@@ -12,43 +14,44 @@ namespace Questionnaire.Data.BusinessContext
     {
         public void SeedData ( QuestionnaireDbContext context )
         {
-            foreach ( var region in Seeder.GetRegions() ) {
-                context.Database.ExecuteSqlCommand( $"SET IDENTITY_INSERT dbo.Regions ON; INSERT INTO dbo.Regions ( [Id], [Name] ) VALUES ( { region.Id }, '{ region.Name }' )" );
+            if ( !context.Regions.Any() ) { 
+                context.Regions.AddRange( Seeder.GetRegions().OrderBy( r => r.Id ).Select( r =>{ r.Id = 0; return r; } ) );
+                context.SaveChanges();
             }
 
-            foreach ( var city in Seeder.GetCities() ) {
-                context.Database.ExecuteSqlCommand( $"SET IDENTITY_INSERT dbo.Cities ON; INSERT INTO dbo.Cities ( [Id], [Name], [RegionId] ) VALUES ( { city.Id }, '{ city.Name }', { city.RegionId } )" );
-            }
-            
-            foreach ( var firmType in Seeder.GetFirmTypes() ) {
-                context.Database.ExecuteSqlCommand( $"SET IDENTITY_INSERT dbo.FirmTypes ON; INSERT INTO dbo.FirmTypes ( [Id], [Name] ) VALUES ( { firmType.Id }, '{ firmType.Name }' )" );
+            if ( !context.Cities.Any() ) {
+                context.Cities.AddRange( Seeder.GetCities().OrderBy( c => c.Id ).Select( c => { c.Id = 0; return c; } ) );
+                context.SaveChanges();
             }
 
-            context.Firms.AddRange( Seeder.GetFirms() );
-            context.SaveChanges();
-
-            foreach ( var category in Seeder.GetCategories() ) {
-                context.Database.ExecuteSqlCommand( $"SET IDENTITY_INSERT dbo.Categories ON; INSERT INTO dbo.Categories ( [Id], [Name] ) VALUES ( { category.Id }, '{ category.Name }' )" );
+            if ( !context.FirmTypes.Any() ) {
+                context.FirmTypes.AddRange( Seeder.GetFirmTypes().OrderBy( ft => ft.Id ).Select( ft => { ft.Id = 0; return ft; } ) );
+                context.SaveChanges();
             }
 
-            foreach ( var section in Seeder.GetSections() ) {
-                context.Database.ExecuteSqlCommand( $"SET IDENTITY_INSERT dbo.Sections ON; INSERT INTO dbo.Sections ( [Id], [Name], [CategoryId] ) VALUES ( { section.Id }, '{ section.Name }', { section.CategoryId } )" );
+            if ( !context.Firms.Any() ) {
+                context.Firms.AddRange( Seeder.GetFirms() );
+                context.SaveChanges();
             }
 
-            foreach ( var questionMultiple in Seeder.GetMultipleChoiceQuestions() ) {
+            SeedEntities( context.Categories, Seeder.GetCategories(), context );
 
-                context.Database.ExecuteSqlCommand( $"SET IDENTITY_INSERT dbo.MultipleChoiceQuestions ON; " +
-                                                     $"INSERT INTO dbo.MultipleChoiceQuestions ( [Id], [Name], [CategoryId] ) " +
-                                                     $"VALUES ( { questionMultiple.Id }, '{ questionMultiple.Text }', { questionMultiple.SectionId } )" );
+            SeedEntities( context.Sections, Seeder.GetSections(), context );
+
+            SeedEntities( context.MultipleChoiceQuestions, Seeder.GetMultipleChoiceQuestions(), context );
+
+            SeedEntities( context.OpenQuestions, Seeder.GetOpenQuestions(), context );
+
+        }
+
+        private void SeedEntities< T > ( DbSet<T> entity, IEnumerable< T > seedColl, QuestionnaireDbContext context )
+            where T : class
+        {
+            if ( !entity.Any() ) {
+                entity.AddRange( seedColl.OrderBy( ft => (int)(ft.GetType().GetProperty("Id").GetValue( ft )) )
+                                         .Select( ft => { ft.GetType().GetProperty( "Id" ).SetValue( ft, 0 ); return ft; } ) );
+                context.SaveChanges();
             }
-
-            foreach ( var questionOpen in Seeder.GetOpenQuestions() ) {
-
-                context.Database.ExecuteSqlCommand( $"SET IDENTITY_INSERT dbo.OpenQuestions ON; " +
-                                                    $"INSERT INTO dbo.OpenQuestions ( [Id], [Name], [CategoryId] ) " +
-                                                     $"VALUES ( { questionOpen.Id }, '{ questionOpen.Text }', { questionOpen.SectionId } )" );
-            }
-
         }
     }
 }

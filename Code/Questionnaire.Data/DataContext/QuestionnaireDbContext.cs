@@ -22,8 +22,17 @@ namespace Questionnaire.Data.DataContext
         protected override void OnConfiguring ( DbContextOptionsBuilder optionsBuilder )
         {
             if ( !optionsBuilder.IsConfigured ) {
-                optionsBuilder.UseSqlServer( ConfigurationManager
-                                             .ConnectionStrings[ "QuestionnaireDb" ].ConnectionString );
+
+                try {
+                    var connectionStr = ConfigurationManager
+                                        .ConnectionStrings[ "Questionnaire" ].ConnectionString;
+
+                    optionsBuilder.UseSqlServer( connectionStr );
+                }
+                catch ( Exception ) {
+                    throw new ConfigurationErrorsException("Какая-то беда с connectionString.");
+                }
+
             }
         }
 
