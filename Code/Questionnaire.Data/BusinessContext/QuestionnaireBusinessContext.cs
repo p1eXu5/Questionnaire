@@ -31,9 +31,18 @@ namespace Questionnaire.Data.BusinessContext
 
         public QuestionnaireBusinessContext ( DbContextOptions< QuestionnaireDbContext > options )
         {
-            _context = options == null ? new QuestionnaireDbContext() : new QuestionnaireDbContext( options );
 
-            SeedData();
+            if ( options == null ) {
+
+                _context = new QuestionnaireDbContext();
+                SeedData();
+            }
+            else {
+                _context = new QuestionnaireDbContext( options );
+                _context.Database.EnsureCreated();
+                SeedDataForTests();
+            }
+
         }
 
         #endregion
@@ -45,7 +54,7 @@ namespace Questionnaire.Data.BusinessContext
 
         #endregion
 
-
+        #region Methods
 
         public IEnumerable< Region > GetRegions ()
         {
@@ -65,10 +74,10 @@ namespace Questionnaire.Data.BusinessContext
         public IEnumerable< Section > GetSections ()
         {
             return _context.Sections
-                           .Include( section => section.QuestionMultipleChoiceCollection )
-                           .Include( section => section.QuestionOpenCollection )
+                           //.Include( section => section.QuestionMultipleChoiceCollection )
+                           //.Include( section => section.QuestionOpenCollection )
                            .AsNoTracking()
-                           .OrderBy( s => s.Id );
+                           .OrderBy( s => s.Id ).AsEnumerable();
         }
 
 
@@ -123,7 +132,6 @@ namespace Questionnaire.Data.BusinessContext
 
         private void SeedData ()
         {
-
             foreach ( var region in Seeder.GetRegions() ) {
                 _context.Database.ExecuteSqlCommand( $"SET IDENTITY_INSERT dbo.Regions ON; INSERT INTO dbo.Regions ( [Id], [Name] ) VALUES ( { region.Id }, '{ region.Name }' )" );
             }
@@ -146,19 +154,34 @@ namespace Questionnaire.Data.BusinessContext
                 _context.Database.ExecuteSqlCommand( $"SET IDENTITY_INSERT dbo.Sections ON; INSERT INTO dbo.Sections ( [Id], [Name], [CategoryId] ) VALUES ( { section.Id }, '{ section.Name }', { section.CategoryId } )" );
             }
 
-            foreach ( var questionMultiple in Seeder.GetQuestionMultipleChoiceList() ) {
+            foreach ( var questionMultiple in Seeder.GetMultipleChoiceQuestions() ) {
 
                 _context.Database.ExecuteSqlCommand( $"SET IDENTITY_INSERT dbo.MultipleChoiceQuestions ON; " +
                                                      $"INSERT INTO dbo.MultipleChoiceQuestions ( [Id], [Name], [CategoryId] ) " +
                                                      $"VALUES ( { questionMultiple.Id }, '{ questionMultiple.Text }', { questionMultiple.SectionId } )" );
             }
 
-            foreach ( var questionOpen in Seeder.GetQuestionOpenList() ) {
+            foreach ( var questionOpen in Seeder.GetOpenQuestions() ) {
 
                 _context.Database.ExecuteSqlCommand( $"SET IDENTITY_INSERT dbo.OpenQuestions ON; " +
                                                      $"INSERT INTO dbo.OpenQuestions ( [Id], [Name], [CategoryId] ) " +
                                                      $"VALUES ( { questionOpen.Id }, '{ questionOpen.Text }', { questionOpen.SectionId } )" );
             }
+
+            _context.SaveChanges();
+        }
+
+        private void SeedDataForTests ()
+        {
+            _context.Regions.AddRange( Seeder.GetRegions() );
+            _context.Cities.AddRange( Seeder.GetCities() );
+            _context.FirmTypes.AddRange( Seeder.GetFirmTypes() );
+            _context.Firms.AddRange( Seeder.GetFirms() );
+
+            _context.Categories.AddRange( Seeder.GetCategories() );
+            _context.Sections.AddRange( Seeder.GetSections() );
+            _context.MultipleChoiceQuestions.AddRange( Seeder.GetMultipleChoiceQuestions() );
+            _context.OpenQuestions.AddRange( Seeder.GetOpenQuestions() );
 
             _context.SaveChanges();
         }
@@ -173,6 +196,8 @@ namespace Questionnaire.Data.BusinessContext
                 return true;
             }
         }
+
+        #endregion
 
         #region IDisposable
 
