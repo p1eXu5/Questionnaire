@@ -28,6 +28,7 @@ namespace Questionnaire.DesktopClient.ViewModels
         #endregion
 
 
+
         #region Ctor
 
         public MainViewModel ( IQuestionnaireContext questionnaireContext )
@@ -41,13 +42,14 @@ namespace Questionnaire.DesktopClient.ViewModels
 
             SelectedCity = Cities.FirstOrDefault();
 
-            StartTestCommand = new MvvmCommand( RunTest, CanRunTest );
+            RunTestCommand = new MvvmCommand( RunTest, CanRunTest );
 
-            QuestionnairRunnerViewModel = new QuestionnaireRunnerViewModel( _questionnaireContext );
-            QuestionnairRunnerViewModel.StopRequested += OnStopped;
+            QuestionnaireRunner = new QuestionnaireRunnerViewModel( _questionnaireContext );
+            QuestionnaireRunner.StopRequested += OnStopped;
         }
 
         #endregion
+
 
 
         #region Properties
@@ -79,11 +81,11 @@ namespace Questionnaire.DesktopClient.ViewModels
                 }
 
                 OnPropertyChanged();
-                ((MvvmCommand)StartTestCommand).RaiseCanExecuteChanged();
+                ((MvvmCommand)RunTestCommand).RaiseCanExecuteChanged();
             }
         }
 
-        public QuestionnaireRunnerViewModel QuestionnairRunnerViewModel { get; }
+        public QuestionnaireRunnerViewModel QuestionnaireRunner { get; }
 
         public bool IsRunning
         {
@@ -97,11 +99,13 @@ namespace Questionnaire.DesktopClient.ViewModels
         #endregion
 
 
+
         #region Commands
 
-        public ICommand StartTestCommand { get; }
+        public ICommand RunTestCommand { get; }
 
         #endregion
+
 
 
         #region Methods
@@ -119,20 +123,20 @@ namespace Questionnaire.DesktopClient.ViewModels
 
         private void RunTest ( object obj )
         {
-            QuestionnairRunnerViewModel.SetFirm ( _selectedFirm );
+            QuestionnaireRunner.SetFirm ( _selectedFirm );
             IsRunning = true;
         }
 
         private bool CanRunTest ( object obj )
         {
-            return SelectedFirm?.Id > 1 && QuestionnairRunnerViewModel.Count > 0;
+            return SelectedFirm?.Id > 1 && QuestionnaireRunner.Count > 0;
         }
 
         private void OnStopped ( object sender, EventArgs args )
         {
             IsRunning = false;
-            QuestionnairRunnerViewModel.Reload();
-            ((MvvmCommand)StartTestCommand).RaiseCanExecuteChanged();
+            QuestionnaireRunner.Reload();
+            ((MvvmCommand)RunTestCommand).RaiseCanExecuteChanged();
         }
 
         #endregion
