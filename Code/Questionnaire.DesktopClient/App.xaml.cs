@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 using System.Windows;
 using Questionnaire.Data.BusinessContext;
 using Questionnaire.DesktopClient.ViewModels;
+using Questionnaire.DesktopClient.ViewModels.DialogViewModels;
 using Questionnaire.DesktopClient.Views;
+using Questionnaire.DesktopClient.Views.Dialogs;
+using Questionnaire.MvvmBase;
 
 namespace Questionnaire.DesktopClient
 {
@@ -20,11 +23,18 @@ namespace Questionnaire.DesktopClient
         {
             base.OnStartup( e );
 
+            var wnd = new MainWindow ();
+
             var businessContext = new QuestionnaireBusinessContext();
             var questionnaire = new QuestionnaireContext( businessContext );
-            var mainViewModel = new MainViewModel( questionnaire );
 
-            var wnd = new MainWindow { DataContext = mainViewModel };
+            // IDialogRegistrator:
+            DialogRegistrator dialogRegistrator = new DialogRegistrator( wnd );
+            dialogRegistrator.Register< ResumeClearDialogViewModel, ResumeClearDialogWindow >();
+
+            var mainViewModel = new MainViewModel( questionnaire, dialogRegistrator );
+
+            wnd.DataContext = mainViewModel;
 
             wnd.ShowDialog();
         }

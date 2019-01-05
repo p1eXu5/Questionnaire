@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Questionnaire.Data.BusinessContext;
 using Questionnaire.Data.Models;
+using Questionnaire.DesktopClient.ViewModels.DialogViewModels;
 using Questionnaire.MvvmBase;
 
 namespace Questionnaire.DesktopClient.ViewModels
@@ -19,6 +20,7 @@ namespace Questionnaire.DesktopClient.ViewModels
         #region Fields
 
         private readonly IQuestionnaireContext _questionnaireContext;
+        private readonly IDialogRegistrator _dialogRegistrator;
         private City _selectedCity;
         private Firm _selectedFirm;
         private readonly ICollectionView _firmsView;
@@ -31,12 +33,15 @@ namespace Questionnaire.DesktopClient.ViewModels
 
         #region Ctor
 
-        public MainViewModel ( IQuestionnaireContext questionnaireContext )
+        public MainViewModel ( IQuestionnaireContext questionnaireContext, IDialogRegistrator dialogRegistrator )
         {
             _questionnaireContext = questionnaireContext ?? throw new ArgumentNullException( nameof( questionnaireContext ), @"IQuestionnaireContext cannot be null." );
+            _dialogRegistrator = dialogRegistrator ?? throw new ArgumentNullException( nameof( dialogRegistrator ), @"IDialogRegistrator cannot be null." );
 
             Cities = _questionnaireContext.GetCities().ToArray();
             Firms = _questionnaireContext.GetFirms().Where( f => f.Id > 1 ).ToArray();
+
+            if ( !Firms.Any() ) throw new ArgumentException( "Firms is empty" );
 
             _firmsView = CollectionViewSource.GetDefaultView( Firms );
 
@@ -46,6 +51,8 @@ namespace Questionnaire.DesktopClient.ViewModels
 
             QuestionnaireRunner = new QuestionnaireRunnerViewModel( _questionnaireContext );
             QuestionnaireRunner.StopRequested += OnStopped;
+
+            CheckAnswers();
         }
 
         #endregion
@@ -109,6 +116,19 @@ namespace Questionnaire.DesktopClient.ViewModels
 
 
         #region Methods
+
+        private void CheckAnswers ()
+        {
+            if ( _questionnaireContext.GetOpenAnswers().Any() ) {
+
+                var dialog = _dialogRegistrator.GetView( new ResumeClearDialogViewModel() );
+                if ( dialog == null ) throw new InvalidOperationException( "Cannot find ResumeClearDialogWindow." );
+
+                if ( dialog.ShowDialog() == true ) {
+                    _questionnaireContext.DeleteAnswers();
+                }
+            }
+        }
 
         private void SetFirmsFilter ( int cityId )
         {

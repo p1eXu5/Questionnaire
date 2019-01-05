@@ -1,0 +1,50 @@
+﻿<Window x:Class="Questionnaire.DesktopClient.Views.Dialogs.ResumeClearDialogWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Questionnaire.DesktopClient.Views.Dialogs"
+        mc:Ignorable="d"
+        Title="ClearOrResumeDialog" 
+        Height="200" 
+        Width="400" 
+        WindowStyle="None">
+
+    <Grid Background="Transparent">
+        <Grid Margin="5" >
+            <Border BorderThickness="1" BorderBrush="Black" 
+                    />
+            <Grid Margin="20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" 
+                           Text="Продолжить тестирование?"
+                           VerticalAlignment="Center" HorizontalAlignment="Center"
+                           FontSize="16"
+                           />
+
+                <Button IsCancel="True" Grid.Row="1" Grid.Column="1"
+                        Content="Продолжить"
+                        Width="140"
+                        VerticalAlignment="Center" HorizontalAlignment="Center"
+                        Command="{Binding CancelCommand}"
+                        />
+
+                <Button IsCancel="True" Grid.Row="1" Grid.Column="0"
+                        Content="Начать заново"
+                        Width="140"
+                        VerticalAlignment="Center" HorizontalAlignment="Center"
+                        Command="{Binding OkCommand}"
+                />
+
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
