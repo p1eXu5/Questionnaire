@@ -75,18 +75,36 @@
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UserControls\QuestionsView.xaml.cs">
-      <DependentUpon>QuestionsView.xaml</DependentUpon>
+    <Compile Include="Views\UserControls\QuestionMultipleChoiceView.xaml.cs">
+      <DependentUpon>QuestionMultipleChoiceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\QuestionOpenView.xaml.cs">
+      <DependentUpon>QuestionOpenView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\SectionView.xaml.cs">
+      <DependentUpon>SectionView.xaml</DependentUpon>
     </Compile>
     <Page Include="Resources\Animations.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Resources\DataTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\UserControls\QuestionsView.xaml">
+    <Page Include="Views\UserControls\QuestionMultipleChoiceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\QuestionOpenView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\SectionView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

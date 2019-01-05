@@ -29,6 +29,7 @@ namespace Questionnaire.DesktopClient.ViewModels
         #endregion
 
 
+
         #region Ctor
 
         public QuestionnaireRunnerViewModel ( IQuestionnaireContext questionnairContext )
@@ -41,11 +42,13 @@ namespace Questionnaire.DesktopClient.ViewModels
         #endregion
 
 
+
         #region Events
 
         public event EventHandler< EventArgs > StopRequested;
 
         #endregion
+
 
 
         #region Properties
@@ -73,6 +76,7 @@ namespace Questionnaire.DesktopClient.ViewModels
         }
 
         #endregion
+        
 
 
         #region Methods
