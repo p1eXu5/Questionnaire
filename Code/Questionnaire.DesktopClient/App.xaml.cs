@@ -1,7 +1,12 @@
-﻿using System;
+﻿
+
+#define DEBUG
+
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -21,22 +26,33 @@ namespace Questionnaire.DesktopClient
     {
         protected override void OnStartup ( StartupEventArgs e )
         {
-            base.OnStartup( e );
+            try {
+                base.OnStartup( e );
 
-            var wnd = new MainWindow ();
+                var wnd = new MainWindow();
 
-            var businessContext = new QuestionnaireBusinessContext();
-            var questionnaire = new QuestionnaireContext( businessContext );
+                var businessContext = new QuestionnaireBusinessContext();
+                var questionnaire = new QuestionnaireContext( businessContext );
 
-            // IDialogRegistrator:
-            DialogRegistrator dialogRegistrator = new DialogRegistrator( wnd );
-            dialogRegistrator.Register< ResumeClearDialogViewModel, ResumeClearDialogWindow >();
+                // IDialogRegistrator:
+                DialogRegistrator dialogRegistrator = new DialogRegistrator( wnd );
+                dialogRegistrator.Register< ResumeClearDialogViewModel, ResumeClearDialogWindow >();
 
-            var mainViewModel = new MainViewModel( questionnaire, dialogRegistrator );
+                var mainViewModel = new MainViewModel( questionnaire, dialogRegistrator );
 
-            wnd.DataContext = mainViewModel;
+                wnd.DataContext = mainViewModel;
 
-            wnd.ShowDialog();
+                wnd.ShowDialog();
+            }
+            catch ( Exception ex ) {
+
+#if RELEASE
+                string message = $"{ ex.Message } \n { ex.InnerException?.Message }";
+                File.AppendAllText("questionnaire.log", message );
+#endif
+
+                new ExceptionWindow().ShowDialog();
+            }
         }
     }
 }
