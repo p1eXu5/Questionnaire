@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Helpers;
 using NUnit.Framework;
 using Questionnaire.Data.BusinessContext;
@@ -144,7 +138,7 @@ namespace Questionnaire.Data.Tests.BusinessContext.IntegrationalTests
         }
 
         [ Test ]
-        public void GetFirms_FileDoesNotExists_ReturnEmptyCategoryCollection ()
+        public void GetCategories_FileDoesNotExists_ReturnEmptyCategoryCollection ()
         {
             // Arrange:
             var originFile = Seeder.FileNameCategories;
@@ -158,5 +152,85 @@ namespace Questionnaire.Data.Tests.BusinessContext.IntegrationalTests
             Seeder.FileNameCategories = originFile;
         }
 
+        [ Test ]
+        public void GetSections_FileExists_Returns8Sections ()
+        {
+            var oldFileName = Seeder.FileNameSections;
+            Seeder.FileNameSections = Seeder.FileNameSections.AppendAssemblyPath();
+
+            var res = Seeder.GetSections().ToList();
+
+            Assert.That( 8 == res.Count, $"res.Count: { res.Count }"  );
+            Seeder.FileNameSections = oldFileName;
+        }
+
+        [ Test ]
+        public void GetSections_FileDoesNotExists_ReturnEmptySectionCollection ()
+        {
+            // Arrange:
+            var originFile = Seeder.FileNameSections;
+            Seeder.FileNameSections = "";
+
+            // Action:
+            var res = Seeder.GetSections();
+
+            // Assert:
+            Assert.That( !res.Any() );
+            Seeder.FileNameSections = originFile;
+        }
+
+        [ Test ]
+        public void GetMultipleChoiceQuestions_FileExists_Returns48Questions ()
+        {
+            var oldFileName = Seeder.FileNameQuestionMultipleChoiceList;
+            Seeder.FileNameQuestionMultipleChoiceList = Seeder.FileNameQuestionMultipleChoiceList.AppendAssemblyPath();
+
+            var res = Seeder.GetMultipleChoiceQuestions().ToList();
+
+            Assert.That( 48 == res.Count, $"res.Count: { res.Count }"  );
+            Seeder.FileNameQuestionMultipleChoiceList = oldFileName;
+        }
+
+        [ Test ]
+        public void GetMultipleChoiceQuestions_FileDoesNotExists_ReturnEmptyQuestionCollection ()
+        {
+            // Arrange:
+            var originFile = Seeder.FileNameQuestionMultipleChoiceList;
+            Seeder.FileNameQuestionMultipleChoiceList = "";
+
+            // Action:
+            var res = Seeder.GetMultipleChoiceQuestions();
+
+            // Assert:
+            Assert.That( !res.Any() );
+            Seeder.FileNameQuestionMultipleChoiceList = originFile;
+        }
+
+        [ Test ]
+        public void GetOpenQuestions_FileExists_Returns9Questions ()
+        {
+            var oldFileName = Seeder.FileNameQuestionOpenList;
+            Seeder.FileNameQuestionOpenList = Seeder.FileNameQuestionOpenList.AppendAssemblyPath();
+
+            var res = Seeder.GetOpenQuestions().ToList();
+
+            Assert.That( 9 == res.Count, $"res.Count: { res.Count }"  );
+            Seeder.FileNameQuestionOpenList = oldFileName;
+        }
+
+        [ Test ]
+        public void GetOpenQuestions_FileDoesNotExists_ReturnEmptyQuestionCollection ()
+        {
+            // Arrange:
+            var originFile = Seeder.FileNameQuestionOpenList;
+            Seeder.FileNameQuestionOpenList = "";
+
+            // Action:
+            var res = Seeder.GetOpenQuestions();
+
+            // Assert:
+            Assert.That( !res.Any() );
+            Seeder.FileNameQuestionOpenList = originFile;
+        }
     }
 }

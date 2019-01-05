@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,7 +41,8 @@ namespace Questionnaire.Data.BusinessContext
                     RegionSheetTable = ExcelImporter.ImportData( FileNameRegions );
                 }
 
-                return ExcelImporter.GetEnumerable< Region >( RegionSheetTable );
+                return ExcelImporter.GetEnumerable< Region >( RegionSheetTable )
+                                    .Where( r => !String.IsNullOrWhiteSpace( r.Name ) );
             }
             catch {
                 return new Region[0];
@@ -54,7 +56,8 @@ namespace Questionnaire.Data.BusinessContext
                     CitySheetTable = ExcelImporter.ImportData( FileNameCities );
                 }
 
-                return ExcelImporter.GetEnumerable< City >( CitySheetTable );
+                return ExcelImporter.GetEnumerable< City >( CitySheetTable )
+                                    .Where( c => !String.IsNullOrWhiteSpace( c.Name ) );
             }
             catch {
                 return new City[0];
@@ -68,7 +71,8 @@ namespace Questionnaire.Data.BusinessContext
                     FirmTypeSheetTable = ExcelImporter.ImportData( FileNameFirmTypes );
                 }
 
-                return ExcelImporter.GetEnumerable< FirmType >( FirmTypeSheetTable );
+                return ExcelImporter.GetEnumerable< FirmType >( FirmTypeSheetTable )
+                                    .Where( ft => !String.IsNullOrWhiteSpace( ft.Name ) );
             }
             catch {
                 return new FirmType[0];
@@ -82,7 +86,8 @@ namespace Questionnaire.Data.BusinessContext
                     FirmSheetTable = ExcelImporter.ImportData( FileNameFirms );
                 }
 
-                return ExcelImporter.GetEnumerable< Firm >( FirmSheetTable );
+                return ExcelImporter.GetEnumerable< Firm >( FirmSheetTable )
+                                    .Where( f => !String.IsNullOrWhiteSpace( f.Name ) );
             }
             catch {
                 return new Firm[0];
@@ -96,7 +101,8 @@ namespace Questionnaire.Data.BusinessContext
                     CategoryTable = ExcelImporter.ImportData( FileNameCategories );
                 }
 
-                return ExcelImporter.GetEnumerable< Category >( CategoryTable );
+                return ExcelImporter.GetEnumerable< Category >( CategoryTable )
+                                    .Where( c => !String.IsNullOrWhiteSpace( c.Name ) );
             }
             catch {
                 return new Category[0];
@@ -110,44 +116,44 @@ namespace Questionnaire.Data.BusinessContext
                     SectionTable = ExcelImporter.ImportData( FileNameSections );
                 }
 
-                return ExcelImporter.GetEnumerable< Section >( SectionTable );
+                return ExcelImporter.GetEnumerable< Section >( SectionTable )
+                                    .Where( s => !String.IsNullOrWhiteSpace( s.Name ) );
             }
-            catch {
+            catch (Exception ex) {
+
+                Debug.WriteLine( ex.Message );
                 return new Section[0];
             }
         }
 
-        public static IEnumerable< QuestionMultipleChoice > GetQuestionMultipleChoiceList ()
+        public static IEnumerable< QuestionMultipleChoice > GetMultipleChoiceQuestions ()
         {
             try {
                 if ( QuestionMultipleChoiceTable == default( SheetTable ) ) {
                     QuestionMultipleChoiceTable = ExcelImporter.ImportData( FileNameQuestionMultipleChoiceList );
                 }
 
-                return ExcelImporter.GetEnumerable< QuestionMultipleChoice >( QuestionMultipleChoiceTable );
+                return ExcelImporter.GetEnumerable< QuestionMultipleChoice >( QuestionMultipleChoiceTable )
+                                    .Where( q => !String.IsNullOrWhiteSpace( q.Text ) );
             }
             catch {
                 return new QuestionMultipleChoice[0];
             }
         }
 
-        public static IEnumerable< QuestionOpen > GetQuestionOpenList ()
+        public static IEnumerable< QuestionOpen > GetOpenQuestions ()
         {
             try {
                 if ( QuestionOpenTable == default( SheetTable ) ) {
                     QuestionOpenTable = ExcelImporter.ImportData( FileNameQuestionOpenList );
                 }
 
-                return ExcelImporter.GetEnumerable< QuestionOpen >( QuestionOpenTable );
+                return ExcelImporter.GetEnumerable< QuestionOpen >( QuestionOpenTable )
+                                    .Where( q => !String.IsNullOrWhiteSpace( q.Text ) );
             }
             catch {
                 return new QuestionOpen[0];
             }
-        }
-
-        public static void SeedData ( QuestionnaireDbContext context )
-        {
-
         }
     }
 }
