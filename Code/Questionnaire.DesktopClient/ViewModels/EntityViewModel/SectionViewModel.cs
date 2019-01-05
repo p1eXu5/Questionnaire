@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Questionnaire.Data.Models;
 using Questionnaire.MvvmBase;
@@ -26,8 +24,8 @@ namespace Questionnaire.DesktopClient.ViewModels.EntityViewModel
         {
             _section = section ?? throw new ArgumentNullException( nameof( section ), @"Section cannot be null." );
 
-            if ( section.QuestionMultipleChoiceCollection.Count <= 0 ) throw new ArgumentException("Section has no Questions of multiple choice");
-            if ( section.QuestionOpenCollection.Count <= 0 ) throw new ArgumentException("Section has no Questions of open answer");
+            if ( section.QuestionMultipleChoiceCollection.Count <= 0 
+                 && section.QuestionOpenCollection.Count <= 0 ) throw new ArgumentException("Section has no Questions.");
 
             int i = 1;
 

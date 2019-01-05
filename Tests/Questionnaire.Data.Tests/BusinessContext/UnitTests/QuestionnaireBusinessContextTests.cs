@@ -128,7 +128,7 @@ namespace Questionnaire.Data.Tests.BusinessContext.UnitTests
             bc.AddAnswer( answer );
 
             // Assert:
-            var answerRes = bc.GetMultipleChoiceAnswers().ToArray()[0];
+            var answerRes = bc.GetGruppedMultipleChoiceAnswers().ToArray()[0];
             Assert.That( answerRes, Is.Not.Null );
         }
 
@@ -184,7 +184,7 @@ namespace Questionnaire.Data.Tests.BusinessContext.UnitTests
             bc.AddAnswer( answerMulti );
 
             var openAnswers = bc.GetOpenAnswers();
-            var multiAnswers = bc.GetMultipleChoiceAnswers();
+            var multiAnswers = bc.GetGruppedMultipleChoiceAnswers();
             Assert.That( openAnswers.Any() );
             Assert.That( multiAnswers.Any() );
 
@@ -193,7 +193,7 @@ namespace Questionnaire.Data.Tests.BusinessContext.UnitTests
 
             // Assert:
             openAnswers = bc.GetOpenAnswers();
-            multiAnswers = bc.GetMultipleChoiceAnswers();
+            multiAnswers = bc.GetGruppedMultipleChoiceAnswers();
             Assert.That( !openAnswers.Any() );
             Assert.That( !multiAnswers.Any() );
         }

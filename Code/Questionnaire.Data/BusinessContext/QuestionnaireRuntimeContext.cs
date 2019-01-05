@@ -55,6 +55,11 @@ namespace Questionnaire.Data.BusinessContext
             throw new NotImplementedException();
         }
 
+        public IEnumerable< AnswerMultipleChoice > GetMultipleChoiceAnswers ()
+        {
+            throw new NotImplementedException();
+        }
+
         public void AddAnswer ( AnswerMultipleChoice answer )
         {
             throw new NotImplementedException();
@@ -70,7 +75,7 @@ namespace Questionnaire.Data.BusinessContext
             throw new NotImplementedException();
         }
 
-        public IEnumerable< dynamic > GetMultipleChoiceAnswers ()
+        public IEnumerable< dynamic > GetGruppedMultipleChoiceAnswers ()
         {
             throw new NotImplementedException();
         }

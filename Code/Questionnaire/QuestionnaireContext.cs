@@ -26,13 +26,15 @@ namespace Questionnaire
 
         public IEnumerable< AnswerOpen > GetOpenAnswers () => _context.GetOpenAnswers();
 
+        public bool HasMultipleChoiceAnswers () => _context.GetMultipleChoiceAnswers().Any();
+
         public void AddAnswer ( AnswerMultipleChoice answer ) => _context.AddAnswer( _converter.Convert( answer ) );
         public void AddAnswer ( AnswerOpen answer ) => _context.AddAnswer( answer );
 
         public void DeleteAnswers () => _context.DeleteAnswers();
 
         public void MakeReport ( string fileName ) =>
-            ReportMaker.MakeReport( fileName, _context.GetMultipleChoiceAnswers().Cast< AnswerMultipleChoice >() );
+            ReportMaker.MakeReport( fileName, _context.GetGruppedMultipleChoiceAnswers().Cast< AnswerMultipleChoice >() );
 
         public void SaveChanges () => _context.SaveChanges();
     }

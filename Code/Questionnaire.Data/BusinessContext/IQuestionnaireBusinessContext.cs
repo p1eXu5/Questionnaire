@@ -17,13 +17,14 @@ namespace Questionnaire.Data.BusinessContext
         IEnumerable< QuestionOpen > GetOpenQuestions ();
 
         IEnumerable< AnswerOpen > GetOpenAnswers ();
+        IEnumerable< AnswerMultipleChoice > GetMultipleChoiceAnswers ();
 
         void AddAnswer ( AnswerMultipleChoice answer );
         void AddAnswer ( AnswerOpen answer );
 
         void DeleteAnswers ();
 
-        IEnumerable< dynamic > GetMultipleChoiceAnswers ();
+        IEnumerable< dynamic > GetGruppedMultipleChoiceAnswers ();
 
         void SaveChanges ();
     }

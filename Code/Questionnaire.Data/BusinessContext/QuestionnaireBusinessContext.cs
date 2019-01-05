@@ -100,7 +100,13 @@ namespace Questionnaire.Data.BusinessContext
             return _context.OpenAnswers.Include( answer => answer.Firm ).AsNoTracking().OrderBy( a => a.FirmId ).ToArray();
         }
 
-        public IEnumerable< dynamic > GetMultipleChoiceAnswers ()
+        public IEnumerable< AnswerMultipleChoice > GetMultipleChoiceAnswers ()
+        {
+            return _context.MultipleChoiceAnswers.AsNoTracking().ToArray();
+        }
+
+
+        public IEnumerable< dynamic > GetGruppedMultipleChoiceAnswers ()
         {
             return ( from a in _context.MultipleChoiceAnswers
                      group a by new { FirmId = a.FirmId, EmployeeId = a.Num } into firms

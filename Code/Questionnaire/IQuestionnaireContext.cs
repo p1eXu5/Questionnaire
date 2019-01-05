@@ -13,6 +13,8 @@ namespace Questionnaire
 
         IEnumerable< AnswerOpen > GetOpenAnswers ();
 
+        bool HasMultipleChoiceAnswers ();
+
         void AddAnswer ( AnswerMultipleChoice answers );
         void AddAnswer ( AnswerOpen answers );
         void DeleteAnswers ();

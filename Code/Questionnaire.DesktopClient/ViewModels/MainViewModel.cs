@@ -119,14 +119,13 @@ namespace Questionnaire.DesktopClient.ViewModels
 
         private void CheckAnswers ()
         {
-            if ( _questionnaireContext.GetOpenAnswers().Any() ) {
+            if ( !_questionnaireContext.HasMultipleChoiceAnswers() ) return;
 
-                var dialog = _dialogRegistrator.GetView( new ResumeClearDialogViewModel() );
-                if ( dialog == null ) throw new InvalidOperationException( "Cannot find ResumeClearDialogWindow." );
+            var dialog = _dialogRegistrator.GetView( new ResumeClearDialogViewModel() );
+            if ( dialog == null ) throw new InvalidOperationException( "Cannot find ResumeClearDialogWindow." );
 
-                if ( dialog.ShowDialog() == true ) {
-                    _questionnaireContext.DeleteAnswers();
-                }
+            if ( dialog.ShowDialog() == true ) {
+                _questionnaireContext.DeleteAnswers();
             }
         }
 
