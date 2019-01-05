@@ -12,11 +12,15 @@ namespace Questionnaire.DesktopClient.ViewModels.EntityViewModel
     {
         private readonly QuestionMultipleChoice _question;
 
-        public QuestionMiltipleChoiceViewModel ( QuestionMultipleChoice question )
+        public QuestionMiltipleChoiceViewModel ( QuestionMultipleChoice question, int index )
         {
             _question = question ?? throw new ArgumentNullException( nameof( question ), @"Question cannot be null." );
             AnswerMultipleChoice = new AnswerMultipleChoice() { Question = question };
+
+            Num = $"{ question.SectionId }.{ index }";
         }
+
+        public string Num { get; }
 
         public string Text => _question.Text;
 

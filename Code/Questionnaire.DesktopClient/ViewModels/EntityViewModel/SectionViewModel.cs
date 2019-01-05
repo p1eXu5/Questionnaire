@@ -11,33 +11,65 @@ namespace Questionnaire.DesktopClient.ViewModels.EntityViewModel
 {
     public class SectionViewModel : ViewModel, IStageViewModel
     {
+        #region Fields
+
         private readonly Section _section;
+
+        #endregion
+
+
+
+        #region Ctor
 
         public SectionViewModel ( Section section )
         {
             _section = section ?? throw new ArgumentNullException( nameof( section ), @"Section cannot be null." );
 
+            int i = 1;
+
             QuestionOpenCollection = new List< QuestionOpenViewModel >( _section.QuestionOpenCollection
-                                                                                .Select( q => new QuestionOpenViewModel( q ) ) );
+                                                                                .Select( q => new QuestionOpenViewModel( q, i++ ) ) );
 
             QuestionMultipleChoiceCollection = new List< QuestionMiltipleChoiceViewModel >( _section.QuestionMultipleChoiceCollection
-                                                                                                    .Select( q => new QuestionMiltipleChoiceViewModel( q ) ) ) ;
+                                                                                                    .Select( q => new QuestionMiltipleChoiceViewModel( q, i++ ) ) ) ;
 
             NextSectionCommand = new MvvmCommand( NextSection, CanMoveNextSection );
         }
 
-        public event EventHandler< NextSectionRequestedEventArgs > NextSectionRequested; 
+        #endregion
+
+
+
+        #region Events
+
+        public event EventHandler< NextSectionRequestedEventArgs > NextSectionRequested;
+
+        #endregion
+
+
+
+        #region Properties
+
+        public bool IsStageA { get; set; }
 
         public int Id => _section.Id;
 
         public IEnumerable< QuestionOpenViewModel > QuestionOpenCollection { get; }
         public IEnumerable< QuestionMiltipleChoiceViewModel > QuestionMultipleChoiceCollection { get; }
 
-        public bool IsStageA { get; set; }
+        #endregion
 
+
+
+        #region Commands
 
         public ICommand NextSectionCommand { get; }
 
+        #endregion
+
+
+
+        #region Methods
 
         private void NextSection ( object obj )
         {
@@ -58,6 +90,6 @@ namespace Questionnaire.DesktopClient.ViewModels.EntityViewModel
             NextSectionRequested?.Invoke( this, new NextSectionRequestedEventArgs( answers ) );
         }
 
-
+        #endregion
     }
 }

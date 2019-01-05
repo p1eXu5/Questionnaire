@@ -13,11 +13,15 @@ namespace Questionnaire.DesktopClient.ViewModels.EntityViewModel
     {
         private readonly QuestionOpen _question;
 
-        public QuestionOpenViewModel ( QuestionOpen question )
+        public QuestionOpenViewModel ( QuestionOpen question, int index )
         {
             _question = question ?? throw new ArgumentNullException( nameof( question ), @"Question cannot be null." );
             AnswerOpen = new AnswerOpen() { Question = question };
+
+            Num = $"{ question.SectionId }.{ index }";
         }
+
+        public string Num { get; }
 
         public bool IsAnswered => !String.IsNullOrWhiteSpace( Answer );
 
