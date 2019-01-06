@@ -59,7 +59,7 @@ namespace Questionnaire.DesktopClient.ViewModels
 
 
 
-        #region Properties -
+        #region Properties
 
         public IEnumerable< City > Cities { get; }
 
