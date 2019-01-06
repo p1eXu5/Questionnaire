@@ -17,7 +17,7 @@ namespace Questionnaire.DesktopClient.ViewModels
 {
     public class MainViewModel : ViewModel
     {
-        #region Fields
+        #region Fields -
 
         private readonly IQuestionnaireContext _questionnaireContext;
         private readonly IDialogRegistrator _dialogRegistrator;
