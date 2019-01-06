@@ -62,21 +62,23 @@ namespace Questionnaire.DesktopClient.ViewModels
         #region Properties
 
         public IEnumerable< City > Cities { get; }
+
         public City SelectedCity
         {
             get => _selectedCity;
             set {
                 _selectedCity = value;
+                OnPropertyChanged();
 
-                if ( _selectedFirm != null ) {
-                    SetFirmsFilter( _selectedCity.Id );
+                if ( value != null ) {
+                    SetFirmsFilter( value.Id );
                 }
 
-                OnPropertyChanged();
             }
         }
 
         public IEnumerable< Firm > Firms { get; }
+
         public Firm SelectedFirm
         {
             get => _selectedFirm;
@@ -84,11 +86,11 @@ namespace Questionnaire.DesktopClient.ViewModels
                 if ( _selectedFirm?.Id != value?.Id ) {
 
                     _selectedFirm = value;
-                    SelectedCity = value?.City;
-                }
+                    SelectedCity = Cities.First( c => c.Id == value.CityId );
 
-                OnPropertyChanged();
-                ((MvvmCommand)RunTestCommand).RaiseCanExecuteChanged();
+                    OnPropertyChanged();
+                    ((MvvmCommand)RunTestCommand).RaiseCanExecuteChanged();
+                }
             }
         }
 
