@@ -150,7 +150,7 @@ namespace Questionnaire.DesktopClient.ViewModels
 
         private bool CanRunTest ( object obj )
         {
-            return SelectedFirm?.Id > 1 && QuestionnaireRunner.Count > 0;
+            return SelectedFirm?.Id > 1 && _questionnaireContext.GetMultipleChoiceQuestions().Any();
         }
 
         private void OnStopped ( object sender, EventArgs args )
