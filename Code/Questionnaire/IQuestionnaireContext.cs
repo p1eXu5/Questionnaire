@@ -22,6 +22,8 @@ namespace Questionnaire
         void MakeReport ( string fileName );
 
         void SaveChanges ();
+
+        int GetNextNumOfTested ( int firmId );
     }
 }
 

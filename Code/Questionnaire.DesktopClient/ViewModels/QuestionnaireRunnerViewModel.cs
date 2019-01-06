@@ -85,7 +85,7 @@ namespace Questionnaire.DesktopClient.ViewModels
         {
             Firm = firm ?? throw new ArgumentNullException( nameof( firm ), @"Firm cannot be null." );
 
-            _testedNum = _questionnaireContext.GetOpenAnswers().Where( a => a.FirmId == Firm.Id ).Max( a => a.Num ) + 1;
+            _testedNum = _questionnaireContext.GetNextNumOfTested( firm.Id );
         }
 
         public void Reload ()

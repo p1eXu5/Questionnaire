@@ -37,5 +37,21 @@ namespace Questionnaire
             ReportMaker.MakeReport( fileName, _context.GetGruppedMultipleChoiceAnswers().Cast< AnswerMultipleChoice >() );
 
         public void SaveChanges () => _context.SaveChanges();
+
+        public int GetNextNumOfTested ( int firmId )
+        {
+            var openAnsw = _context.GetOpenAnswers().Where( a => a.FirmId == firmId ).ToArray();
+            var multiAnsw = _context.GetMultipleChoiceAnswers().Where( a => a.FirmId == firmId ).ToArray();
+
+            if ( openAnsw.Length == 0 && multiAnsw.Length == 0 ) return 1;
+
+            if ( openAnsw.Length == 0 ) return multiAnsw.Max( a => a.Num ) + 1;
+            if ( multiAnsw.Length == 0 ) return openAnsw.Max( a => a.Num ) + 1;
+
+            var multiNum = multiAnsw.Max( a => a.Num );
+            var openNum = openAnsw.Max( a => a.Num );
+
+            return multiNum >= openNum ? multiNum + 1 : openNum + 1;
+        }
     }
 }
