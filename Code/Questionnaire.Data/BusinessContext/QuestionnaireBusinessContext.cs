@@ -67,7 +67,7 @@ namespace Questionnaire.Data.BusinessContext
 
         public IEnumerable< Firm > GetFirms ()
         {
-            return _context.Firms.Include( f => f.City ).AsNoTracking().OrderBy( f => f.Name ).ToArray();
+            return _context.Firms.AsNoTracking().OrderBy( f => f.Name ).ToArray();
         }
 
         public IEnumerable< City > GetCities ()
