@@ -42,7 +42,7 @@
                         Visibility="Visible"
                         MinWidth="300"
                         Opacity="0"
-                        IsHitTestVisible="True"
+                        IsHitTestVisible="False"
                         >
                 <ComboBox
                     materialDesign:HintAssist.Hint="Город"
@@ -125,7 +125,7 @@
                     <uc:SectionView.Style>
                         <Style TargetType="UserControl">
                             <Setter Property="Opacity" Value="0" />
-                            <Setter Property="IsHitTestVisible" Value="True" />
+                            <Setter Property="IsHitTestVisible" Value="False" />
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding IsStageA}" Value="False">
                                     <DataTrigger.EnterActions>

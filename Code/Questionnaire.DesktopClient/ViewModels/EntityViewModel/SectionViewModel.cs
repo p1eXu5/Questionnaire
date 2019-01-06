@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
@@ -13,6 +14,8 @@ namespace Questionnaire.DesktopClient.ViewModels.EntityViewModel
         #region Fields
 
         private readonly Section _section;
+        private ObservableCollection< QuestionMultipleChoiceViewModel > _questionMultipleChoiceVmCollection;
+        private ObservableCollection< QuestionOpenViewModel > _questionOpenVmCollection; 
 
         #endregion
 
@@ -27,28 +30,33 @@ namespace Questionnaire.DesktopClient.ViewModels.EntityViewModel
             if ( section.QuestionMultipleChoiceCollection.Count <= 0 
                  && section.QuestionOpenCollection.Count <= 0 ) throw new ArgumentException("Section has no Questions.");
 
-            int i = 1;
+            int i = 0;
 
-            QuestionOpenCollection = new List< QuestionOpenViewModel >( 
+            _questionMultipleChoiceVmCollection = new ObservableCollection< QuestionMultipleChoiceViewModel >( 
+                _section.QuestionMultipleChoiceCollection
+                        .Select( q =>
+                        {
+                            var question = new QuestionMultipleChoiceViewModel( q, ++i );
+                            question.PropertyChanged += OnIsAnsweredChanged;
+                            return question;
+                        } ) 
+            ) ;
+
+            QuestionMultipleChoiceVmCollection =
+                new ReadOnlyObservableCollection< QuestionMultipleChoiceViewModel
+                >( _questionMultipleChoiceVmCollection );
+
+            _questionOpenVmCollection = new ObservableCollection< QuestionOpenViewModel >( 
                 _section.QuestionOpenCollection
                         .Select( q => 
                         {
-                            var question = new QuestionOpenViewModel( q, i++ );
+                            var question = new QuestionOpenViewModel( q, ++i );
                             question.PropertyChanged += OnIsAnsweredChanged;
                             return question;
                         } ) 
             );
 
-
-            QuestionMultipleChoiceCollection = new List< QuestionMultipleChoiceViewModel >( 
-                _section.QuestionMultipleChoiceCollection
-                        .Select( q =>
-                        {
-                            var question = new QuestionMultipleChoiceViewModel( q, i++ );
-                            question.PropertyChanged += OnIsAnsweredChanged;
-                            return question;
-                        } ) 
-            ) ;
+            QuestionOpenVmCollection = new ReadOnlyObservableCollection< QuestionOpenViewModel >( _questionOpenVmCollection );
 
             NextSectionCommand = new MvvmCommand( NextSection, CanMoveNextSection );
         }
@@ -70,9 +78,10 @@ namespace Questionnaire.DesktopClient.ViewModels.EntityViewModel
         public bool IsStageA { get; set; }
 
         public int Id => _section.Id;
+        public string Name => _section.Name;
 
-        public IEnumerable< QuestionMultipleChoiceViewModel > QuestionMultipleChoiceCollection { get; }
-        public IEnumerable< QuestionOpenViewModel > QuestionOpenCollection { get; }
+        public ReadOnlyObservableCollection< QuestionMultipleChoiceViewModel > QuestionMultipleChoiceVmCollection { get; }
+        public ReadOnlyObservableCollection< QuestionOpenViewModel > QuestionOpenVmCollection { get; }
 
         #endregion
 
@@ -102,14 +111,14 @@ namespace Questionnaire.DesktopClient.ViewModels.EntityViewModel
 
         private bool CanMoveNextSection ( object obj )
         {
-            return QuestionOpenCollection.All( q => q.IsAnswered )
-                   && QuestionMultipleChoiceCollection.All( q => q.IsAnswered );
+            return QuestionOpenVmCollection.All( q => q.IsAnswered )
+                   && QuestionMultipleChoiceVmCollection.All( q => q.IsAnswered );
         }
 
         private void OnNextSectionRequested ()
         {
-            var answers = new List< dynamic >( QuestionOpenCollection.Select( q => q.AnswerOpen ) );
-            answers.AddRange( QuestionMultipleChoiceCollection.Select( q => q.AnswerMultipleChoice ) );
+            var answers = new List< dynamic >( QuestionOpenVmCollection.Select( q => q.AnswerOpen ) );
+            answers.AddRange( QuestionMultipleChoiceVmCollection.Select( q => q.AnswerMultipleChoice ) );
 
             NextSectionRequested?.Invoke( this, new NextSectionRequestedEventArgs( answers ) );
         }

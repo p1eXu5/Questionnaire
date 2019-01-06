@@ -11,53 +11,81 @@ namespace Questionnaire.DesktopClient.ViewModels.EntityViewModel
     public class QuestionMultipleChoiceViewModel : ViewModel
     {
         private readonly QuestionMultipleChoice _question;
-        private bool _yesAnswer;
-        private bool _noAnswer;
-        private bool _undefinedAnswer;
+        private readonly AnswerMultipleChoice _answerMultipleChoice;
+        private int? _localAnswer = null;
 
         public QuestionMultipleChoiceViewModel ( QuestionMultipleChoice question, int index )
         {
             _question = question ?? throw new ArgumentNullException( nameof( question ), @"Question cannot be null." );
-            AnswerMultipleChoice = new AnswerMultipleChoice() { Question = question };
+            _answerMultipleChoice = new AnswerMultipleChoice() { Question = _question };
 
-            Num = $"{ question.SectionId }.{ index }";
+
+            QuestionGeneratedNum = $"{ question.SectionId }.{ index }";
         }
 
-        public string Num { get; }
+        public string QuestionGeneratedNum { get; }
 
         public string Text => _question.Text;
 
         public bool IsAnswered => YesAnswer || NoAnswer || UndefinedAnswer;
 
-        public AnswerMultipleChoice AnswerMultipleChoice { get; }
+        public AnswerMultipleChoice AnswerMultipleChoice => _answerMultipleChoice;
 
 
         public bool YesAnswer
         {
-            get => _yesAnswer;
+            get => _localAnswer >= 1;
             set {
-                _yesAnswer = value;
+                if ( _localAnswer == 1 ) {
+                    _localAnswer = 0;
+                    _answerMultipleChoice.Answer = 0;
+                }
+                else {
+                    _answerMultipleChoice.Answer = 1;
+                    _localAnswer = 1;
+                }
                 OnPropertyChanged();
+                OnPropertyChanged( nameof( NoAnswer ) );
+                OnPropertyChanged( nameof( UndefinedAnswer ) );
                 OnPropertyChanged( nameof( IsAnswered ) );
             }
         }
 
         public bool NoAnswer
         {
-            get => _noAnswer;
+            get => _localAnswer <= -1;
             set {
-                _noAnswer = value;
+                if ( _localAnswer == -1 ) {
+                    _localAnswer = 0;
+                    _answerMultipleChoice.Answer = 0;
+                }
+                else {
+                    _answerMultipleChoice.Answer = -1;
+                    _localAnswer = -1;
+                }
+
                 OnPropertyChanged();
+                OnPropertyChanged( nameof( YesAnswer ) );
+                OnPropertyChanged( nameof( UndefinedAnswer ) );
                 OnPropertyChanged( nameof( IsAnswered ) );
             }
         }
 
         public bool UndefinedAnswer
         {
-            get => _undefinedAnswer;
+            get => _localAnswer == 0;
             set {
-                _undefinedAnswer = value;
+                if ( _localAnswer == 0 ) {
+                    _localAnswer = null;
+                }
+                else {
+                    _answerMultipleChoice.Answer = 0;
+                    _localAnswer = 0;
+                }
+
                 OnPropertyChanged();
+                OnPropertyChanged( nameof( YesAnswer ) );
+                OnPropertyChanged( nameof( NoAnswer) );
                 OnPropertyChanged( nameof( IsAnswered ) );
             }
         }

@@ -13,26 +13,31 @@ namespace Questionnaire.DesktopClient.ViewModels.EntityViewModel
     {
         private readonly QuestionOpen _question;
 
+        // We create
+        private readonly AnswerOpen _answerOpen;
+
         public QuestionOpenViewModel ( QuestionOpen question, int index )
         {
             _question = question ?? throw new ArgumentNullException( nameof( question ), @"Question cannot be null." );
-            AnswerOpen = new AnswerOpen() { Question = question };
 
-            Num = $"{ question.SectionId }.{ index }";
+            _answerOpen = new AnswerOpen() { Question = question };
+
+            QuestionGeneratedNum = $"{ question.SectionId }.{ index }";
         }
 
-        public string Num { get; }
+        public string QuestionGeneratedNum { get; }
 
         public bool IsAnswered => !String.IsNullOrWhiteSpace( Answer );
 
-        public AnswerOpen AnswerOpen { get; }
+        public AnswerOpen AnswerOpen => _answerOpen;
 
         public string Answer
         {
-            get => AnswerOpen.Answer;
+            get => _answerOpen.Answer;
             set {
-                AnswerOpen.Answer = value;
-                OnPropertyChanged(  );
+                _answerOpen.Answer = value;
+                OnPropertyChanged();
+                OnPropertyChanged( nameof( IsAnswered ) );
             }
         }
         public string Text => _question.Text;

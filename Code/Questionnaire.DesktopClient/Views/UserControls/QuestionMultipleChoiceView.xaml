@@ -6,15 +6,16 @@
              xmlns:local="clr-namespace:Questionnaire.DesktopClient.Views.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="200" d:DesignWidth="600">
-    <Grid VerticalAlignment="Center" HorizontalAlignment="Stretch" 
+    <Grid VerticalAlignment="Center" 
+          HorizontalAlignment="Stretch" 
           Height="Auto"
           >
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="40" />
-            <ColumnDefinition Width="3*" MinWidth="300" />
-            <ColumnDefinition Width="*" MinWidth="70" />
-            <ColumnDefinition Width="*" MinWidth="70" />
-            <ColumnDefinition Width="*" MinWidth="70" />
+            <ColumnDefinition SharedSizeGroup="gr_QuestionGeneratedQuestionGeneratedNum" />
+            <ColumnDefinition SharedSizeGroup="gr_Text" />
+            <ColumnDefinition SharedSizeGroup="gr_Yes" />
+            <ColumnDefinition SharedSizeGroup="gr_Undefined" />
+            <ColumnDefinition SharedSizeGroup="gr_No" />
         </Grid.ColumnDefinitions>
 
         <Border Grid.Column="0"
@@ -33,7 +34,7 @@
             <TextBlock Text="{Binding Text}"
                        Style="{StaticResource st_SectionGrid.TextBlock}"
                        HorizontalAlignment="Stretch"
-                       TextWrapping="WrapWithOverflow"
+                       TextWrapping="Wrap"
                        TextAlignment="Justify"
                        FontSize="14"
                        />
@@ -43,31 +44,28 @@
         <Border Grid.Column="2"
                 Style="{StaticResource st_SectionGrid.Border}"
                 >
-            <RadioButton GroupName="MultipleChoiceQuestion"
-                         HorizontalAlignment="Center"
-                         VerticalAlignment="Center"
-                         IsChecked="{Binding YesAnswer}"
-                         />
-        </Border>
+                <ToggleButton Style="{StaticResource MaterialDesignSwitchDarkToggleButton}"
+                              ToolTip="MaterialDesignSwitchDarkToggleButton"
+                              IsChecked="{Binding YesAnswer, Mode=TwoWay}" 
+                              />
+            </Border>
 
         <Border Grid.Column="3" 
                 Style="{StaticResource st_SectionGrid.Border}"
                 >
-            <RadioButton GroupName="MultipleChoiceQuestion"
-                         HorizontalAlignment="Center"
-                         VerticalAlignment="Center"
-                         IsChecked="{Binding UndefinedAnswer}"
-                         />
+            <ToggleButton Style="{StaticResource MaterialDesignSwitchDarkToggleButton}"
+                              ToolTip="MaterialDesignSwitchDarkToggleButton"
+                              IsChecked="{Binding UndefinedAnswer, Mode=TwoWay}"  
+                              />
         </Border>
 
         <Border Grid.Column="4"
                 Style="{StaticResource st_SectionGrid.Border}"
                 >
-            <RadioButton GroupName="MultipleChoiceQuestion"
-                         HorizontalAlignment="Center"
-                         VerticalAlignment="Center"
-                         IsChecked="{Binding NoAnswer}"
-                         />
+            <ToggleButton Style="{StaticResource MaterialDesignSwitchDarkToggleButton}"
+                              ToolTip="MaterialDesignSwitchDarkToggleButton"
+                              IsChecked="{Binding NoAnswer, Mode=TwoWay}" 
+                              />
         </Border>
     </Grid>
 </UserControl>

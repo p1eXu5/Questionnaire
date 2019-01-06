@@ -11,11 +11,11 @@
           Height="Auto"
           >
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="40" />
-            <ColumnDefinition Width="3*" MinWidth="300" />
-            <ColumnDefinition Width="*" MinWidth="70" />
-            <ColumnDefinition Width="*" MinWidth="70" />
-            <ColumnDefinition Width="*" MinWidth="70" />
+            <ColumnDefinition SharedSizeGroup="gr_QuestionGeneratedQuestionGeneratedNum" />
+            <ColumnDefinition SharedSizeGroup="gr_Text" />
+            <ColumnDefinition SharedSizeGroup="gr_Yes" />
+            <ColumnDefinition SharedSizeGroup="gr_Undefined" />
+            <ColumnDefinition SharedSizeGroup="gr_No" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.5*" MinHeight="22" />
@@ -34,7 +34,7 @@
         <Border Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="0" 
                 Style="{StaticResource st_SectionGrid.Border}"
                 >
-            <TextBlock Text="Я считаю, что компании следует обратить внимание на:"
+            <TextBlock Text="{Binding Text}"
                        Style="{StaticResource st_SectionGrid.TextBlock}"
                        Margin="10,0"
                        HorizontalAlignment="Left"
@@ -45,6 +45,7 @@
         <Border Grid.Column="0" Grid.Row="1" 
                 Style="{StaticResource st_SectionGrid.Border}"
                 >
+            <!-- Dummy -->
             <TextBlock Text=""
                        Style="{StaticResource st_SectionGrid.TextBlock}"
                        FontWeight="Bold"
@@ -54,9 +55,9 @@
         <Border Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="1" 
                 Style="{StaticResource st_SectionGrid.Border}"
                 >
-            <TextBox Text="Я считаю, что компании следует обратить внимание на:"
-                       Style="{StaticResource st_SectionGrid.TextBox}"
-                       />
+            <TextBox Text="{Binding Answer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     Style="{StaticResource st_SectionGrid.TextBox}"
+                     />
         </Border>
             
     </Grid>
