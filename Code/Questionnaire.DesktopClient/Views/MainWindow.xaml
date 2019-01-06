@@ -99,7 +99,7 @@
                 </StackPanel.Style>
             </StackPanel>
 
-            <Grid Opacity="1"
+            <Grid Opacity="0"
                   IsHitTestVisible="False"
                   >
                 <uc:SectionView DataContext="{Binding QuestionnaireRunner.SectionA}" >
