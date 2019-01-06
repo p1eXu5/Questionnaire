@@ -144,7 +144,7 @@ namespace Questionnaire.DesktopClient.ViewModels
 
         private void RunTest ( object obj )
         {
-            QuestionnaireRunner.SetFirm ( _selectedFirm );
+            QuestionnaireRunner.LoadTestQuestions( _selectedFirm );
             IsRunning = true;
         }
 
@@ -156,7 +156,6 @@ namespace Questionnaire.DesktopClient.ViewModels
         private void OnStopped ( object sender, EventArgs args )
         {
             IsRunning = false;
-            QuestionnaireRunner.Reload();
             ((MvvmCommand)RunTestCommand).RaiseCanExecuteChanged();
         }
 

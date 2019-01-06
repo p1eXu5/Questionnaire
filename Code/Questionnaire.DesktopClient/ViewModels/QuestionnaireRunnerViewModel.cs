@@ -81,14 +81,16 @@ namespace Questionnaire.DesktopClient.ViewModels
 
         #region Methods
 
-        public void SetFirm ( Firm firm )
+        public void LoadTestQuestions ( Firm firm )
         {
             Firm = firm ?? throw new ArgumentNullException( nameof( firm ), @"Firm cannot be null." );
 
             _testedNum = _questionnaireContext.GetNextNumOfTested( firm.Id );
+
+            Reload();
         }
 
-        public void Reload ()
+        private void Reload ()
         {
             _sections = new Queue< SectionViewModel >( _questionnaireContext.GetSections().Select( s => new SectionViewModel( s ) ) );
 
