@@ -5,10 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Questionnaire.DesktopClient.Views.Dialogs"
         mc:Ignorable="d"
-        Title="ClearOrResumeDialog" 
+        Title="" 
         Height="200" 
         Width="400" 
-        WindowStyle="None">
+        WindowStyle="ToolWindow"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner"
+        >
 
     <Grid Background="Transparent">
         <Grid Margin="5" >

@@ -10,7 +10,7 @@ using Questionnaire.Data.DataContext;
 namespace Questionnaire.Data.Migrations
 {
     [DbContext(typeof(QuestionnaireDbContext))]
-    [Migration("20190105160633_InitialCreate")]
+    [Migration("20190106155716_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,15 +23,21 @@ namespace Questionnaire.Data.Migrations
 
             modelBuilder.Entity("Questionnaire.Data.Models.AnswerMultipleChoice", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Answer");
+
                     b.Property<int>("FirmId");
 
                     b.Property<int>("Num");
 
-                    b.Property<int>("Answer");
-
                     b.Property<int?>("QuestionId");
 
-                    b.HasKey("FirmId", "Num");
+                    b.HasKey("Id");
+
+                    b.HasIndex("FirmId");
 
                     b.HasIndex("QuestionId");
 
@@ -40,15 +46,21 @@ namespace Questionnaire.Data.Migrations
 
             modelBuilder.Entity("Questionnaire.Data.Models.AnswerOpen", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Answer");
+
                     b.Property<int>("FirmId");
 
                     b.Property<int>("Num");
 
-                    b.Property<string>("Answer");
-
                     b.Property<int?>("QuestionId");
 
-                    b.HasKey("FirmId", "Num");
+                    b.HasKey("Id");
+
+                    b.HasIndex("FirmId");
 
                     b.HasIndex("QuestionId");
 
@@ -184,7 +196,7 @@ namespace Questionnaire.Data.Migrations
             modelBuilder.Entity("Questionnaire.Data.Models.AnswerMultipleChoice", b =>
                 {
                     b.HasOne("Questionnaire.Data.Models.Firm", "Firm")
-                        .WithMany()
+                        .WithMany("MultipleChoiceAnswers")
                         .HasForeignKey("FirmId")
                         .OnDelete(DeleteBehavior.Cascade);
 
@@ -196,7 +208,7 @@ namespace Questionnaire.Data.Migrations
             modelBuilder.Entity("Questionnaire.Data.Models.AnswerOpen", b =>
                 {
                     b.HasOne("Questionnaire.Data.Models.Firm", "Firm")
-                        .WithMany()
+                        .WithMany("OpenAnswers")
                         .HasForeignKey("FirmId")
                         .OnDelete(DeleteBehavior.Cascade);
 

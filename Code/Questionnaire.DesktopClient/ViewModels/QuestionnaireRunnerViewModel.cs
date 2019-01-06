@@ -55,7 +55,14 @@ namespace Questionnaire.DesktopClient.ViewModels
 
         public Firm Firm { get; private set; }
 
-        public int Count => _sections.Count;
+        public bool IsNextSectionA
+        {
+            get => _isNextSectionA;
+            set {
+                _isNextSectionA = value;
+                OnPropertyChanged();
+            }
+        }
 
         public SectionViewModel SectionA
         {
@@ -94,13 +101,14 @@ namespace Questionnaire.DesktopClient.ViewModels
         {
             _sections = new Queue< SectionViewModel >( _questionnaireContext.GetSections().Select( s => new SectionViewModel( s ) ) );
 
-            _isNextSectionA = true;
-
             if ( _sections.Any() ) {
-
+                SectionB = null;
                 SectionA = _sections.Dequeue();
                 SectionA.NextSectionRequested += OnNextSectionRequested;
-                _isNextSectionA = false;
+                IsNextSectionA = false;
+            }
+            else {
+                throw new ArgumentException( "Sections have not been returned from db." );
             }
         }
 
@@ -134,7 +142,7 @@ namespace Questionnaire.DesktopClient.ViewModels
                     SectionA = _sections.Dequeue();
                     SectionA.NextSectionRequested += OnNextSectionRequested;
 
-                    _isNextSectionA = false;
+                    IsNextSectionA = false;
                     return;
                 }
             }
@@ -149,7 +157,7 @@ namespace Questionnaire.DesktopClient.ViewModels
                     SectionB = _sections.Dequeue();
                     SectionB.NextSectionRequested += OnNextSectionRequested;
 
-                    _isNextSectionA = true;
+                    IsNextSectionA = true;
                     return;
                 }
             }

@@ -25,7 +25,7 @@
         <Border Grid.Column="0" Grid.Row="0" 
                 Style="{StaticResource st_SectionGrid.Border}"
                 >
-            <TextBlock Text="1.7"
+            <TextBlock Text="{Binding QuestionGeneratedNum}"
                        Style="{StaticResource st_SectionGrid.TextBlock}"
                        FontWeight="Bold"
                        />

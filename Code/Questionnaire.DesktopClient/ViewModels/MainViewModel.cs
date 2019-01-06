@@ -8,9 +8,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using Questionnaire.Data.BusinessContext;
 using Questionnaire.Data.Models;
 using Questionnaire.DesktopClient.ViewModels.DialogViewModels;
+using Questionnaire.DesktopClient.Views.Dialogs;
 using Questionnaire.MvvmBase;
 
 namespace Questionnaire.DesktopClient.ViewModels
@@ -51,8 +53,6 @@ namespace Questionnaire.DesktopClient.ViewModels
 
             QuestionnaireRunner = new QuestionnaireRunnerViewModel( _questionnaireContext );
             QuestionnaireRunner.StopRequested += OnStopped;
-
-            CheckAnswers();
         }
 
         #endregion
@@ -113,17 +113,20 @@ namespace Questionnaire.DesktopClient.ViewModels
 
         public ICommand RunTestCommand { get; }
 
+        public ICommand CheckAnswersCommand => new MvvmCommand( CheckAnswers );
+
         #endregion
 
 
 
         #region Methods
 
-        private void CheckAnswers ()
+        private void CheckAnswers ( object obj )
         {
             if ( !_questionnaireContext.HasMultipleChoiceAnswers() ) return;
 
             var dialog = _dialogRegistrator.GetView( new ResumeClearDialogViewModel() );
+
             if ( dialog == null ) throw new InvalidOperationException( "Cannot find ResumeClearDialogWindow." );
 
             if ( dialog.ShowDialog() == true ) {

@@ -133,9 +133,9 @@
     <Compile Include="BusinessContext\Seeder.cs" />
     <Compile Include="DataContext\QuestionnaireDbContext.cs" />
     <Compile Include="ImportModels\FirmImportModel.cs" />
-    <Compile Include="Migrations\20190105160633_InitialCreate.cs" />
-    <Compile Include="Migrations\20190105160633_InitialCreate.designer.cs">
-      <DependentUpon>20190105160633_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\20190106155716_InitialCreate.cs" />
+    <Compile Include="Migrations\20190106155716_InitialCreate.designer.cs">
+      <DependentUpon>20190106155716_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\QuestionnaireDbContextModelSnapshot.cs" />
     <Compile Include="Models\AnswerBase.cs" />

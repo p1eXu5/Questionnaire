@@ -11,6 +11,8 @@ namespace Questionnaire.Data.Models
     /// </summary>
     public class AnswerMultipleChoice : AnswerBase
     {
+        public AnswerMultipleChoice () : base() { }
+
         public int Answer { get; set; }
 
         public QuestionMultipleChoice Question { get; set; }

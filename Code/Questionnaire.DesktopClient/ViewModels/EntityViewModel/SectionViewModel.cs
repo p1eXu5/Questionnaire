@@ -9,7 +9,7 @@ using Questionnaire.MvvmBase;
 
 namespace Questionnaire.DesktopClient.ViewModels.EntityViewModel
 {
-    public class SectionViewModel : ViewModel, IStageViewModel
+    public class SectionViewModel : ViewModel
     {
         #region Fields
 
@@ -46,6 +46,7 @@ namespace Questionnaire.DesktopClient.ViewModels.EntityViewModel
                 new ReadOnlyObservableCollection< QuestionMultipleChoiceViewModel
                 >( _questionMultipleChoiceVmCollection );
 
+
             _questionOpenVmCollection = new ObservableCollection< QuestionOpenViewModel >( 
                 _section.QuestionOpenCollection
                         .Select( q => 
@@ -74,8 +75,6 @@ namespace Questionnaire.DesktopClient.ViewModels.EntityViewModel
 
 
         #region Properties
-
-        public bool IsStageA { get; set; }
 
         public int Id => _section.Id;
         public string Name => _section.Name;

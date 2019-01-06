@@ -41,19 +41,21 @@ namespace Questionnaire.MvvmBase
                 view.DataContext = viewModel;
                 view.Owner = _owner;
 
-                viewModel.DialogCloseRequested += OnCloseDialogHandler;
+
+                EventHandler< CloseRequestedEventArgs > onCloseRequestEventHandler = null;
+
+                onCloseRequestEventHandler = ( sender, args ) =>
+                {
+                    viewModel.DialogCloseRequested -= onCloseRequestEventHandler;
+                    view.DialogResult = args.DialogResult;
+                };
+
+                viewModel.DialogCloseRequested += onCloseRequestEventHandler;
 
                 return view;
             }
 
             return null;
-
-            void OnCloseDialogHandler ( object s, CloseRequestedEventArgs e )
-                {
-                    viewModel.DialogCloseRequested -= OnCloseDialogHandler;
-
-                    ( ( IDialog )s ).DialogResult = e.DialogResult;
-                }
         }
     }
 }

@@ -41,6 +41,9 @@
     <Reference Include="MaterialDesignThemes.Wpf, Version=2.5.0.1205, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\MaterialDesignThemes.2.5.0.1205\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Xaml.Behaviors, Version=1.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Xaml.Behaviors.Wpf.1.0.1\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -85,6 +88,9 @@
     <Compile Include="Views\UserControls\QuestionMultipleChoiceView.xaml.cs">
       <DependentUpon>QuestionMultipleChoiceView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserControls\QuestionnaireRunnerUserControl.xaml.cs">
+      <DependentUpon>QuestionnaireRunnerUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserControls\QuestionOpenView.xaml.cs">
       <DependentUpon>QuestionOpenView.xaml</DependentUpon>
     </Compile>
@@ -116,6 +122,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\QuestionMultipleChoiceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\QuestionnaireRunnerUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,4 +1,5 @@
 ﻿<Window x:Class="Questionnaire.DesktopClient.Views.MainWindow"
+        x:Name="m_MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,6 +7,7 @@
         xmlns:local="clr-namespace:Questionnaire.DesktopClient"
         xmlns:vm="clr-namespace:Questionnaire.DesktopClient.ViewModels"
         xmlns:uc="clr-namespace:Questionnaire.DesktopClient.Views.UserControls"
+        xmlns:beh="http://schemas.microsoft.com/xaml/behaviors"
         
         d:DataContext="{d:DesignInstance vm:MainViewModel}"
         mc:Ignorable="d"
@@ -19,9 +21,18 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
 
-        Title="MainWindow" Height="600" Width="800">
+        Title="Тестирование для аномистов" 
+        MinHeight="860" MinWidth="400" MaxWidth="400"
+        ResizeMode="CanResize"
+        >
 
-    <DockPanel>
+    <beh:Interaction.Triggers>
+        <beh:EventTrigger SourceObject="m_MainWindow" EventName="Loaded" >
+            <beh:InvokeCommandAction Command="{Binding CheckAnswersCommand}" />
+        </beh:EventTrigger>
+    </beh:Interaction.Triggers>
+
+    <DockPanel Width="400" Margin="0" LastChildFill="True" >
         <Menu DockPanel.Dock="Top"
               IsMainMenu="True" >
             <MenuItem>
@@ -36,12 +47,13 @@
             </MenuItem>
         </Menu>
 
-        <Grid>
+        <Grid Height="Auto" Width="Auto" Margin="0" >
             <StackPanel VerticalAlignment="Center" 
                         HorizontalAlignment="Center"
                         Visibility="Visible"
                         MinWidth="300"
                         Opacity="0"
+                        Margin="0"
                         IsHitTestVisible="False"
                         >
                 <ComboBox
@@ -99,51 +111,14 @@
                 </StackPanel.Style>
             </StackPanel>
 
-            <Grid Opacity="0"
-                  IsHitTestVisible="False"
-                  >
-                <uc:SectionView DataContext="{Binding QuestionnaireRunner.SectionA}" >
-                    <uc:SectionView.Style>
-                        <Style TargetType="UserControl">
-                            <Setter Property="Opacity" Value="1" />
-                            <Setter Property="IsHitTestVisible" Value="True" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsStageA}" Value="True">
-                                    <DataTrigger.EnterActions>
-                                        <BeginStoryboard Storyboard="{StaticResource an_Appearance}" />
-                                    </DataTrigger.EnterActions>
-                                    <DataTrigger.ExitActions>
-                                        <BeginStoryboard Storyboard="{StaticResource an_Disappearance}" />
-                                    </DataTrigger.ExitActions>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </uc:SectionView.Style>
-                </uc:SectionView>
-
-                <uc:SectionView DataContext="{Binding QuestionnaireRunner.SectionB}" >
-                    <uc:SectionView.Style>
-                        <Style TargetType="UserControl">
-                            <Setter Property="Opacity" Value="0" />
-                            <Setter Property="IsHitTestVisible" Value="False" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsStageA}" Value="False">
-                                    <DataTrigger.EnterActions>
-                                        <BeginStoryboard Storyboard="{StaticResource an_Appearance}" />
-                                    </DataTrigger.EnterActions>
-                                    <DataTrigger.ExitActions>
-                                        <BeginStoryboard Storyboard="{StaticResource an_Disappearance}" />
-                                    </DataTrigger.ExitActions>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </uc:SectionView.Style>
-                </uc:SectionView>
-
-                <Grid.Style>
-                    <Style TargetType="Grid">
+            <uc:QuestionnaireRunnerUserControl DataContext="{Binding QuestionnaireRunner}" >
+                <uc:QuestionnaireRunnerUserControl.Style>
+                    <Style TargetType="UserControl">
+                        <Setter Property="Opacity" Value="0" />
+                        <Setter Property="IsHitTestVisible" Value="False" />
+                        <Setter Property="Margin" Value="10"></Setter>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsRunning}" Value="True">
+                            <DataTrigger Binding="{Binding DataContext.IsRunning, ElementName=m_MainWindow}" Value="True">
                                 <DataTrigger.EnterActions>
                                     <BeginStoryboard Storyboard="{StaticResource an_Appearance}" />
                                 </DataTrigger.EnterActions>
@@ -153,9 +128,8 @@
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
-                </Grid.Style>
-            </Grid>
-
+                </uc:QuestionnaireRunnerUserControl.Style>
+            </uc:QuestionnaireRunnerUserControl>
         </Grid>
     </DockPanel>
 </Window>

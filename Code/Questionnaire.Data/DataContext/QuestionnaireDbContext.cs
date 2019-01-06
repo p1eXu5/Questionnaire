@@ -36,10 +36,32 @@ namespace Questionnaire.Data.DataContext
             }
         }
 
+        /// <summary>
+        /// If Db not exist.
+        /// </summary>
+        /// <param name="modelBuilder"></param>
         protected override void OnModelCreating ( ModelBuilder modelBuilder )
         {
-            modelBuilder.Entity< AnswerOpen >().HasKey( a => new { a.FirmId, a.Num } );
-            modelBuilder.Entity< AnswerMultipleChoice >().HasKey( a => new { a.FirmId, a.Num } );
+            modelBuilder.Entity< AnswerOpen >().HasAlternateKey( a => new { a.Id, a.FirmId, a.Num } );
+            modelBuilder.Entity< AnswerOpen >()
+                        .Property( a => a.FirmId )
+                        .ValueGeneratedNever();
+
+            modelBuilder.Entity< AnswerOpen >()
+                        .Property( a => a.Num )
+                        .ValueGeneratedNever();
+
+
+
+            modelBuilder.Entity< AnswerMultipleChoice >().HasAlternateKey( a => new { a.Id, a.FirmId, a.Num } );
+            modelBuilder.Entity< AnswerMultipleChoice >()
+                        .Property( a => a.FirmId )
+                        .ValueGeneratedNever();
+
+            modelBuilder.Entity< AnswerMultipleChoice >()
+                        .Property( a => a.Num )
+                        .ValueGeneratedNever();
+
         }
 
         public DbSet< Region > Regions { get; set; }

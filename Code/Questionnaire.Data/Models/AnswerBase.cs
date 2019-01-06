@@ -8,6 +8,8 @@ namespace Questionnaire.Data.Models
 {
     public abstract class AnswerBase
     {
+        public int Id { get; set; }
+
         public int Num { get; set; }
 
         public int FirmId { get; set; }

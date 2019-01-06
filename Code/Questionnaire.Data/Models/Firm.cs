@@ -10,6 +10,12 @@ namespace Questionnaire.Data.Models
 {
     public class Firm
     {
+        public Firm ()
+        {
+            OpenAnswers = new List< AnswerOpen >();
+            MultipleChoiceAnswers = new List< AnswerMultipleChoice >();
+        }
+
         [ DatabaseGenerated( DatabaseGeneratedOption.None ) ]
         public int Id { get; set; }
         public string Name { get; set; }
@@ -19,8 +25,13 @@ namespace Questionnaire.Data.Models
 
         [ Hidden ]
         public FirmType FirmType { get; set; }
-
         [ Hidden ]
         public City City { get; set; }
+
+        [ Hidden ]
+        public ICollection< AnswerOpen > OpenAnswers { get; set; }
+
+        [ Hidden ]
+        public ICollection< AnswerMultipleChoice > MultipleChoiceAnswers { get; set; }
     }
 }

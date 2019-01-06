@@ -67,7 +67,7 @@ namespace Questionnaire.Data.BusinessContext
 
         public IEnumerable< Firm > GetFirms ()
         {
-            return _context.Firms.AsNoTracking().OrderBy( f => f.Name ).ToArray();
+            return _context.Firms.OrderBy( f => f.Name ).ToArray();
         }
 
         public IEnumerable< City > GetCities ()
@@ -80,7 +80,6 @@ namespace Questionnaire.Data.BusinessContext
             return _context.Sections
                            .Include( section => section.QuestionMultipleChoiceCollection )
                            .Include( section => section.QuestionOpenCollection )
-                           .AsNoTracking()
                            .OrderBy( s => s.Id ).ToArray();
         }
 
@@ -97,12 +96,12 @@ namespace Questionnaire.Data.BusinessContext
 
         public IEnumerable< AnswerOpen > GetOpenAnswers ()
         {
-            return _context.OpenAnswers.Include( answer => answer.Firm ).AsNoTracking().OrderBy( a => a.FirmId ).ToArray();
+            return _context.OpenAnswers.OrderBy( a => a.FirmId ).ToArray();
         }
 
         public IEnumerable< AnswerMultipleChoice > GetMultipleChoiceAnswers ()
         {
-            return _context.MultipleChoiceAnswers.AsNoTracking().ToArray();
+            return _context.MultipleChoiceAnswers.ToArray();
         }
 
 

@@ -7,7 +7,6 @@ namespace Questionnaire.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-
             migrationBuilder.CreateTable(
                 name: "Categories",
                 columns: table => new
@@ -157,6 +156,8 @@ namespace Questionnaire.Data.Migrations
                 name: "MultipleChoiceAnswers",
                 columns: table => new
                 {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Num = table.Column<int>(nullable: false),
                     FirmId = table.Column<int>(nullable: false),
                     Answer = table.Column<int>(nullable: false),
@@ -164,7 +165,7 @@ namespace Questionnaire.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MultipleChoiceAnswers", x => new { x.FirmId, x.Num });
+                    table.PrimaryKey("PK_MultipleChoiceAnswers", x => x.Id);
                     table.ForeignKey(
                         name: "FK_MultipleChoiceAnswers_Firms_FirmId",
                         column: x => x.FirmId,
@@ -183,6 +184,8 @@ namespace Questionnaire.Data.Migrations
                 name: "OpenAnswers",
                 columns: table => new
                 {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Num = table.Column<int>(nullable: false),
                     FirmId = table.Column<int>(nullable: false),
                     Answer = table.Column<string>(nullable: true),
@@ -190,7 +193,7 @@ namespace Questionnaire.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OpenAnswers", x => new { x.FirmId, x.Num });
+                    table.PrimaryKey("PK_OpenAnswers", x => x.Id);
                     table.ForeignKey(
                         name: "FK_OpenAnswers_Firms_FirmId",
                         column: x => x.FirmId,
@@ -221,6 +224,11 @@ namespace Questionnaire.Data.Migrations
                 column: "FirmTypeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_MultipleChoiceAnswers_FirmId",
+                table: "MultipleChoiceAnswers",
+                column: "FirmId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_MultipleChoiceAnswers_QuestionId",
                 table: "MultipleChoiceAnswers",
                 column: "QuestionId");
@@ -229,6 +237,11 @@ namespace Questionnaire.Data.Migrations
                 name: "IX_MultipleChoiceQuestions_SectionId",
                 table: "MultipleChoiceQuestions",
                 column: "SectionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OpenAnswers_FirmId",
+                table: "OpenAnswers",
+                column: "FirmId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OpenAnswers_QuestionId",
