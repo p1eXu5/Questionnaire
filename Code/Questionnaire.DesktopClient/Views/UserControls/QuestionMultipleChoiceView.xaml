@@ -9,6 +9,7 @@
     <Grid VerticalAlignment="Center" 
           HorizontalAlignment="Stretch" 
           Height="Auto"
+          MinHeight="40"
           >
         <Grid.ColumnDefinitions>
             <ColumnDefinition SharedSizeGroup="gr_QuestionGeneratedQuestionGeneratedNum" />

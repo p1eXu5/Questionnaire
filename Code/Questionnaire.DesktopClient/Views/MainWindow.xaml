@@ -22,7 +22,7 @@
         FontFamily="{DynamicResource MaterialDesignFont}"
 
         Title="Тестирование для аномистов" 
-        MinHeight="860" MinWidth="400" MaxWidth="400"
+        MinHeight="800" MinWidth="800" Width="800"
         ResizeMode="CanResize"
         >
 
@@ -32,7 +32,7 @@
         </beh:EventTrigger>
     </beh:Interaction.Triggers>
 
-    <DockPanel Width="400" Margin="0" LastChildFill="True" >
+    <DockPanel Margin="20" LastChildFill="True" >
         <Menu DockPanel.Dock="Top"
               IsMainMenu="True" >
             <MenuItem>
@@ -40,10 +40,30 @@
                     <TextBlock Text="File" />
                 </MenuItem.Header>
 
-                <MenuItem Header="Выбрать опросник" Style="{x:Null}" />
-                <MenuItem Header="Экспорт результатов" Style="{x:Null}"  />
+                <MenuItem Command="{Binding DeleteAnswersCommand}">
+                    <MenuItem.Header>
+                        <Border Height="30">
+                            <TextBlock VerticalAlignment="Center">Очистить результаты</TextBlock>
+                        </Border>
+                    </MenuItem.Header>
+                </MenuItem>
+
+                <MenuItem Command="{Binding ExportAnswersCommand}">
+                    <MenuItem.Header>
+                        <Border Height="30">
+                            <TextBlock VerticalAlignment="Center">Экспортировать результаты</TextBlock>
+                        </Border>
+                    </MenuItem.Header>
+                </MenuItem>
                 <Separator Style="{x:Null}"  />
-                <MenuItem Header="Выход" Style="{x:Null}"  />
+
+                <MenuItem Command="{Binding ExitCommand}">
+                    <MenuItem.Header>
+                        <Border Height="30">
+                            <TextBlock VerticalAlignment="Center">Выход</TextBlock>
+                        </Border>
+                    </MenuItem.Header>
+                </MenuItem>
             </MenuItem>
         </Menu>
 

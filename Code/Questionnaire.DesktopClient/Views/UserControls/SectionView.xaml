@@ -42,7 +42,7 @@
           >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="40" SharedSizeGroup="gr_QuestionGeneratedQuestionGeneratedNum" />
-            <ColumnDefinition Width="300" SharedSizeGroup="gr_Text" />
+            <ColumnDefinition Width="360" SharedSizeGroup="gr_Text" />
             <ColumnDefinition Width="70" SharedSizeGroup="gr_Yes" />
             <ColumnDefinition Width="70" SharedSizeGroup="gr_Undefined" />
             <ColumnDefinition Width="70" SharedSizeGroup="gr_No" />

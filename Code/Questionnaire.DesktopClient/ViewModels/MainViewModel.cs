@@ -7,8 +7,10 @@ using System.Windows.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using Microsoft.Win32;
 using Questionnaire.Data.BusinessContext;
 using Questionnaire.Data.Models;
 using Questionnaire.DesktopClient.ViewModels.DialogViewModels;
@@ -115,6 +117,12 @@ namespace Questionnaire.DesktopClient.ViewModels
 
         public ICommand CheckAnswersCommand => new MvvmCommand( CheckAnswers );
 
+        public ICommand DeleteAnswersCommand => new MvvmCommand( DeleteAnswers, CanDeleteAnswers );
+
+        public ICommand ExportAnswersCommand => new MvvmCommand( ExportAnswers, CanDeleteAnswers );
+
+        public ICommand ExitCommand => new MvvmCommand( Exit );
+
         #endregion
 
 
@@ -123,14 +131,14 @@ namespace Questionnaire.DesktopClient.ViewModels
 
         private void CheckAnswers ( object obj )
         {
-            if ( !_questionnaireContext.HasMultipleChoiceAnswers() ) return;
+            if ( !CanDeleteAnswers( null ) ) return;
 
             var dialog = _dialogRegistrator.GetView( new ResumeClearDialogViewModel() );
 
             if ( dialog == null ) throw new InvalidOperationException( "Cannot find ResumeClearDialogWindow." );
 
             if ( dialog.ShowDialog() == true ) {
-                _questionnaireContext.DeleteAnswers();
+                DeleteAnswers( null );
             }
         }
 
@@ -160,6 +168,36 @@ namespace Questionnaire.DesktopClient.ViewModels
         {
             IsRunning = false;
             ((MvvmCommand)RunTestCommand).RaiseCanExecuteChanged();
+            ((MvvmCommand)DeleteAnswersCommand).RaiseCanExecuteChanged();
+        }
+
+        private void DeleteAnswers ( object obj )
+        {
+            _questionnaireContext.DeleteAnswers();
+        }
+
+        private bool CanDeleteAnswers ( object obj )
+        {
+            return _questionnaireContext.HasMultipleChoiceAnswers();
+        }
+
+        private void ExportAnswers ( object obj )
+        {
+            var sfd = new SaveFileDialog {
+
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyComputer),
+                Filter = "Excel file|*.xlsx",
+                RestoreDirectory = true,
+            };
+
+            if ( sfd.ShowDialog() == true ) {
+                _questionnaireContext.MakeReport( sfd.FileName );
+            }
+        }
+
+        private void Exit ( object obj )
+        {
+            Application.Current.Shutdown();
         }
 
         #endregion
