@@ -33,7 +33,7 @@
             </Button>
 
             <Button Grid.Column="1" Background="Orange" Width="120" Foreground="Black"
-                    Margin="10"
+                    Margin="10, 20"
                     Command="{Binding OkCommand}"
                     >
                 Продолжить
