@@ -22,6 +22,8 @@ namespace Questionnaire.DesktopClient
     {
         protected override void OnStartup ( StartupEventArgs e )
         {
+            //FunctionsAssemblyResolver.RedirectAssembly();
+
             base.OnStartup( e );
 
             try {
@@ -33,16 +35,15 @@ namespace Questionnaire.DesktopClient
 
                 // IDialogRegistrator:
                 DialogRegistrator dialogRegistrator = new DialogRegistrator( wnd );
-                dialogRegistrator.Register<ResumeClearDialogViewModel, ResumeClearDialogWindow>();
-                dialogRegistrator.Register<CannotExitViewModel, CannotExitWindow>();
+                dialogRegistrator.Register< ResumeClearDialogViewModel, ResumeClearDialogWindow >();
+                dialogRegistrator.Register< CannotExitViewModel, CannotExitWindow >();
+                dialogRegistrator.Register< AboutProgramViewModel, AboutProgramWindow >();
 
                 var mainViewModel = new MainViewModel( questionnaire, dialogRegistrator );
 
                 wnd.DataContext = mainViewModel;
 
                 wnd.ShowDialog();
-
-                new ExceptionWindow().ShowDialog();
             }
             catch ( Exception ex ) {
 #if DEBUG

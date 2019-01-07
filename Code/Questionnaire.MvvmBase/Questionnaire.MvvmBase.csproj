@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="CloseRequestedEventArgs.cs" />
     <Compile Include="DialogViewModel.cs" />
+    <Compile Include="FunctionsAssemblyResolver.cs" />
     <Compile Include="IDialog.cs" />
     <Compile Include="IDialogCloseRequested.cs" />
     <Compile Include="IDialogRegistrator.cs" />

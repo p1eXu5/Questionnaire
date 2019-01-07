@@ -39,7 +39,7 @@
               >
             <MenuItem>
                 <MenuItem.Header>
-                    <TextBlock Text="File" />
+                    <TextBlock Text="Файл" />
                 </MenuItem.Header>
 
                 <MenuItem Command="{Binding DeleteAnswersCommand}">
@@ -68,6 +68,11 @@
                         </Border>
                     </MenuItem.Header>
                 </MenuItem>
+            </MenuItem>
+            <MenuItem Command="{Binding AboutProgramCommand}">
+                <MenuItem.Header>
+                    <TextBlock Text="О программе" />
+                </MenuItem.Header>
             </MenuItem>
         </Menu>
 

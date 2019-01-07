@@ -5,23 +5,18 @@ using System.ComponentModel;
 using System.Windows.Data;
 
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 using Microsoft.Win32;
-using Questionnaire.Data.BusinessContext;
 using Questionnaire.Data.Models;
 using Questionnaire.DesktopClient.ViewModels.DialogViewModels;
-using Questionnaire.DesktopClient.Views.Dialogs;
 using Questionnaire.MvvmBase;
 
 namespace Questionnaire.DesktopClient.ViewModels
 {
     public class MainViewModel : ViewModel
     {
-        #region Fields -
+        #region Fields
 
         private readonly IQuestionnaireContext _questionnaireContext;
         private readonly IDialogRegistrator _dialogRegistrator;
@@ -88,7 +83,7 @@ namespace Questionnaire.DesktopClient.ViewModels
                 if ( _selectedFirm?.Id != value?.Id ) {
 
                     _selectedFirm = value;
-                    SelectedCity = Cities.First( c => c.Id == value.CityId );
+                    SelectedCity = Cities.First( c => c.Id == value?.CityId );
 
                     OnPropertyChanged();
                     ((MvvmCommand)RunTestCommand).RaiseCanExecuteChanged();
@@ -120,6 +115,8 @@ namespace Questionnaire.DesktopClient.ViewModels
         public ICommand DeleteAnswersCommand => new MvvmCommand( DeleteAnswers, CanDeleteAnswers );
 
         public ICommand ExportAnswersCommand => new MvvmCommand( ExportAnswers, CanDeleteAnswers );
+
+        public ICommand AboutProgramCommand => new MvvmCommand( AboutProgram );
 
         public ICommand ExitCommand => new MvvmCommand( Exit );
 
@@ -193,6 +190,14 @@ namespace Questionnaire.DesktopClient.ViewModels
             if ( sfd.ShowDialog() == true ) {
                 _questionnaireContext.MakeReport( sfd.FileName );
             }
+        }
+
+        private void AboutProgram ( object obj )
+        {
+            var dialog = _dialogRegistrator.GetView( new AboutProgramViewModel() );
+            if ( dialog == null ) throw new InvalidOperationException( "Cannot find ResumeClearDialogWindow." );
+
+            dialog.ShowDialog();
         }
 
         private void Exit ( object obj )
