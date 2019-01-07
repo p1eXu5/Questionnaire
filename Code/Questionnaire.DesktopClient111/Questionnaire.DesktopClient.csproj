@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C81C2B8B-1F03-4E59-8C79-6EE1A7AA1ACE}</ProjectGuid>
+    <ProjectGuid>{2C425EB3-88A6-4825-ADD0-7A0274463237}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Questionnaire.DesktopClient</RootNamespace>
     <AssemblyName>Questionnaire.DesktopClient</AssemblyName>
@@ -14,7 +14,6 @@
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -22,7 +21,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -77,6 +76,10 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\NextSectionRequestedEventArgs.cs" />
     <Compile Include="ViewModels\QuestionnaireRunnerViewModel.cs" />
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Views\Dialogs\CannotExitWindow.xaml.cs">
       <DependentUpon>CannotExitWindow.xaml</DependentUpon>
     </Compile>
@@ -101,49 +104,45 @@
     <Compile Include="Views\UserControls\SectionView.xaml.cs">
       <DependentUpon>SectionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
     <Page Include="Resources\Animations.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\DataTemplates.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resources\SectionGridStyles.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Dialogs\CannotExitWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Dialogs\ExceptionWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Dialogs\ResumeClearDialogWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\QuestionMultipleChoiceView.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserControls\QuestionnaireRunnerUserControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserControls\QuestionOpenView.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserControls\SectionView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -178,12 +177,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\questionnaire.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="questionnaire.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Questionnaire.Data\Questionnaire.Data.csproj">
       <Project>{d72cb11e-fe82-4bdf-8f52-841645851d36}</Project>
       <Name>Questionnaire.Data</Name>
@@ -197,6 +190,11 @@
       <Name>Questionnaire</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\questionnaire.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="questionnaire.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

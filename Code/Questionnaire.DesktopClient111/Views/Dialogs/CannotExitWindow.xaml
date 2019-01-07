@@ -1,0 +1,43 @@
+﻿<Window x:Class="Questionnaire.DesktopClient.Views.Dialogs.CannotExitWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Questionnaire.DesktopClient.Views.Dialogs"
+        mc:Ignorable="d"
+        Title="ExceptionWindow" 
+        Height="150" Width="300"
+        WindowStyle="ToolWindow"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner"
+        >
+    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Border>
+            <TextBlock Margin="10"
+                       HorizontalAlignment="Center"
+                       >
+                <Bold>Текущий тест не завершен.</Bold>
+            </TextBlock>
+        </Border>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Button Background="Orange" Width="120" Foreground="Black"
+                    Margin="10,20"
+                    Command="{Binding CancelCommand}"
+                    >
+                Выйти
+            </Button>
+
+            <Button Grid.Column="1" Background="Orange" Width="120" Foreground="Black"
+                    Margin="10"
+                    Command="{Binding OkCommand}"
+                    >
+                Продолжить
+            </Button>
+        </Grid>
+    </StackPanel>
+</Window>

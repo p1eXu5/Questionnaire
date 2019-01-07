@@ -1,0 +1,22 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    >
+    <Style TargetType="Border" x:Key="st_SectionGrid.Border">
+        <Setter Property="BorderBrush" Value="Black" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+
+    <Style TargetType="TextBlock" x:Key="st_SectionGrid.TextBlock" >
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+    </Style>
+
+    <Style TargetType="TextBox" x:Key="st_SectionGrid.TextBox" >
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Margin" Value="10" />
+        <Setter Property="MaxLines" Value="6" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+    </Style>
+
+</ResourceDictionary>

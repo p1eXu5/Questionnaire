@@ -1,0 +1,15 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:evm="clr-namespace:Questionnaire.DesktopClient.ViewModels.EntityViewModel"
+                    xmlns:uc="clr-namespace:Questionnaire.DesktopClient.Views.UserControls"
+                    >
+    
+    <DataTemplate DataType="{x:Type evm:QuestionMultipleChoiceViewModel}">
+        <uc:QuestionMultipleChoiceView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type evm:QuestionOpenViewModel}">
+        <uc:QuestionOpenView />
+    </DataTemplate>
+
+</ResourceDictionary>

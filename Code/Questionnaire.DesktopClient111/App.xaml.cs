@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -26,21 +28,21 @@ namespace Questionnaire.DesktopClient
 
             try {
 
-                var wnd = new MainWindow();
+                //var wnd = new MainWindow();
 
-                var businessContext = new QuestionnaireBusinessContext();
-                var questionnaire = new QuestionnaireContext( businessContext );
+                //var businessContext = new QuestionnaireBusinessContext();
+                //var questionnaire = new QuestionnaireContext( businessContext );
 
-                // IDialogRegistrator:
-                DialogRegistrator dialogRegistrator = new DialogRegistrator( wnd );
-                dialogRegistrator.Register<ResumeClearDialogViewModel, ResumeClearDialogWindow>();
-                dialogRegistrator.Register<CannotExitViewModel, CannotExitWindow>();
+                //// IDialogRegistrator:
+                //DialogRegistrator dialogRegistrator = new DialogRegistrator( wnd );
+                //dialogRegistrator.Register< ResumeClearDialogViewModel, ResumeClearDialogWindow >();
+                //dialogRegistrator.Register< CannotExitViewModel, CannotExitWindow >();
 
-                var mainViewModel = new MainViewModel( questionnaire, dialogRegistrator );
+                //var mainViewModel = new MainViewModel( questionnaire, dialogRegistrator );
 
-                wnd.DataContext = mainViewModel;
+                //wnd.DataContext = mainViewModel;
 
-                wnd.ShowDialog();
+                //wnd.ShowDialog();
 
                 new ExceptionWindow().ShowDialog();
             }
@@ -50,8 +52,8 @@ namespace Questionnaire.DesktopClient
 #endif
 
 #if RELEASE
-                string message = $"{ex.Message} \n {ex.InnerException?.Message}";
-                File.AppendAllText( "questionnaire.log", message );
+                string message = $"{ ex.Message } \n { ex.InnerException?.Message }";
+                File.AppendAllText("questionnaire.log", message );
 
                 new ExceptionWindow().ShowDialog();
                 App.Current.Shutdown( 0x00040000 );
