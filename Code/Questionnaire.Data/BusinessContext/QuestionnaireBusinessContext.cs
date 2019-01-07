@@ -102,14 +102,14 @@ namespace Questionnaire.Data.BusinessContext
             return _context.OpenQuestions.AsNoTracking().OrderBy( q => q.Id ).ToArray();
         }
 
-        public IEnumerable< AnswerOpen > GetOpenAnswers ()
-        {
-            return _context.OpenAnswers.OrderBy( a => a.FirmId ).ToArray();
-        }
-
         public IEnumerable< AnswerMultipleChoice > GetMultipleChoiceAnswers ()
         {
             return _context.MultipleChoiceAnswers.ToArray();
+        }
+
+        public IEnumerable< AnswerOpen > GetOpenAnswers ()
+        {
+            return _context.OpenAnswers.OrderBy( a => a.FirmId ).ToArray();
         }
 
 
@@ -151,6 +151,13 @@ namespace Questionnaire.Data.BusinessContext
         {
             _context.OpenAnswers.RemoveRange( _context.OpenAnswers );
             _context.MultipleChoiceAnswers.RemoveRange( _context.MultipleChoiceAnswers );
+            _context.SaveChanges();
+        }
+
+        public void DeleteAnswers ( int firmId, int employeeNum )
+        {
+             _context.OpenAnswers.RemoveRange( _context.OpenAnswers.Where( a => a.FirmId == firmId && a.Num == employeeNum ) );
+            _context.MultipleChoiceAnswers.RemoveRange( _context.MultipleChoiceAnswers.Where( a => a.FirmId == firmId && a.Num == employeeNum ) );
             _context.SaveChanges();
         }
 

@@ -18,6 +18,7 @@ namespace Questionnaire
         void AddAnswer ( AnswerMultipleChoice answers );
         void AddAnswer ( AnswerOpen answers );
         void DeleteAnswers ();
+        void DeleteAnswers ( int firmId, int employeeNum );
 
         void MakeReport ( string fileName );
 

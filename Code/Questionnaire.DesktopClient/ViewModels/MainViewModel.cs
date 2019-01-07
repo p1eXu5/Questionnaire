@@ -118,6 +118,8 @@ namespace Questionnaire.DesktopClient.ViewModels
 
         public ICommand AboutProgramCommand => new MvvmCommand( AboutProgram );
 
+        public ICommand ClosingCommand => new MvvmCommand( Closing );
+
         public ICommand ExitCommand => new MvvmCommand( Exit );
 
         #endregion
@@ -198,6 +200,13 @@ namespace Questionnaire.DesktopClient.ViewModels
             if ( dialog == null ) throw new InvalidOperationException( "Cannot find ResumeClearDialogWindow." );
 
             dialog.ShowDialog();
+        }
+
+        private void Closing ( object obj )
+        {
+            if ( !IsRunning ) return;
+
+            _questionnaireContext.DeleteAnswers( _selectedFirm.Id, QuestionnaireRunner.EmployeeNum );
         }
 
         private void Exit ( object obj )

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using Questionnaire.Data.BusinessContext;
 using Questionnaire.Data.Models;
 
@@ -15,7 +14,7 @@ namespace Questionnaire
 
         public QuestionnaireContext ( IQuestionnaireBusinessContext context )
         {
-            _context = context ?? throw new ArgumentNullException( nameof( context ), "context cannot be null." ); ;
+            _context = context ?? throw new ArgumentNullException( nameof( context ), "context cannot be null." );
         }
 
         public IEnumerable< City > GetCities () => _context.GetCities();
@@ -32,6 +31,7 @@ namespace Questionnaire
         public void AddAnswer ( AnswerOpen answer ) => _context.AddAnswer( answer );
 
         public void DeleteAnswers () => _context.DeleteAnswers();
+        public void DeleteAnswers ( int firmId, int employeeNum ) => _context.DeleteAnswers( firmId, employeeNum );
 
         public void MakeReport ( string fileName ) =>
             ReportMaker.MakeReport( fileName, _context );

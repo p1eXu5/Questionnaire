@@ -31,6 +31,10 @@
         <beh:EventTrigger EventName="Loaded" SourceName="m_MainWindow" >
             <beh:InvokeCommandAction Command="{Binding CheckAnswersCommand}" />
         </beh:EventTrigger>
+
+        <beh:EventTrigger EventName="Closing" SourceName="m_MainWindow" >
+            <beh:InvokeCommandAction Command="{Binding ClosingCommand}" />
+        </beh:EventTrigger>
     </beh:Interaction.Triggers>
 
     <DockPanel Margin="20" LastChildFill="True" >

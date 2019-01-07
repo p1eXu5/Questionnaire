@@ -129,7 +129,6 @@
     <Compile Include="BusinessContext\IQuestionnaireBusinessContext.cs" />
     <Compile Include="BusinessContext\MainDataSeeder.cs" />
     <Compile Include="BusinessContext\QuestionnaireBusinessContext.cs" />
-    <Compile Include="BusinessContext\QuestionnaireRuntimeContext.cs" />
     <Compile Include="BusinessContext\Seeder.cs" />
     <Compile Include="DataContext\QuestionnaireDbContext.cs" />
     <Compile Include="ImportModels\FirmImportModel.cs" />

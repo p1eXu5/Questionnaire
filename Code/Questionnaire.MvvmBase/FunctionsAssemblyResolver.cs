@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Questionnaire.MvvmBase
 {
@@ -24,8 +20,8 @@ namespace Questionnaire.MvvmBase
             {
                 assembly = Assembly.Load(requestedAssembly.Name);
             }
-            catch (Exception ex)
-            {
+            // ReSharper disable once EmptyGeneralCatchClause
+            catch ( Exception ) {
             }
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
             return assembly;

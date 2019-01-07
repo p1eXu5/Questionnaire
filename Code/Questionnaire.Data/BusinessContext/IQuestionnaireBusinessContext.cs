@@ -25,6 +25,7 @@ namespace Questionnaire.Data.BusinessContext
         void AddAnswer ( AnswerOpen answer );
 
         void DeleteAnswers ();
+        void DeleteAnswers ( int firmId, int employeeNum );
 
         IEnumerable< dynamic > GetGruppedMultipleChoiceAnswers ();
 

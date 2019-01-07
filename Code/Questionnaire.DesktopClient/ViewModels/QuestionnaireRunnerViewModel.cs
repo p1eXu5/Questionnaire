@@ -24,7 +24,7 @@ namespace Questionnaire.DesktopClient.ViewModels
         private SectionViewModel _sectionB;
 
         private bool _isNextSectionA;
-        private int _testedNum;
+        private int _employeeNum;
 
         #endregion
 
@@ -54,6 +54,8 @@ namespace Questionnaire.DesktopClient.ViewModels
         #region Properties
 
         public Firm Firm { get; private set; }
+
+        public int EmployeeNum => _employeeNum;
 
         public bool IsNextSectionA
         {
@@ -92,7 +94,7 @@ namespace Questionnaire.DesktopClient.ViewModels
         {
             Firm = firm ?? throw new ArgumentNullException( nameof( firm ), @"Firm cannot be null." );
 
-            _testedNum = _questionnaireContext.GetNextNumOfTested( firm.Id );
+            _employeeNum = _questionnaireContext.GetNextNumOfTested( firm.Id );
 
             Reload();
         }
@@ -121,7 +123,7 @@ namespace Questionnaire.DesktopClient.ViewModels
 
             foreach ( var answer in answers ) {
                 answer.Firm = Firm;
-                answer.Num = _testedNum;
+                answer.Num = _employeeNum;
                 _questionnaireContext.AddAnswer( answer );
             }
         }
