@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Questionnaire", "Code\Quest
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Questionnaire.DesktopClient", "Code\Questionnaire.DesktopClient\Questionnaire.DesktopClient.csproj", "{2C425EB3-88A6-4825-ADD0-7A0274463237}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "QuestionnaireSetupProject", "Code\QuestionnaireSetupProject\QuestionnaireSetupProject.vdproj", "{1D800B03-4D51-492D-A359-33E3C867F664}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,8 @@ Global
 		{2C425EB3-88A6-4825-ADD0-7A0274463237}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C425EB3-88A6-4825-ADD0-7A0274463237}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C425EB3-88A6-4825-ADD0-7A0274463237}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D800B03-4D51-492D-A359-33E3C867F664}.Debug|Any CPU.ActiveCfg = Debug
+		{1D800B03-4D51-492D-A359-33E3C867F664}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +78,7 @@ Global
 		{0943E858-2173-4084-AFC8-C0524D8CB825} = {B439C3D8-2BC9-4474-842B-84AE91E3D61C}
 		{17193BC6-F247-4F03-A85E-0A96907EE842} = {73AAD14E-E623-4BF1-A47D-82BA8A342A41}
 		{2C425EB3-88A6-4825-ADD0-7A0274463237} = {73AAD14E-E623-4BF1-A47D-82BA8A342A41}
+		{1D800B03-4D51-492D-A359-33E3C867F664} = {73AAD14E-E623-4BF1-A47D-82BA8A342A41}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BDB4E9D8-0978-45D2-82FE-23BD70EAF94C}
