@@ -40,6 +40,11 @@ namespace Questionnaire.Data.BusinessContext
             throw new NotImplementedException();
         }
 
+        public IEnumerable< Category > GetCategories ()
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable< QuestionMultipleChoice > GetMultipleChoiceQuestions ()
         {
             throw new NotImplementedException();

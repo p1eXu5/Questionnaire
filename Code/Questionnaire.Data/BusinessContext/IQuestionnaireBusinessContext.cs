@@ -13,6 +13,8 @@ namespace Questionnaire.Data.BusinessContext
         IEnumerable< City > GetCities ();
         IEnumerable< Firm > GetFirms ();
         IEnumerable< Section > GetSections ();
+        IEnumerable< Category > GetCategories ();
+
         IEnumerable< QuestionMultipleChoice > GetMultipleChoiceQuestions ();
         IEnumerable< QuestionOpen > GetOpenQuestions ();
 

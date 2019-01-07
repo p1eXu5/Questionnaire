@@ -21,6 +21,7 @@ namespace Questionnaire.Data.BusinessContext
         #endregion
 
 
+
         #region Ctor
 
         public QuestionnaireBusinessContext ()
@@ -52,11 +53,14 @@ namespace Questionnaire.Data.BusinessContext
         #endregion
 
 
+
         #region Properties
 
         public QuestionnaireDbContext DbContext => _context;
 
         #endregion
+
+
 
         #region Methods
 
@@ -83,6 +87,10 @@ namespace Questionnaire.Data.BusinessContext
                            .OrderBy( s => s.Id ).ToArray();
         }
 
+        public IEnumerable< Category > GetCategories ()
+        {
+            return _context.Categories.Include( c => c.Sections ).AsNoTracking().OrderBy( c => c.Id ).ToArray();
+        }
 
         public IEnumerable< QuestionMultipleChoice > GetMultipleChoiceQuestions ()
         {
@@ -120,7 +128,7 @@ namespace Questionnaire.Data.BusinessContext
                                                      group s by s.Question.SectionId into sec
                                                      select new {
                                                          SectionId = sec.Key,
-                                                         Answer = sec.Sum( s => s.Answer )
+                                                         AnswerSum = sec.Sum( s => s.Answer )
                                                      }
                                       }				  
                      }).ToArray();
@@ -146,22 +154,11 @@ namespace Questionnaire.Data.BusinessContext
             _context.SaveChanges();
         }
 
-
         public void SaveChanges () => _context.SaveChanges();
 
-
-
-        static class Check
-        {
-            public static dynamic Checked ( dynamic answer )
-            {
-                if ( answer.Num <= 0 ) throw new ArgumentException("EmployeeNum cannot be not greater than zero");
-
-                return answer;
-            }
-        }
-
         #endregion
+
+
 
         #region IDisposable
 
@@ -179,5 +176,17 @@ namespace Questionnaire.Data.BusinessContext
         }
 
         #endregion
+
+
+
+        static class Check
+        {
+            public static dynamic Checked ( dynamic answer )
+            {
+                if ( answer.Num <= 0 ) throw new ArgumentException("EmployeeNum cannot be not greater than zero");
+
+                return answer;
+            }
+        }
     }
 }

@@ -197,6 +197,16 @@ namespace Questionnaire.DesktopClient.ViewModels
 
         private void Exit ( object obj )
         {
+            if ( IsRunning ) {
+
+                var dialog = _dialogRegistrator.GetView( new CannotExitViewModel() );
+                if ( dialog == null ) throw new InvalidOperationException( "Cannot find ResumeClearDialogWindow." );
+
+                if ( dialog.ShowDialog() == true ) {
+                    return;
+                }
+            }
+
             Application.Current.Shutdown();
         }
 

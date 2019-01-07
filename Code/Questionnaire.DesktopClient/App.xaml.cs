@@ -35,6 +35,7 @@ namespace Questionnaire.DesktopClient
                 // IDialogRegistrator:
                 DialogRegistrator dialogRegistrator = new DialogRegistrator( wnd );
                 dialogRegistrator.Register< ResumeClearDialogViewModel, ResumeClearDialogWindow >();
+                dialogRegistrator.Register< CannotExitViewModel, CannotExitWindow >();
 
                 var mainViewModel = new MainViewModel( questionnaire, dialogRegistrator );
 

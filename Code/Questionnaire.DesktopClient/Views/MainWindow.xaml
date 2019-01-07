@@ -24,17 +24,19 @@
         Title="Тестирование для аномистов" 
         MinHeight="800" MinWidth="800" Width="800"
         ResizeMode="CanResize"
+        WindowStyle="SingleBorderWindow"
         >
 
     <beh:Interaction.Triggers>
-        <beh:EventTrigger SourceObject="m_MainWindow" EventName="Loaded" >
+        <beh:EventTrigger EventName="Loaded" SourceName="m_MainWindow" >
             <beh:InvokeCommandAction Command="{Binding CheckAnswersCommand}" />
         </beh:EventTrigger>
     </beh:Interaction.Triggers>
 
     <DockPanel Margin="20" LastChildFill="True" >
         <Menu DockPanel.Dock="Top"
-              IsMainMenu="True" >
+              IsMainMenu="True"
+              >
             <MenuItem>
                 <MenuItem.Header>
                     <TextBlock Text="File" />
@@ -48,7 +50,8 @@
                     </MenuItem.Header>
                 </MenuItem>
 
-                <MenuItem Command="{Binding ExportAnswersCommand}">
+                <MenuItem Command="{Binding ExportAnswersCommand}"
+                          >
                     <MenuItem.Header>
                         <Border Height="30">
                             <TextBlock VerticalAlignment="Center">Экспортировать результаты</TextBlock>
@@ -57,7 +60,8 @@
                 </MenuItem>
                 <Separator Style="{x:Null}"  />
 
-                <MenuItem Command="{Binding ExitCommand}">
+                <MenuItem Command="{Binding ExitCommand}"
+                          >
                     <MenuItem.Header>
                         <Border Height="30">
                             <TextBlock VerticalAlignment="Center">Выход</TextBlock>

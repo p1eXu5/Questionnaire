@@ -34,7 +34,7 @@ namespace Questionnaire
         public void DeleteAnswers () => _context.DeleteAnswers();
 
         public void MakeReport ( string fileName ) =>
-            ReportMaker.MakeReport( fileName, _context.GetGruppedMultipleChoiceAnswers().Cast< AnswerMultipleChoice >() );
+            ReportMaker.MakeReport( fileName, _context );
 
         public void SaveChanges () => _context.SaveChanges();
 
