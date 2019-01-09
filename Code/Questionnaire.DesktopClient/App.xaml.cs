@@ -28,6 +28,9 @@ namespace Questionnaire.DesktopClient
 
             try {
 
+                var startupWnd = new StartupWindow();
+                startupWnd.Show();
+
                 var wnd = new MainWindow();
 
                 var businessContext = new QuestionnaireBusinessContext();
@@ -42,6 +45,8 @@ namespace Questionnaire.DesktopClient
                 var mainViewModel = new MainViewModel( questionnaire, dialogRegistrator );
 
                 wnd.DataContext = mainViewModel;
+
+                startupWnd.Close();
 
                 wnd.ShowDialog();
             }

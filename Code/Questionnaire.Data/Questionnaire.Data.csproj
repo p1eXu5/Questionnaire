@@ -152,12 +152,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\WorkSpeed\Code\NpoiExcel\NpoiExcel.csproj">
-      <Project>{47680bf8-c76a-44b9-bde3-694f1a73ccb1}</Project>
-      <Name>NpoiExcel</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="SeedFiles\Cities.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -176,7 +170,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\NpoiExcel\NpoiExcel.csproj">
+      <Project>{47680bf8-c76a-44b9-bde3-694f1a73ccb1}</Project>
+      <Name>NpoiExcel</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="SeedFiles\QuestionMultipleChoiceList.xlsx">

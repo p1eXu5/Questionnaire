@@ -14,7 +14,7 @@ namespace Questionnaire.Data.Tests.BusinessContext.IntegrationalTests
     [ TestFixture ]
     public class QuestionnaireBusinessContextTests
     {
-        private string[] _paths = new string[8];
+        private readonly string[] _paths = new string[8];
 
         [ SetUp ]
         public void SavePaths ()
@@ -41,6 +41,8 @@ namespace Questionnaire.Data.Tests.BusinessContext.IntegrationalTests
             Seeder.FileNameSections = _paths[ 0 ];
         }
 
+
+
         [ Test ]
         public void Ctor_ByDefault_CreatesDb ()
         {
@@ -64,7 +66,7 @@ namespace Questionnaire.Data.Tests.BusinessContext.IntegrationalTests
         }
 
         [ Test ]
-        public void GetFirms_ByDefault_ReturnsRegions ()
+        public void GetRegions_ByDefault_ReturnsRegions ()
         {
             QuestionnaireBusinessContext context = null;
 
@@ -82,16 +84,16 @@ namespace Questionnaire.Data.Tests.BusinessContext.IntegrationalTests
         }
 
         [ Test ]
-        public void GetFirms_ByDefault_ReturnsCities ()
+        public void GetCities_ByDefault_ReturnsCities ()
         {
             QuestionnaireBusinessContext context = null;
 
             try {
                 context = new QuestionnaireBusinessContext();
 
-                var regions = context.GetCities();
+                var cities = context.GetCities();
 
-                Assert.That( regions.Any() );
+                Assert.That( cities.Any() );
 
             }
             finally {

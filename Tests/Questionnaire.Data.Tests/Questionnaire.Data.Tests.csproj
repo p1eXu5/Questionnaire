@@ -157,7 +157,6 @@
     <Compile Include="BusinessContext\TestDataSeeder.cs" />
     <Compile Include="BusinessContext\UnitTests\QuestionnaireBusinessContextTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="BusinessContext\IntegrationalTests\QuestionnaireRuntimeContextTests.cs" />
     <Compile Include="BusinessContext\IntegrationalTests\SeederTests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -165,7 +164,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\WorkSpeed\Code\Helpers\Helpers.csproj">
+    <ProjectReference Include="..\..\Code\Helpers\Helpers.csproj">
       <Project>{12faa7bd-a5d4-48e3-80c4-6d7a72be99b0}</Project>
       <Name>Helpers</Name>
     </ProjectReference>
