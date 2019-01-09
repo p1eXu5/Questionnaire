@@ -47,6 +47,8 @@ namespace Questionnaire.DesktopClient.ViewModels
             SelectedCity = Cities.FirstOrDefault();
 
             RunTestCommand = new MvvmCommand( RunTest, CanRunTest );
+            DeleteAnswersCommand = new MvvmCommand( DeleteAnswers, CanDeleteAnswers );
+            ExportAnswersCommand = new MvvmCommand( ExportAnswers, CanDeleteAnswers );
 
             QuestionnaireRunner = new QuestionnaireRunnerViewModel( _questionnaireContext );
             QuestionnaireRunner.StopRequested += OnStopped;
@@ -112,9 +114,9 @@ namespace Questionnaire.DesktopClient.ViewModels
 
         public ICommand CheckAnswersCommand => new MvvmCommand( CheckAnswers );
 
-        public ICommand DeleteAnswersCommand => new MvvmCommand( DeleteAnswers, CanDeleteAnswers );
+        public ICommand DeleteAnswersCommand { get; } 
 
-        public ICommand ExportAnswersCommand => new MvvmCommand( ExportAnswers, CanDeleteAnswers );
+        public ICommand ExportAnswersCommand { get; } 
 
         public ICommand AboutProgramCommand => new MvvmCommand( AboutProgram );
 
