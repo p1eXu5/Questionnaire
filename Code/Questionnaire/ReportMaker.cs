@@ -12,6 +12,8 @@ namespace Questionnaire
 {
     public static class ReportMaker
     {
+        public const int SECTION_COEFFICIENT = 6;
+
         public static void MakeReport ( string fileName,  IQuestionnaireBusinessContext context,  ReportOrientation orientation = ReportOrientation.Horizontal )
         {
             var firms = context.GetMultipleChoiceAnswers().Select( a => a.Firm ).Distinct().ToArray();
@@ -73,14 +75,12 @@ namespace Questionnaire
                 if ( answerGroups.Any() ) {
 
                     var answerType = answerGroups[ 0 ].GetType();
-                    var categories = context.GetCategories();
+                    var categories = context.GetCategories().ToArray();
 
-                    row = 0;
                     int columnDiff = 9;
+                    row = 0;
 
-                    cells.Add( new ExportingCell( "Филиал", row, columnDiff + 0, new byte[] { 0xb4, 0xc7, 0xe7 } ) );
-                    cells.Add( new ExportingCell( "Количество\nсотрудников", row, columnDiff + 1, new byte[] { 0xb4, 0xc7, 0xe7 } ) );
-                    cells.Add( new ExportingCell( "%Новых\nсотрудников", row, columnDiff + 2, new byte[] { 0xb4, 0xc7, 0xe7 } ) );
+                    FillRightTableTopHeader( cells, row, columnDiff );
 
                     ++row;
                     cells.Add( new ExportingCell( firm.Name, row, columnDiff + 0, null ) );
@@ -88,48 +88,50 @@ namespace Questionnaire
                     cells.Add( new ExportingCell( "?", row, columnDiff + 2, null ) );
 
                     ++row;
-                    cells.Add( new ExportingCell( "№ гр.", row, columnDiff + 0, new byte[] { 0xb4, 0xc7, 0xe7 } ) );
-                    cells.Add( new ExportingCell( "Группа факторов", row, columnDiff + 1, new byte[] { 0xb4, 0xc7, 0xe7 } ) );
-                    cells.Add( new ExportingCell( "№ кат.", row, columnDiff + 2, new byte[] { 0xb4, 0xc7, 0xe7 } ) );
-                    cells.Add( new ExportingCell( "Категория", row, columnDiff + 3, new byte[] { 0xb4, 0xc7, 0xe7 } ) );
-                    cells.Add( new ExportingCell( "План", row, columnDiff + 4, new byte[] { 0xb4, 0xc7, 0xe7 } ) );
-                    cells.Add( new ExportingCell( "Факт", row, columnDiff + 5, new byte[] { 0xb4, 0xc7, 0xe7 } ) );
+                    cells.Add( new ExportingCell( "№ кат.", row, columnDiff + 0, new byte[] { 0xb4, 0xc7, 0xe7 } ) );
+                    cells.Add( new ExportingCell( "Категория", row, columnDiff + 1, new byte[] { 0xb4, 0xc7, 0xe7 } ) );
+                    cells.Add( new ExportingCell( "План", row, columnDiff + 2, new byte[] { 0xb4, 0xc7, 0xe7 } ) );
+                    cells.Add( new ExportingCell( "Факт", row, columnDiff + 3, new byte[] { 0xb4, 0xc7, 0xe7 } ) );
 
+                    // Fill employee num headers
                     for ( int i = 0; i < answerGroups.Length; ++i ) {
+
                         cells.Add( new ExportingCell( answerType.GetProperty( "EmployeeId" ).GetValue( answerGroups[ i ] ), 
                                                      row, 
-                                                     columnDiff + 6 + i, 
+                                                     columnDiff + 4 + i, 
                                                      new byte[] { 0xb4, 0xc7, 0xe7 } ) );
                     }
 
-                    cells.Add( new ExportingCell( "Сумма", row, columnDiff + 6 + answerGroups.Length, new byte[] { 0xb4, 0xc7, 0xe7 } ) );
+                    cells.Add( new ExportingCell( "Сумма", row, columnDiff + 4 + answerGroups.Length, new byte[] { 0xb4, 0xc7, 0xe7 } ) );
 
                     ++row;
 
-                    foreach ( var category in categories ) {
+                    var categorySums = new int[ categories.Length ];
+                    var categorySumRows = new int[ categories.Length ];
 
-                        cells.Add( new ExportingCell( category.Id, row, columnDiff + 0, new byte[] { 0xa9, 0xd1, 0x8e } ) );
-                        cells.Add( new ExportingCell( category.Name, row, columnDiff + 1, new byte[] { 0xc5, 0xe0, 0xb4 } ) );
+                    // categories
+                    for ( var categoryIndex = 0; categoryIndex < categories.Length; ++ categoryIndex ) {
 
+                        categorySumRows[ categoryIndex ] = row;
 
-
-                        foreach ( var section in category.Sections.OrderBy( s => s.Id ) ) {
+                        // sections
+                        foreach ( var section in categories[ categoryIndex ].Sections.OrderBy( s => s.Id ) ) {
                             
-                            cells.Add( new ExportingCell( section.Id, row, columnDiff + 2, new byte[] { 0xc5, 0xe0, 0xb4 } ) );
-                            cells.Add( new ExportingCell( section.Name, row, columnDiff + 3, new byte[] { 0xc5, 0xe0, 0xb4 } ) );
-                            cells.Add( new ExportingCell( section.Name, row, columnDiff + 3, new byte[] { 0xc5, 0xe0, 0xb4 } ) );
-                            cells.Add( new ExportingCell( section.Name, row, columnDiff + 3, new byte[] { 0xc5, 0xe0, 0xb4 } ) );
+                            // #Section | SectionName | План
+                            cells.Add( new ExportingCell( section.Id, row, columnDiff + 0, new byte[] { 0xc5, 0xe0, 0xb4 } ) );
+                            cells.Add( new ExportingCell( section.Name, row, columnDiff + 1, new byte[] { 0xc5, 0xe0, 0xb4 } ) );
+                            cells.Add( new ExportingCell( 3.0, row, columnDiff + 2, new byte[] { 0xc5, 0xe0, 0xb4 } ) );
 
-                            int sectionSum = 0;
+                            int sum = 0;
 
+                            // employee answers
                             for ( int i = 0; i < answerGroups.Length; ++i ) {
 
-                                int sum = 0;
 
                                 IEnumerable< dynamic > answerCategories = answerType.GetProperty( "Categories" ).GetValue( answerGroups[ i ] );
                                 if ( !answerCategories.Any() ) goto loadSum;
 
-                                var answerCategory = answerCategories.FirstOrDefault( c => c.GetType().GetProperty( "CategoryId" ).GetValue( c ) == category.Id );
+                                var answerCategory = answerCategories.FirstOrDefault( c => c.GetType().GetProperty( "CategoryId" ).GetValue( c ) == categories[ categoryIndex ].Id );
                                 if ( answerCategory == null ) goto loadSum;
 
                                 IEnumerable< dynamic > answerSections = answerCategory.GetType().GetProperty( "Sections" ).GetValue( answerCategory );
@@ -140,16 +142,50 @@ namespace Questionnaire
 
                                 sum = answerSection.GetType().GetProperty( "AnswerSum" ).GetValue( answerSection );
 
-                                loadSum:
-                                cells.Add( new ExportingCell( sum, row, columnDiff + 6 + i, new byte[] { 0xb4, 0xc7, 0xe7 } ) );
-                                sectionSum += sum;
+                            loadSum:
+                                cells.Add( new ExportingCell( sum, row, columnDiff + 4 + i, new byte[] { 0xb4, 0xc7, 0xe7 } ) );
+                                categorySums[ categoryIndex ] += sum;
                             }
 
-                            cells.Add( new ExportingCell( sectionSum, row, columnDiff + 6 + answerGroups.Length, new byte[] { 0xb4, 0xc7, 0xe7 } ) );
+                            // employee answer sum
+                            cells.Add( new ExportingCell( categorySums[ categoryIndex ], row, columnDiff + 4 + answerGroups.Length, new byte[] { 0xb4, 0xc7, 0xe7 } ) );
+
+                            var average = sum * 1.0 / (employeeCount * SECTION_COEFFICIENT);
+
+                            // факт
+                            cells.Add( new ExportingCell( $"{average:N2}", row, columnDiff + 3, null ) );
 
                             ++row;
                         }
                     }
+
+                    cells.Add( new ExportingCell( "Факторный анализ", row, columnDiff + 0, new byte[] { 0xb4, 0xc7, 0xe7 } ) );
+                    ++row;
+                    cells.Add( new ExportingCell( "№ гр.", row, columnDiff + 0, new byte[] { 0xb4, 0xc7, 0xe7 } ) );
+                    cells.Add( new ExportingCell( "Группа факторов", row, columnDiff + 1, new byte[] { 0xb4, 0xc7, 0xe7 } ) );
+                    cells.Add( new ExportingCell( "План", row, columnDiff + 2, new byte[] { 0xb4, 0xc7, 0xe7 } ) );
+                    cells.Add( new ExportingCell( "Факт", row, columnDiff + 3, new byte[] { 0xb4, 0xc7, 0xe7 } ) );
+
+                    for ( var categoryIndex = 0; categoryIndex < categories.Length; ++categoryIndex ) {
+
+                        cells.Add( new ExportingCell( categorySums[ categoryIndex ], 
+                                                      categorySumRows[ categoryIndex ], 
+                                                      columnDiff + 4 + answerGroups.Length + 1, 
+                                                      null ) );
+
+                        ++row;
+
+                        cells.Add( new ExportingCell( categories[ categoryIndex ].Id, row, columnDiff + 0, new byte[] { 0xb4, 0xc7, 0xe7 } ) );
+                        cells.Add( new ExportingCell( categories[ categoryIndex ].Name, row, columnDiff + 1, new byte[] { 0xb4, 0xc7, 0xe7 } ) );
+                        cells.Add( new ExportingCell( 3.0, row, columnDiff + 2, new byte[] { 0xb4, 0xc7, 0xe7 } ) );
+
+                        var k = categories[ categoryIndex ].Sections.Count;
+                        var averageCategory = categorySums[ categoryIndex ] * 1.0 / (employeeCount * SECTION_COEFFICIENT * k);
+
+                        // факт
+                        cells.Add( new ExportingCell( $"{averageCategory:N2}", row, columnDiff + 3, null ) );
+                    }
+
                 }
 
                 var location = Path.GetDirectoryName( fileName );
@@ -159,6 +195,25 @@ namespace Questionnaire
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cells"></param>
+        /// <param name="row"></param>
+        /// <param name="columnDiff"></param>
+        private static void FillRightTableTopHeader ( List< IExportingCell > cells, int row, int columnDiff )
+        {
+            cells.Add( new ExportingCell( "Филиал", row, columnDiff + 0, new byte[] { 0xb4, 0xc7, 0xe7 } ) );
+            cells.Add( new ExportingCell( "Количество \nсотрудников", row, columnDiff + 1, new byte[] { 0xb4, 0xc7, 0xe7 } ) );
+            cells.Add( new ExportingCell( "%Новых \nсотрудников", row, columnDiff + 2, new byte[] { 0xb4, 0xc7, 0xe7 } ) );
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cells"></param>
+        /// <param name="firm"></param>
+        /// <returns></returns>
         private static int FillFirmHeader ( List< IExportingCell > cells, Firm firm )
         {
             int row = 0;
