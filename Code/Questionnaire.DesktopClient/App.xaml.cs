@@ -1,6 +1,9 @@
 ﻿
 // ReSharper disable EmptyGeneralCatchClause
 // ReSharper disable RedundantCatchClause
+
+using System;
+using System.IO;
 using System.Windows;
 using Questionnaire.Data.BusinessContext;
 using Questionnaire.DesktopClient.ViewModels;
