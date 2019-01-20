@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using NpoiExcel.Attributes;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
-using static Helpers.StringExtensions;
 using static Helpers.EasyTypeBuilder;
 
 namespace NpoiExcel
@@ -93,7 +89,6 @@ namespace NpoiExcel
         /// <param name="sheetTable"><see cref="SheetTable"/></param>
         /// <param name="propertyMap">Dictionary&lt; propertyName, header &gt;</param>
         /// <param name="typeConverter">Type typeConverter</param>
-        /// <param name="progressFunc"></param>
         /// <returns></returns>
         public static IEnumerable< TOutType > GetEnumerable< TOutType, TIn >( SheetTable sheetTable,
                                                                              Dictionary< string, (string header, int column) > propertyMap,  

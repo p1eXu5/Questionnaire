@@ -1,9 +1,10 @@
-﻿using System;
+﻿// ReSharper disable RedundantAssignment
+using System;
 using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Helpers
+namespace Helpers.Extensions
 {
     public static class StringExtensions
     {

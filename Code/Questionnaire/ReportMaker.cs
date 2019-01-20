@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,11 @@ namespace Questionnaire
     public static class ReportMaker
     {
         public const int SECTION_COEFFICIENT = 6;
+
+        public static Color H1Color { get; set; }
+        public static Color H2Color { get; set; }
+        public static Color H3Color { get; set; }
+        public static Color H4Color { get; set; }
 
         public static void MakeReport ( string fileName,  IQuestionnaireBusinessContext context,  ReportOrientation orientation = ReportOrientation.Horizontal )
         {
@@ -64,9 +70,19 @@ namespace Questionnaire
         {
             var cells = new List< IExportingCell >();
 
-            // TODO
+            FillFirstRow();
 
             return cells;
+
+
+            #region Functions
+
+            void FillFirstRow()
+            {
+                cells[ 0 ] = new ExportingCell( firm.Name, 0, 0, H1Color );
+            }
+
+            #endregion
         }
 
         /// <summary>
@@ -82,6 +98,8 @@ namespace Questionnaire
 
             var firmAnswers = context.GetMultipleChoiceAnswers().Where( f => f.FirmId == firm.Id ).ToArray();
             var employeeCount = firmAnswers.Select( a => a.Num ).Distinct().Count();
+
+            if ( 0 == employeeCount ) return cells;
 
             var row = FillLeftTableHeader( cells, firm );
 

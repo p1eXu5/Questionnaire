@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Helpers;
+using Helpers.Extensions;
 using NUnit.Framework;
 using Questionnaire.Data.BusinessContext;
 

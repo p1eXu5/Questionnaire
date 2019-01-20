@@ -62,7 +62,7 @@ namespace Helpers
             return module.DefineType (typeName, TypeAttributes.Public);
         }
 
-        private static PropertyBuilder CreateProperty (this TypeBuilder typeBuilder, EasyProperty property)
+        private static void CreateProperty (this TypeBuilder typeBuilder, EasyProperty property)
         {
             if (typeBuilder == null) throw new ArgumentNullException(nameof(typeBuilder), "Type builder can't be null.");
 
@@ -91,7 +91,7 @@ namespace Helpers
                 propertyBuilder.SetCustomAttribute (attrBuilder);
             }
 
-            return propertyBuilder;
+            
 
             #region Local Functions
 
