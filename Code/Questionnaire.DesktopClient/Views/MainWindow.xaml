@@ -21,7 +21,7 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
 
-        Title="Тестирование для аномистов" 
+        Title="Тестирование для сотрудников склада (анонимно)" 
         MinHeight="800" MinWidth="800" Width="800"
         ResizeMode="CanResize"
         WindowStyle="SingleBorderWindow"
