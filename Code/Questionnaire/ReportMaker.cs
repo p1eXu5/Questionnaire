@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -8,17 +9,22 @@ using System.Threading.Tasks;
 using NpoiExcel;
 using Questionnaire.Data.BusinessContext;
 using Questionnaire.Data.Models;
+using Helpers.Extensions;
 
 namespace Questionnaire
 {
     public static class ReportMaker
     {
+        public const string NUM_STRING = "№ п/п";
+        public const string CATEGORIES_STRING = "Группа факторов";
+
         public const int SECTION_COEFFICIENT = 6;
 
         public static Color H1Color { get; set; }
         public static Color H2Color { get; set; }
         public static Color H3Color { get; set; }
         public static Color H4Color { get; set; }
+        public static Color BackgroundColor { get; set; }
 
         public static void MakeReport ( string fileName,  IQuestionnaireBusinessContext context,  ReportOrientation orientation = ReportOrientation.Horizontal )
         {
@@ -68,18 +74,73 @@ namespace Questionnaire
 
         private static List< IExportingCell > MakeOpenAnswersReport ( IQuestionnaireBusinessContext context, Firm firm, Section[] sections )
         {
-            var cells = new List< IExportingCell >();
+            const int HEADER_ROW_COUNT = 4;
 
-            FillFirstRow();
+            var cells = new List< IExportingCell >();
+            var firmAnswers = context.GetOpenAnswers().Where( f => f.FirmId == firm.Id ).ToArray();
+            var employeeCount = firmAnswers.Select( a => a.Num ).Distinct().Count();
+
+            if ( 0 == employeeCount ) return cells;
+
+            var questionCount = sections.Select( s => s.QuestionOpenCollection.Count ).Sum();
+            var tableData = new IExportingCell[ HEADER_ROW_COUNT + employeeCount, questionCount ];
+
+            FillHeaderRows();
+            FillDataRows();
+
+            cells = tableData.ToList();
 
             return cells;
 
 
             #region Functions
 
-            void FillFirstRow()
+            void FillHeaderRows()
             {
-                cells[ 0 ] = new ExportingCell( firm.Name, 0, 0, H1Color );
+                tableData[ 0, 0 ] = new ExportingCell( firm.Name, 0, 0, H1Color );
+
+                tableData[ 1, 0 ] = new ExportingCell( NUM_STRING, 0, 0, H2Color );
+                tableData[ 1, 1 ] = new ExportingCell( CATEGORIES_STRING, 0, 0, H2Color );
+            }
+
+            void FillDataRows ()
+            {
+                var categories = context.GetCategories();
+                int row = 2;
+                int column = 1;
+
+                foreach ( var category in categories ) {
+
+                    tableData[ row, column ] = new ExportingCell( category.Name, row, column, H3Color );
+                    column = FillSections( category, row + 1, column );
+                }
+            }
+
+            int FillSections ( Category category, int row, int column)
+            {
+                foreach ( var section in sections.Where( s => s.CategoryId == category.Id ) ) {
+
+                    tableData[ row, column ] = new ExportingCell( section.Name, row, column, H4Color );
+                    column = FillAnswers( section, row + 1, column );
+                }
+
+                return column;
+            }
+
+            int FillAnswers ( Section section, int row, int column )
+            {
+                foreach ( var question in section.QuestionOpenCollection ) {
+
+                    foreach ( var answer in firmAnswers.Where( a => a.Question.Id == question.Id ) ) {
+                    
+                        tableData[ row, column ] = new ExportingCell( answer.Answer, row, column, BackgroundColor );
+                        ++row;
+                    }
+
+                    ++column;
+                }
+
+                return column;
             }
 
             #endregion

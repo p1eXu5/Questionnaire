@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿
+// ReSharper disable EmptyGeneralCatchClause
 using System.Windows;
 using Questionnaire.Data.BusinessContext;
 using Questionnaire.DesktopClient.ViewModels;
@@ -18,7 +13,7 @@ namespace Questionnaire.DesktopClient
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App
     {
         protected override void OnStartup ( StartupEventArgs e )
         {
@@ -41,6 +36,7 @@ namespace Questionnaire.DesktopClient
                 dialogRegistrator.Register< ResumeClearDialogViewModel, ResumeClearDialogWindow >();
                 dialogRegistrator.Register< CannotExitViewModel, CannotExitWindow >();
                 dialogRegistrator.Register< AboutProgramViewModel, AboutProgramWindow >();
+                dialogRegistrator.Register< AreYouSureViewModel, AreYouSureDialog >();
 
                 var mainViewModel = new MainViewModel( questionnaire, dialogRegistrator );
 
@@ -50,11 +46,11 @@ namespace Questionnaire.DesktopClient
 
                 wnd.ShowDialog();
             }
-            catch ( Exception ex ) {
-#if DEBUG
-                throw;
+            catch
+#if RELEASE
+                ( Exception ex ) 
 #endif
-
+            {
 #if RELEASE
                 string message = $"{ex.Message} \n {ex.InnerException?.Message}";
                 File.AppendAllText( "questionnaire.log", message );

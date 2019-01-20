@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Questionnaire.DesktopClient.Views.Dialogs"
         mc:Ignorable="d"
         Title="Window1" 
         Height="130" 
@@ -12,11 +11,10 @@
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         BorderThickness="0" 
-        BorderBrush="{x:Null}"
+        BorderBrush="#FF1F1F1F"
         >
 
-
-        <Grid Margin="20,10" Grid.Row="1">
+        <Grid Margin="20,10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>

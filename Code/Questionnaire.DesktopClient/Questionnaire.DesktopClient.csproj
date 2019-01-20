@@ -69,6 +69,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ViewModels\DialogViewModels\AboutProgramViewModel.cs" />
+    <Compile Include="ViewModels\DialogViewModels\AreYouSureViewModel.cs" />
     <Compile Include="ViewModels\DialogViewModels\CannotExitViewModel.cs" />
     <Compile Include="ViewModels\DialogViewModels\ResumeClearDialogViewModel.cs" />
     <Compile Include="ViewModels\EntityViewModel\QuestionMultipleChoiceViewModel.cs" />
@@ -80,6 +81,9 @@
     <Compile Include="ViewModels\QuestionnaireRunnerViewModel.cs" />
     <Compile Include="Views\Dialogs\AboutProgramWindow.xaml.cs">
       <DependentUpon>AboutProgramWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dialogs\AreYouSureDialog.xaml.cs">
+      <DependentUpon>AreYouSureDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Dialogs\CannotExitWindow.xaml.cs">
       <DependentUpon>CannotExitWindow.xaml</DependentUpon>
@@ -129,6 +133,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Dialogs\AboutProgramWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dialogs\AreYouSureDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

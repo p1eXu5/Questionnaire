@@ -46,14 +46,6 @@
                     <TextBlock Text="Файл" />
                 </MenuItem.Header>
 
-                <MenuItem Command="{Binding DeleteAnswersCommand}">
-                    <MenuItem.Header>
-                        <Border Height="30">
-                            <TextBlock VerticalAlignment="Center">Очистить результаты</TextBlock>
-                        </Border>
-                    </MenuItem.Header>
-                </MenuItem>
-
                 <MenuItem Command="{Binding ExportAnswersCommand}"
                           >
                     <MenuItem.Header>
@@ -63,7 +55,14 @@
                     </MenuItem.Header>
                 </MenuItem>
                 <Separator Style="{x:Null}"  />
-
+                <MenuItem Command="{Binding DeleteAnswersCommand}">
+                    <MenuItem.Header>
+                        <Border Height="30">
+                            <TextBlock VerticalAlignment="Center">Очистить результаты</TextBlock>
+                        </Border>
+                    </MenuItem.Header>
+                </MenuItem>
+                <Separator Style="{x:Null}"  />
                 <MenuItem Command="{Binding ExitCommand}"
                           >
                     <MenuItem.Header>
