@@ -57,6 +57,7 @@
                 >
             <TextBox Text="{Binding Answer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      Style="{StaticResource st_SectionGrid.TextBox}"
+                     TextWrapping="Wrap"
                      />
         </Border>
             
