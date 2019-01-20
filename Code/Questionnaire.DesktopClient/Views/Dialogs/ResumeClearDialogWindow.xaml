@@ -15,7 +15,7 @@
 
     <Grid Background="Transparent">
         <Grid Margin="5" >
-            <Border BorderThickness="1" BorderBrush="Black" 
+            <Border BorderThickness="0" BorderBrush="{x:Null}" 
                     />
             <Grid Margin="20">
                 <Grid.ColumnDefinitions>

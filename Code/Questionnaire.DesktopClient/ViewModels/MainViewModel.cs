@@ -170,11 +170,19 @@ namespace Questionnaire.DesktopClient.ViewModels
             IsRunning = false;
             ((MvvmCommand)RunTestCommand).RaiseCanExecuteChanged();
             ((MvvmCommand)DeleteAnswersCommand).RaiseCanExecuteChanged();
+            ((MvvmCommand)ExportAnswersCommand).RaiseCanExecuteChanged();
         }
 
         private void DeleteAnswers ( object obj )
         {
-            _questionnaireContext.DeleteAnswers();
+            var dialog = _dialogRegistrator.GetView( new AreYouSureViewModel() );
+
+            if ( dialog.ShowDialog() == true ) {
+
+                _questionnaireContext.DeleteAnswers();
+                (( MvvmCommand )DeleteAnswersCommand).RaiseCanExecuteChanged();
+                (( MvvmCommand )ExportAnswersCommand).RaiseCanExecuteChanged();
+            }
         }
 
         private bool CanDeleteAnswers ( object obj )
