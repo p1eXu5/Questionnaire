@@ -1,5 +1,6 @@
 ﻿
 // ReSharper disable EmptyGeneralCatchClause
+// ReSharper disable RedundantCatchClause
 using System.Windows;
 using Questionnaire.Data.BusinessContext;
 using Questionnaire.DesktopClient.ViewModels;
@@ -51,6 +52,9 @@ namespace Questionnaire.DesktopClient
                 ( Exception ex ) 
 #endif
             {
+#if DEBUG
+                throw;
+#endif
 #if RELEASE
                 string message = $"{ex.Message} \n {ex.InnerException?.Message}";
                 File.AppendAllText( "questionnaire.log", message );

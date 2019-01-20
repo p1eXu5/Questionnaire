@@ -20,11 +20,11 @@ namespace Questionnaire
 
         public const int SECTION_COEFFICIENT = 6;
 
-        public static Color H1Color { get; set; }
-        public static Color H2Color { get; set; }
-        public static Color H3Color { get; set; }
-        public static Color H4Color { get; set; }
-        public static Color BackgroundColor { get; set; }
+        public static byte[] H1Color { get; set; } = { 0xb4, 0xc7, 0xe7 };
+        public static byte[] H2Color { get; set; } = { 0xa9, 0xd1, 0x8e };
+        public static byte[] H3Color { get; set; } = { 0xc5, 0xe0, 0xb4 };
+        public static byte[] H4Color { get; set; } = { 0xe2, 0xf0, 0xd9 };
+        public static byte[] BackgroundColor { get; set; } = { 0xFF, 0xFF, 0xFF };
 
         public static void MakeReport ( string fileName,  IQuestionnaireBusinessContext context,  ReportOrientation orientation = ReportOrientation.Horizontal )
         {
@@ -72,20 +72,29 @@ namespace Questionnaire
             ExcelExporter.ExportData( newFileName, sheetData );
         }
 
+        /// <summary>
+        /// Makes open answers report.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="firm"></param>
+        /// <param name="sections"></param>
+        /// <returns></returns>
         private static List< IExportingCell > MakeOpenAnswersReport ( IQuestionnaireBusinessContext context, Firm firm, Section[] sections )
         {
-            const int HEADER_ROW_COUNT = 4;
+            const int HEADER_ROW_COUNT = 5;
 
             var cells = new List< IExportingCell >();
             var firmAnswers = context.GetOpenAnswers().Where( f => f.FirmId == firm.Id ).ToArray();
-            var employeeCount = firmAnswers.Select( a => a.Num ).Distinct().Count();
+            var employees = firmAnswers.Select( a => a.Num ).Distinct().OrderBy( e => e ).ToArray();
+            var employeeCount = employees.Length;
 
             if ( 0 == employeeCount ) return cells;
 
             var questionCount = sections.Select( s => s.QuestionOpenCollection.Count ).Sum();
-            var tableData = new IExportingCell[ HEADER_ROW_COUNT + employeeCount, questionCount ];
+            var tableData = new IExportingCell[ HEADER_ROW_COUNT + employeeCount, questionCount + 1 ];
 
             FillHeaderRows();
+            FillEmployees();
             FillDataRows();
 
             cells = tableData.ToList();
@@ -99,8 +108,15 @@ namespace Questionnaire
             {
                 tableData[ 0, 0 ] = new ExportingCell( firm.Name, 0, 0, H1Color );
 
-                tableData[ 1, 0 ] = new ExportingCell( NUM_STRING, 0, 0, H2Color );
-                tableData[ 1, 1 ] = new ExportingCell( CATEGORIES_STRING, 0, 0, H2Color );
+                tableData[ 1, 0 ] = new ExportingCell( NUM_STRING, 1, 0, H2Color );
+                tableData[ 1, 1 ] = new ExportingCell( CATEGORIES_STRING, 1, 1, H2Color );
+            }
+
+            void FillEmployees ()
+            {
+                for( int i = 0; i < employeeCount; i++ ) {
+                    tableData[ HEADER_ROW_COUNT + i, 0 ] = new ExportingCell( employees[ i ], HEADER_ROW_COUNT + i, 0, H4Color );
+                }
             }
 
             void FillDataRows ()
@@ -131,10 +147,15 @@ namespace Questionnaire
             {
                 foreach ( var question in section.QuestionOpenCollection ) {
 
-                    foreach ( var answer in firmAnswers.Where( a => a.Question.Id == question.Id ) ) {
-                    
-                        tableData[ row, column ] = new ExportingCell( answer.Answer, row, column, BackgroundColor );
-                        ++row;
+                    tableData[ row, column ] = new ExportingCell( question.Text, row, column, H4Color );
+
+                    for ( int i = 0; i < employeeCount; i++ ) {
+
+                        var employee = employees[ i ];
+                        var answer = question.Answers.First( a => a.Num == employee );
+                        var answerRow = row + i;
+                        ++answerRow;
+                        tableData[ answerRow, column ] = new ExportingCell( answer.Answer, answerRow, column, BackgroundColor );
                     }
 
                     ++column;

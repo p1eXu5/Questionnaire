@@ -31,7 +31,9 @@ namespace NpoiExcel
             var workbook = new XSSFWorkbook();
             var sheet = workbook.CreateSheet( "0" );
 
-            foreach ( var exportingCell in exportingCells ) {
+            foreach ( var exportingCell in exportingCells )
+            {
+                if ( null == exportingCell ) continue;
 
                 IRow row = sheet.GetRow( exportingCell.Row );
 
