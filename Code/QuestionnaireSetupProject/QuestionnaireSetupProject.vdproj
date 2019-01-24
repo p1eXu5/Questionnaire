@@ -1462,7 +1462,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_F9A1B02E1DED30CC56384EED1C2026AB"
+        "OwnerKey" = "8:_709C7FF81D154FAAB311DF0ADF1316F1"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -2188,18 +2188,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_F037932873F36F8FEC64F81D52467C99"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_709C7FF81D154FAAB311DF0ADF1316F1"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_F0C853605E7A96EC365E9F4E3CA7925A"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -2255,6 +2243,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_8AAC3DC1B1318CA102AAF5F65E82FBE2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_F9A1B02E1DED30CC56384EED1C2026AB"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -6749,11 +6743,6 @@
             "AssemblyAsmDisplayName" = "8:System.ComponentModel.Annotations, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
-                    "_F037932873F36F8FEC64F81D52467C99"
-                    {
-                    "Name" = "8:System.ComponentModel.Annotations.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:System.ComponentModel.Annotations.dll"
             "TargetName" = "8:"
@@ -7098,6 +7087,17 @@
                         {
                         }
                     }
+                }
+            }
+            "{1525181F-901A-416C-8A58-119130FE478E}:_584FA88690C7474EA64BA1871BD9F6C2"
+            {
+            "Name" = "8:#1918"
+            "AlwaysCreate" = "11:FALSE"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Property" = "8:PersonalFolder"
+                "Folders"
+                {
                 }
             }
             "{1525181F-901A-416C-8A58-119130FE478E}:_C7DE6E269E204180A9899ABCFE5D0BDE"

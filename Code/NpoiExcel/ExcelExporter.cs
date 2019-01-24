@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using NPOI.HSSF.Util;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 
@@ -26,12 +24,14 @@ namespace NpoiExcel
         {
             if ( stream == null ) throw new ArgumentNullException( nameof( stream ), @"Stream cannot be null." );
             if ( exportingCells == null ) throw new ArgumentNullException( nameof( exportingCells ), @"Exporting cells cannot be null." );
-            if ( !exportingCells.Any() ) throw new ArgumentException( @"exportingCells cannot be empty.", nameof( exportingCells ) );
+
+            var cells = exportingCells.ToArray();
+            if ( cells.Length == 0 ) throw new ArgumentException( @"exportingCells cannot be empty.", nameof( exportingCells ) );
 
             var workbook = new XSSFWorkbook();
             var sheet = workbook.CreateSheet( "0" );
 
-            foreach ( var exportingCell in exportingCells )
+            foreach ( var exportingCell in cells )
             {
                 if ( null == exportingCell ) continue;
 

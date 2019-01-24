@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using System.ComponentModel;
+using System.IO;
 using System.Windows.Data;
 
 using System.Linq;
@@ -200,6 +201,8 @@ namespace Questionnaire.DesktopClient.ViewModels
             };
 
             if ( sfd.ShowDialog() == true ) {
+
+                //File.Create( sfd.FileName );
                 _questionnaireContext.MakeReport( sfd.FileName );
             }
         }

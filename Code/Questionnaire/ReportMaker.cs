@@ -32,7 +32,8 @@ namespace Questionnaire
             var sections = context.GetSections().ToArray();
 
             // firms
-            foreach ( var firm in firms ) {
+            foreach ( var firm in firms )
+            {
 
                 var sheetData = MakeMultipleChoiceAnswersReport( context, firm, sections );
                 CreateMultipleChoiceAnswersFile( firm, fileName, sheetData );
@@ -53,7 +54,7 @@ namespace Questionnaire
         private static void CreateMultipleChoiceAnswersFile ( Firm firm, string fileName, IEnumerable<IExportingCell> sheetData )
         {
             var location = Path.GetDirectoryName( fileName );
-            var newFileName = $"{location}{Path.GetFileNameWithoutExtension( fileName )}_{firm.Name}_A1{Path.GetExtension( fileName )}";
+            var newFileName = $"{location}\\{Path.GetFileNameWithoutExtension( fileName )}_{firm.Name}_A1{Path.GetExtension( fileName )}";
 
             ExcelExporter.ExportData( newFileName, sheetData );
         }
@@ -67,7 +68,7 @@ namespace Questionnaire
         private static void CreateOpenAnswersFile ( Firm firm, string fileName, IEnumerable< IExportingCell > sheetData )
         {
             var location = Path.GetDirectoryName( fileName );
-            var newFileName = $"{location}{Path.GetFileNameWithoutExtension( fileName )}_{firm.Name}_A2{Path.GetExtension( fileName )}";
+            var newFileName = $"{location}\\{Path.GetFileNameWithoutExtension( fileName )}_{firm.Name}_A2{Path.GetExtension( fileName )}";
 
             ExcelExporter.ExportData( newFileName, sheetData );
         }
