@@ -29,6 +29,13 @@ namespace Questionnaire.Data.Tests.BusinessContext
             };
         }
 
+        public override IEnumerable< FirmType > GetFirmTypes ()
+        {
+            return new FirmType[] {
+                new FirmType { Name = "Test Firm Type" }
+            };
+        }
+
         public override IEnumerable< Firm > GetFirms ()
         {
             return new[] {

@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Agbm.NpoiExcel.Attributes;
+using Questionnaire.Data.Models.Interfaces;
 
 namespace Questionnaire.Data.Models
 {
-    public class Firm
+    public class Firm : INameEntity
     {
         public Firm ()
         {

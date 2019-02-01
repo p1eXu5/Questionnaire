@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using Questionnaire.Data.BusinessContext;
 using Questionnaire.Data.DataContext;
+using Questionnaire.Data.Models;
 
 namespace Questionnaire.Data.Tests.BusinessContext.IntegrationalTests
 {
@@ -12,8 +13,8 @@ namespace Questionnaire.Data.Tests.BusinessContext.IntegrationalTests
     {
         private readonly string[] _paths = new string[8];
 
-        [ SetUp ]
-        public void SavePaths ()
+        
+        private void SavePaths ()
         {
             _paths[ 0 ] = DataSeeder.FileNameRegions;
             DataSeeder.FileNameRegions = DataSeeder.FileNameRegions.AppendAssemblyPath();
@@ -28,8 +29,8 @@ namespace Questionnaire.Data.Tests.BusinessContext.IntegrationalTests
             DataSeeder.FileNameFirms = DataSeeder.FileNameFirms.AppendAssemblyPath();
         }
 
-        [ TearDown ]
-        public void RestorePath ()
+
+        private void RestorePath ()
         {
             DataSeeder.FileNameFirms = _paths[ 3 ];
             DataSeeder.FileNameFirmTypes = _paths[ 2 ];
@@ -42,32 +43,43 @@ namespace Questionnaire.Data.Tests.BusinessContext.IntegrationalTests
         [ Test ]
         public void Ctor_ByDefault_CreatesDb ()
         {
+            SavePaths();
+
             using ( var context = new QuestionnaireBusinessContext() ) {
 
                 Assert.That( context.DbContext.Database.CanConnect );
 
                 context.DbContext.Database.EnsureDeleted();
             }
+
+            RestorePath();
         }
 
+
         [ Test ]
-        public void GetFirms_UnitByDefault_ReturnsFirms ()
+        public void GetFirms_DataSeederNotNull_SeedFirms ()
         {
+            SavePaths();
+
             using ( var context = GetContext() ) {
 
                 var firms = context.GetFirms();
 
                 Assert.That( firms.Any() );
             }
+
+            RestorePath();
         }
 
         [ Test ]
         public void GetRegions_ByDefault_ReturnsRegions ()
         {
+            SavePaths();
+
             QuestionnaireBusinessContext context = null;
 
             try {
-                context = new QuestionnaireBusinessContext();
+                context = new QuestionnaireBusinessContext( new DataSeeder() );
 
                 var regions = context.GetRegions();
 
@@ -77,15 +89,19 @@ namespace Questionnaire.Data.Tests.BusinessContext.IntegrationalTests
             finally {
                 context?.DbContext.Database.EnsureDeleted();
             }
+
+            RestorePath();
         }
 
         [ Test ]
         public void GetCities_ByDefault_ReturnsCities ()
         {
+            SavePaths();
+
             QuestionnaireBusinessContext context = null;
 
             try {
-                context = new QuestionnaireBusinessContext();
+                context = new QuestionnaireBusinessContext( new DataSeeder() );
 
                 var cities = context.GetCities();
 
@@ -95,17 +111,37 @@ namespace Questionnaire.Data.Tests.BusinessContext.IntegrationalTests
             finally {
                 context?.DbContext.Database.EnsureDeleted();
             }
+
+            RestorePath();
+        }
+
+
+        [ Test ]
+        public void AddRegions_RegionsWithFilledId_AddRegions ()
+        {
+            using ( var context = new QuestionnaireBusinessContext() ) {
+
+                var region = new Region { Id = 9999, Name = "asda" };
+
+                var regions = new[] {
+                    region
+                };
+
+                context.AddRegions( regions );
+                context.DeleteRegion( region );
+            }
         }
 
 
 
-        private QuestionnaireBusinessContext GetContext ()
+        private QuestionnaireBusinessContext GetContext ( bool seed = true )
         {
             var options = new DbContextOptionsBuilder< QuestionnaireDbContext >()
                           .UseInMemoryDatabase( databaseName: "TestDb" )
                           .Options;
 
-            return new QuestionnaireBusinessContext( options, new TestDataSeeder() );
+            return seed ? new QuestionnaireBusinessContext( options, new TestDataSeeder() )
+                        : new QuestionnaireBusinessContext( options, null );
         }
     }
 }

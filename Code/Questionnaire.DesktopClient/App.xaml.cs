@@ -6,6 +6,7 @@ using System;
 using System.IO;
 using System.Windows;
 using Questionnaire.Data.BusinessContext;
+using Questionnaire.Data.Models;
 using Questionnaire.DesktopClient.ViewModels;
 using Questionnaire.DesktopClient.ViewModels.DialogViewModels;
 using Questionnaire.DesktopClient.Views;
@@ -26,14 +27,13 @@ namespace Questionnaire.DesktopClient
             base.OnStartup( e );
 
             try {
-
                 var startupWnd = new StartupWindow();
                 startupWnd.Show();
 
                 var wnd = new MainWindow();
-                var businessContext = new QuestionnaireBusinessContext();
-                new DataSeeder();
-                var mainViewModel = new MainViewModel(businessContext, GetDialogRegistrator( wnd ) );
+                var businessContext = new QuestionnaireBusinessContext( new DataSeeder() );
+                
+                var mainViewModel = new MainViewModel( businessContext, GetDialogRegistrator( wnd ) );
 
                 wnd.DataContext = mainViewModel;
 

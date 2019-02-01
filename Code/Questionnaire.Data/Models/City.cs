@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Agbm.NpoiExcel.Attributes;
+using Questionnaire.Data.Models.Interfaces;
 
 namespace Questionnaire.Data.Models
 {
-    public class City
+    public class City : INameEntity
     {
         public City ()
         {

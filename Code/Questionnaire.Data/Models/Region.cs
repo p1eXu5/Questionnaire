@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ using Questionnaire.Data.Models.Interfaces;
 
 namespace Questionnaire.Data.Models
 {
-    public class Region : IEntity
+    public class Region : IEntity, INameEntity
     {
         public Region ()
         {

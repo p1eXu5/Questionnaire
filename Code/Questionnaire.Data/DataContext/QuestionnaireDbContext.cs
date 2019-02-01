@@ -57,7 +57,6 @@ namespace Questionnaire.Data.DataContext
             modelBuilder.Entity< AnswerMultipleChoice >()
                         .Property( a => a.Num )
                         .ValueGeneratedNever();
-
         }
 
         public DbSet< Region > Regions { get; set; }

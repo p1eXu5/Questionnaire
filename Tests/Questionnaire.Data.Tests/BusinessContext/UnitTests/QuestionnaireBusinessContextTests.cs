@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Agbm.Helpers.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +25,7 @@ namespace Questionnaire.Data.Tests.BusinessContext.UnitTests
         public void CloseSqliteConnection()
         {
             _connection.Close();
+            _options = null;
         }
 
         [ Test ]
@@ -147,13 +149,15 @@ namespace Questionnaire.Data.Tests.BusinessContext.UnitTests
         public void AddAnswer__MultipleChoiceAnswer_NumEqualsOrLessThahZero__Throws ( int num )
         {
             // Arrange:
-            var bc = GetQuestionnaireBusinessContext();
-            var answer = GetMultipleChoiceAnswer( bc );
-            answer.Num = num;
+            using ( var bc = GetQuestionnaireBusinessContext() ) {
+             
+                var answer = GetMultipleChoiceAnswer( bc );
+                answer.Num = num;
 
-            // Action:
-            // Assert:
-            var ex = Assert.Catch< ArgumentException >( () => bc.AddAnswer( answer ) );
+                // Action:
+                // Assert:
+                var ex = Assert.Catch< ArgumentException >( () => bc.AddAnswer( answer ) );
+            }
         }
 
 
@@ -220,6 +224,33 @@ namespace Questionnaire.Data.Tests.BusinessContext.UnitTests
             }
         }
 
+        [ Test ]
+        public void AddRegions_RegionsIsNull_Throw ()
+        {
+            using ( var context = GetQuestionnaireBusinessContext( true ) ) {
+
+                var regions = ( IEnumerable< Region > )null;
+                Assert.Catch< ArgumentNullException >( () => context.AddRegions( regions ) );
+            }
+        }
+
+        [Test]
+        public void AddRegions_RegionNameIsNull_DoesNotAdd()
+        {
+            using ( var context = GetQuestionnaireBusinessContext( true ) ) {
+
+                var regions = new[] { new Region(), };
+                context.AddRegions(regions);
+            }
+
+            using ( var context = GetQuestionnaireBusinessContext( true ) ) {
+                var regions = context.GetRegions();
+                Assert.That( !regions.Any() );
+            }
+        }
+
+
+
 
         #region Factory
 
@@ -269,8 +300,8 @@ namespace Questionnaire.Data.Tests.BusinessContext.UnitTests
 
         private QuestionnaireBusinessContext GetQuestionnaireBusinessContext ( bool createEmpty = false )
         {
-
             if ( _options == null ) {
+
                 _options = new DbContextOptionsBuilder< QuestionnaireDbContext >()
                             .UseSqlite( _connection )
                             .Options;

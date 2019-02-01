@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Questionnaire.Data.BusinessContext.Comparers;
 using Questionnaire.Data.BusinessContext.Visitors;
 using Questionnaire.Data.DataContext;
 using Questionnaire.Data.Models;
@@ -25,12 +26,12 @@ namespace Questionnaire.Data.BusinessContext
 
         #region Ctor
 
-        public QuestionnaireBusinessContext ()
+        public QuestionnaireBusinessContext (IDataSeeder dataSeeder = null )
         {
             _context = new QuestionnaireDbContext();
             _context.Database.Migrate();
 
-            new DataSeeder().SeedData( this );
+            dataSeeder?.SeedData( this );
         }
 
         public QuestionnaireBusinessContext ( DbContextOptions< QuestionnaireDbContext > options, IDataSeeder dataSeeder )
@@ -149,10 +150,6 @@ namespace Questionnaire.Data.BusinessContext
         }
 
 
-        public void AddOpenQuestions ( IEnumerable< QuestionOpen > regions )
-        {
-            throw new NotImplementedException();
-        }
 
         public void AddAnswer ( AnswerMultipleChoice answer )
         {
@@ -183,39 +180,100 @@ namespace Questionnaire.Data.BusinessContext
         public void AddRegions ( IEnumerable< Region > regions )
         {
             if (regions == null) throw new ArgumentNullException( nameof( regions ), "Region collection cannot be null.");
-            _context.Regions.AddRange( regions.Where( r => r.IsCorrect( EntityChecker, this ) ) );
+
+            var dbNames = new HashSet< string >( _context.Regions.Select( r => r.Name ) );
+            var coll = regions.Distinct( new NameEntityComparer() ).ToArray();
+            _context.Regions.AddRange( coll.Where( r => !String.IsNullOrWhiteSpace( r.Name ) && !dbNames.Contains( r.Name ) ).Select( r => new Region { Name = r.Name } ) );
+            _context.SaveChanges();
+        }
+
+        public void DeleteRegion ( Region region )
+        {
+            var reg = _context.Regions.FirstOrDefault( r => r.Name.Equals( r.Name ) );
+            if ( null == reg ) return;
+
+            _context.Regions.Remove( reg );
             _context.SaveChanges();
         }
 
         public void AddCities ( IEnumerable< City > cities )
         {
-            throw new NotImplementedException();
+            if ( cities == null ) throw new ArgumentNullException(nameof(cities), "City collection cannot be null.");
+
+            var dbNames = new HashSet<string>( _context.Cities.Select( r => r.Name ) );
+            var coll = cities.Distinct( new NameEntityComparer() ).ToArray();
+            _context.Cities.AddRange( coll.Where( r => !String.IsNullOrWhiteSpace(r.Name) && !dbNames.Contains(r.Name) ).Select(r => new City { Name = r.Name, RegionId = ((City)r).RegionId }));
+            _context.SaveChanges();
         }
 
         public void AddFirmTypes ( IEnumerable< FirmType > firmTypes )
         {
-            throw new NotImplementedException();
+            if ( firmTypes == null ) throw new ArgumentNullException(nameof(firmTypes), "FirmType collection cannot be null.");
+
+            var dbNames = new HashSet<string>( _context.FirmTypes.Select( r => r.Name ) );
+            var coll = firmTypes.Distinct( new NameEntityComparer() ).ToArray();
+            _context.FirmTypes.AddRange( coll.Where( r => !String.IsNullOrWhiteSpace(r.Name) && !dbNames.Contains(r.Name) ).Select(r => new FirmType { Name = r.Name }));
+            _context.SaveChanges();
         }
 
         public void AddFirms ( IEnumerable< Firm > firms )
         {
-            throw new NotImplementedException();
+            if ( firms == null ) throw new ArgumentNullException(nameof(firms), "Firm collection cannot be null.");
+
+            var dbIds = new HashSet< int >( _context.Firms.Select( r => r.Id ) );
+
+            var coll = firms.Distinct( new FirmEqualityComparer() ).ToArray();
+
+            var c = _context.Cities.ToArray();
+            var ft = _context.FirmTypes.ToArray();
+
+            _context.Firms.AddRange( coll.Where( r => !String.IsNullOrWhiteSpace(r.Name) && !dbIds.Contains(r.Id) ).Cast< Firm >() );
+            _context.SaveChanges();
         }
 
         public void AddCategories ( IEnumerable< Category > categories )
         {
-            throw new NotImplementedException();
+            if ( categories == null ) throw new ArgumentNullException(nameof(categories), "Category collection cannot be null.");
+
+            var dbNames = new HashSet<string>( _context.Categories.Select( r => r.Name ) );
+            var coll = categories.Distinct( new NameEntityComparer() ).ToArray();
+            _context.Categories.AddRange( coll.Where( r => !String.IsNullOrWhiteSpace(r.Name) && !dbNames.Contains( r.Name ) ).Select(r => new Category { Name = r.Name }));
+            _context.SaveChanges();
         }
 
         public void AddSections ( IEnumerable< Section > sections )
         {
-            throw new NotImplementedException();
+            if ( sections == null ) throw new ArgumentNullException(nameof(sections), "Section collection cannot be null.");
+
+            var dbNames = new HashSet<string>( _context.Sections.Select( r => r.Name ) );
+            var coll = sections.Distinct( new NameEntityComparer() ).ToArray();
+            _context.Sections.AddRange( coll.Where( r => !String.IsNullOrWhiteSpace(r.Name) && !dbNames.Contains( r.Name ) )
+                                            .Select( r => new Section { Name = r.Name, CategoryId = ((Section)r).CategoryId }));
+            _context.SaveChanges();
         }
 
-        public void AddMultipleChoiceQuestions ( IEnumerable< QuestionMultipleChoice > regions )
+        public void AddMultipleChoiceQuestions ( IEnumerable< QuestionMultipleChoice > questions )
         {
-            throw new NotImplementedException();
+            if ( questions == null ) throw new ArgumentNullException(nameof(questions), "Section collection cannot be null.");
+
+            var dbNames = new HashSet<string>( _context.MultipleChoiceQuestions.Select( r => r.Text ) );
+            var coll = questions.Distinct( new QuestionEqualityComparer() ).ToArray();
+            _context.MultipleChoiceQuestions.AddRange( coll.Where( r => !String.IsNullOrWhiteSpace(r.Text) && !dbNames.Contains( r.Text ) )
+                                            .Select( r => new QuestionMultipleChoice { Text = r.Text, SectionId = (( QuestionMultipleChoice )r).SectionId } ));
+            _context.SaveChanges();
         }
+
+        public void AddOpenQuestions ( IEnumerable< QuestionOpen > questions )
+        {
+            if ( questions == null ) throw new ArgumentNullException(nameof(questions), "Section collection cannot be null.");
+
+            var dbNames = new HashSet<string>( _context.OpenQuestions.Select( r => r.Text ) );
+            var coll = questions.Distinct( new QuestionEqualityComparer() ).ToArray();
+            _context.OpenQuestions.AddRange( coll.Where( r => !String.IsNullOrWhiteSpace(r.Text) && !dbNames.Contains( r.Text ) )
+                                            .Select( r => new QuestionOpen { Text = r.Text, SectionId = (( QuestionOpen )r).SectionId } ));
+            _context.SaveChanges();
+        }
+
 
         public void SaveChanges () => _context.SaveChanges();
 
@@ -246,7 +304,8 @@ namespace Questionnaire.Data.BusinessContext
         {
             public static dynamic Checked ( dynamic answer )
             {
-                if ( answer.Num <= 0 ) throw new ArgumentException("EmployeeNum cannot be not greater than zero");
+                if ( (int)answer.Num <= 0 ) throw new ArgumentException("EmployeeNum cannot be not greater than zero");
+                if ( answer.Firm == null )  throw new ArgumentException("Firm cannot be null");
 
                 return answer;
             }

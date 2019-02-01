@@ -125,12 +125,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BusinessContext\Comparers\FirmEqualityComparer.cs" />
+    <Compile Include="BusinessContext\Comparers\QuestionEqualityComparer.cs" />
     <Compile Include="BusinessContext\Extensions\EntityExtensions.cs" />
     <Compile Include="BusinessContext\IDataSeeder.cs" />
     <Compile Include="BusinessContext\IQuestionnaireBusinessContext.cs" />
     <Compile Include="BusinessContext\MainDataSeeder.cs" />
     <Compile Include="BusinessContext\QuestionnaireBusinessContext.cs" />
     <Compile Include="BusinessContext\DataSeeder.cs" />
+    <Compile Include="BusinessContext\Comparers\NameEntityComparer.cs" />
     <Compile Include="BusinessContext\Visitors\EntityChecker.cs" />
     <Compile Include="DataContext\QuestionnaireDbContext.cs" />
     <Compile Include="ImportModels\FirmImportModel.cs" />
@@ -147,6 +150,7 @@
     <Compile Include="Models\FirmType.cs" />
     <Compile Include="Models\Interfaces\IEntity.cs" />
     <Compile Include="BusinessContext\Visitors\IVisitor.cs" />
+    <Compile Include="Models\Interfaces\INameEntity.cs" />
     <Compile Include="Models\QuestionMultipleChoice.cs" />
     <Compile Include="Models\AnswerOpen.cs" />
     <Compile Include="Models\QuestionOpen.cs" />
