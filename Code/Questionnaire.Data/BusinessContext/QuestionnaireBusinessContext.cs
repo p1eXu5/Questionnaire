@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Questionnaire.Data.BusinessContext.Visitors;
 using Questionnaire.Data.DataContext;
 using Questionnaire.Data.Models;
+using Questionnaire.Data.BusinessContext.Extensions;
 
 namespace Questionnaire.Data.BusinessContext
 {
@@ -14,7 +16,6 @@ namespace Questionnaire.Data.BusinessContext
         #region Fields
 
         private readonly QuestionnaireDbContext _context;
-        private readonly IDataSeeder _dataSeeder;
 
         private bool _disposed;
 
@@ -25,28 +26,21 @@ namespace Questionnaire.Data.BusinessContext
         #region Ctor
 
         public QuestionnaireBusinessContext ()
-            : this ( new DataSeeder() )
         {
             _context = new QuestionnaireDbContext();
             _context.Database.Migrate();
 
-            _dataSeeder.SeedData( this );
-        }
-
-        private QuestionnaireBusinessContext ( IDataSeeder dataSeeder )
-        {
-            _dataSeeder = dataSeeder ?? throw new ArgumentNullException( nameof( dataSeeder ), "IDataSeeder cannot be null." );
+            new DataSeeder().SeedData( this );
         }
 
         public QuestionnaireBusinessContext ( DbContextOptions< QuestionnaireDbContext > options, IDataSeeder dataSeeder )
-            : this( dataSeeder )
         {
             if ( options == null ) throw new ArgumentNullException( nameof( options ), "Options cannot be null." );
 
             _context = new QuestionnaireDbContext( options );
             _context.Database.EnsureCreated();
 
-            _dataSeeder.SeedData( this );
+            dataSeeder?.SeedData( this );
         }
 
         #endregion
@@ -56,6 +50,8 @@ namespace Questionnaire.Data.BusinessContext
         #region Properties
 
         public QuestionnaireDbContext DbContext => _context;
+
+        private EntityChecker EntityChecker { get; } = new EntityChecker();
 
         #endregion
 
@@ -153,6 +149,11 @@ namespace Questionnaire.Data.BusinessContext
         }
 
 
+        public void AddOpenQuestions ( IEnumerable< QuestionOpen > regions )
+        {
+            throw new NotImplementedException();
+        }
+
         public void AddAnswer ( AnswerMultipleChoice answer )
         {
             _context.MultipleChoiceAnswers.Add( Check.Checked( (dynamic)answer ) );
@@ -182,13 +183,38 @@ namespace Questionnaire.Data.BusinessContext
         public void AddRegions ( IEnumerable< Region > regions )
         {
             if (regions == null) throw new ArgumentNullException( nameof( regions ), "Region collection cannot be null.");
+            _context.Regions.AddRange( regions.Where( r => r.IsCorrect( EntityChecker, this ) ) );
+            _context.SaveChanges();
+        }
 
-            using ( var enumerator = regions.GetEnumerator() ) {
+        public void AddCities ( IEnumerable< City > cities )
+        {
+            throw new NotImplementedException();
+        }
 
-                while ( enumerator.MoveNext() ) {
-                    var storedRegion = _context.Regions.FirstOrDefault( r => r.Name.Equals( enumerator.Current.Name ) );
-                }
-            }
+        public void AddFirmTypes ( IEnumerable< FirmType > firmTypes )
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddFirms ( IEnumerable< Firm > firms )
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddCategories ( IEnumerable< Category > categories )
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddSections ( IEnumerable< Section > sections )
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddMultipleChoiceQuestions ( IEnumerable< QuestionMultipleChoice > regions )
+        {
+            throw new NotImplementedException();
         }
 
         public void SaveChanges () => _context.SaveChanges();

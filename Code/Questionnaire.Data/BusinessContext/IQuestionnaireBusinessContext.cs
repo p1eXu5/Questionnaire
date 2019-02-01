@@ -24,6 +24,15 @@ namespace Questionnaire.Data.BusinessContext
         IEnumerable< AnswerOpen > GetOpenAnswers ();
         IEnumerable< AnswerMultipleChoice > GetMultipleChoiceAnswers ();
 
+        void AddRegions ( IEnumerable< Region > regions );
+        void AddCities( IEnumerable< City > cities );
+        void AddFirmTypes( IEnumerable< FirmType > firmTypes );
+        void AddFirms( IEnumerable< Firm > firms );
+        void AddCategories( IEnumerable< Category > categories );
+        void AddSections( IEnumerable< Section > sections );
+        void AddMultipleChoiceQuestions( IEnumerable< QuestionMultipleChoice > regions );
+        void AddOpenQuestions( IEnumerable< QuestionOpen > regions );
+
         void AddAnswer ( AnswerMultipleChoice answer );
         void AddAnswer ( AnswerOpen answer );
 

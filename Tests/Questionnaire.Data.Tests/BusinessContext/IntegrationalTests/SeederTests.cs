@@ -16,7 +16,7 @@ namespace Questionnaire.Data.Tests.BusinessContext.IntegrationalTests
             DataSeeder.FileNameRegions = DataSeeder.FileNameRegions.AppendAssemblyPath();
 
             // Action:
-            var res = DataSeeder.GetRegions().ToList();
+            var res = new DataSeeder().GetRegions().ToList();
 
             // Assert:
             Assert.That( 14 == res.Count, $"res.Count: { res.Count }" );
@@ -33,7 +33,7 @@ namespace Questionnaire.Data.Tests.BusinessContext.IntegrationalTests
             DataSeeder.FileNameRegions = "";
 
             // Action:
-            var res = DataSeeder.GetRegions();
+            var res = new DataSeeder().GetRegions();
 
             // Assert:
             Assert.That( !res.Any() );
@@ -47,7 +47,7 @@ namespace Questionnaire.Data.Tests.BusinessContext.IntegrationalTests
             var oldFileName = DataSeeder.FileNameCities;
             DataSeeder.FileNameCities = DataSeeder.FileNameCities.AppendAssemblyPath();
 
-            var res = DataSeeder.GetCities().ToList();
+            var res = new DataSeeder().GetCities().ToList();
 
             Assert.That( 5 == res.Count, $"res.Count: { res.Count }" );
             DataSeeder.FileNameCities = oldFileName;
@@ -61,7 +61,7 @@ namespace Questionnaire.Data.Tests.BusinessContext.IntegrationalTests
             DataSeeder.FileNameCities = "";
 
             // Action:
-            var res = DataSeeder.GetCities();
+            var res = new DataSeeder().GetCities();
 
             // Assert:
             Assert.That( !res.Any() );
@@ -75,7 +75,7 @@ namespace Questionnaire.Data.Tests.BusinessContext.IntegrationalTests
             var oldFileName = DataSeeder.FileNameFirmTypes;
             DataSeeder.FileNameFirmTypes = DataSeeder.FileNameFirmTypes.AppendAssemblyPath();
 
-            var res = DataSeeder.GetFirmTypes().ToList();
+            var res = new DataSeeder().GetFirmTypes().ToList();
 
             Assert.That( 10 == res.Count, $"res.Count: { res.Count }"   );
             DataSeeder.FileNameFirmTypes = oldFileName;
@@ -89,7 +89,7 @@ namespace Questionnaire.Data.Tests.BusinessContext.IntegrationalTests
             DataSeeder.FileNameFirmTypes = "";
 
             // Action:
-            var res = DataSeeder.GetFirmTypes();
+            var res = new DataSeeder().GetFirmTypes();
 
             // Assert:
             Assert.That( !res.Any() );
@@ -103,7 +103,7 @@ namespace Questionnaire.Data.Tests.BusinessContext.IntegrationalTests
             var oldFileName = DataSeeder.FileNameFirms;
             DataSeeder.FileNameFirms = DataSeeder.FileNameFirms.AppendAssemblyPath();
 
-            var res = DataSeeder.GetFirms().ToList();
+            var res = new DataSeeder().GetFirms().ToList();
 
             Assert.That( 4 == res.Count, $"res.Count: { res.Count }"  );
             DataSeeder.FileNameFirms = oldFileName;
@@ -117,7 +117,7 @@ namespace Questionnaire.Data.Tests.BusinessContext.IntegrationalTests
             DataSeeder.FileNameFirms = "";
 
             // Action:
-            var res = DataSeeder.GetFirms();
+            var res = new DataSeeder().GetFirms();
 
             // Assert:
             Assert.That( !res.Any() );
@@ -131,7 +131,7 @@ namespace Questionnaire.Data.Tests.BusinessContext.IntegrationalTests
             var oldFileName = DataSeeder.FileNameCategories;
             DataSeeder.FileNameCategories = DataSeeder.FileNameCategories.AppendAssemblyPath();
 
-            var res = DataSeeder.GetCategories().ToList();
+            var res = new DataSeeder().GetCategories().ToList();
 
             Assert.That( 3 == res.Count, $"res.Count: { res.Count }"  );
             DataSeeder.FileNameCategories = oldFileName;
@@ -145,7 +145,7 @@ namespace Questionnaire.Data.Tests.BusinessContext.IntegrationalTests
             DataSeeder.FileNameCategories = "";
 
             // Action:
-            var res = DataSeeder.GetCategories();
+            var res = new DataSeeder().GetCategories();
 
             // Assert:
             Assert.That( !res.Any() );
@@ -158,7 +158,7 @@ namespace Questionnaire.Data.Tests.BusinessContext.IntegrationalTests
             var oldFileName = DataSeeder.FileNameSections;
             DataSeeder.FileNameSections = DataSeeder.FileNameSections.AppendAssemblyPath();
 
-            var res = DataSeeder.GetSections().ToList();
+            var res = new DataSeeder().GetSections().ToList();
 
             Assert.That( 8 == res.Count, $"res.Count: { res.Count }"  );
             DataSeeder.FileNameSections = oldFileName;
@@ -172,7 +172,7 @@ namespace Questionnaire.Data.Tests.BusinessContext.IntegrationalTests
             DataSeeder.FileNameSections = "";
 
             // Action:
-            var res = DataSeeder.GetSections();
+            var res = new DataSeeder().GetSections();
 
             // Assert:
             Assert.That( !res.Any() );
@@ -185,7 +185,7 @@ namespace Questionnaire.Data.Tests.BusinessContext.IntegrationalTests
             var oldFileName = DataSeeder.FileNameQuestionMultipleChoiceList;
             DataSeeder.FileNameQuestionMultipleChoiceList = DataSeeder.FileNameQuestionMultipleChoiceList.AppendAssemblyPath();
 
-            var res = DataSeeder.GetMultipleChoiceQuestions().ToList();
+            var res = new DataSeeder().GetMultipleChoiceQuestions().ToList();
 
             Assert.That( 48 == res.Count, $"res.Count: { res.Count }"  );
             DataSeeder.FileNameQuestionMultipleChoiceList = oldFileName;
@@ -199,7 +199,7 @@ namespace Questionnaire.Data.Tests.BusinessContext.IntegrationalTests
             DataSeeder.FileNameQuestionMultipleChoiceList = "";
 
             // Action:
-            var res = DataSeeder.GetMultipleChoiceQuestions();
+            var res = new DataSeeder().GetMultipleChoiceQuestions();
 
             // Assert:
             Assert.That( !res.Any() );
@@ -212,7 +212,7 @@ namespace Questionnaire.Data.Tests.BusinessContext.IntegrationalTests
             var oldFileName = DataSeeder.FileNameQuestionOpenList;
             DataSeeder.FileNameQuestionOpenList = DataSeeder.FileNameQuestionOpenList.AppendAssemblyPath();
 
-            var res = DataSeeder.GetOpenQuestions().ToList();
+            var res = new DataSeeder().GetOpenQuestions().ToList();
 
             Assert.That( 9 == res.Count, $"res.Count: { res.Count }"  );
             DataSeeder.FileNameQuestionOpenList = oldFileName;
@@ -226,7 +226,7 @@ namespace Questionnaire.Data.Tests.BusinessContext.IntegrationalTests
             DataSeeder.FileNameQuestionOpenList = "";
 
             // Action:
-            var res = DataSeeder.GetOpenQuestions();
+            var res = new DataSeeder().GetOpenQuestions();
 
             // Assert:
             Assert.That( !res.Any() );

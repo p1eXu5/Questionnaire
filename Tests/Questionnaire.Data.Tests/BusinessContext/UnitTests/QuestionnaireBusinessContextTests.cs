@@ -13,15 +13,15 @@ namespace Questionnaire.Data.Tests.BusinessContext.UnitTests
     [ TestFixture ]
     public class QuestionnaireBusinessContextTests
     {
-        [ SetUp ]
-        public void OpenSqliteConnection ()
+        [SetUp]
+        public void OpenSqliteConnection()
         {
             _connection = new SqliteConnection("DataSource=:memory:");
             _connection.Open();
         }
 
-        [ TearDown ]
-        public void CloseSqliteConnection ()
+        [TearDown]
+        public void CloseSqliteConnection()
         {
             _connection.Close();
         }
@@ -196,11 +196,36 @@ namespace Questionnaire.Data.Tests.BusinessContext.UnitTests
         }
 
 
+        [ Test ]
+        public void AddRegions_RegionWithExistedNameDifferentId_DoesntAddRegionInDb ()
+        {
+            var regionName = "Region 1";
+
+            using ( var context = GetQuestionnaireBusinessContext( true ) ) {
+
+                var regions = new[] {
+                    new Region { Id = 1, Name = regionName },
+                    new Region { Id = 2, Name = regionName },
+                    new Region { Id = 3, Name = regionName }
+                };
+
+                context.AddRegions( regions );
+            }
+
+            using ( var context = GetQuestionnaireBusinessContext( true ) ) {
+
+                var regions = context.GetRegions().Where( r => r.Name.Equals( regionName ) ).ToArray();
+                Assert.That( 1 == regions.Length, $"was { regions.Length }" );
+                Assert.That( 1 == regions[0].Id, $"was { regions[0].Id }");
+            }
+        }
+
 
         #region Factory
 
         private readonly string[] _paths = new string[8];
         private SqliteConnection _connection;
+        private DbContextOptions< QuestionnaireDbContext > _options;
 
         private void SavePaths ()
         {
@@ -242,13 +267,18 @@ namespace Questionnaire.Data.Tests.BusinessContext.UnitTests
             DataSeeder.FileNameSections = _paths[ 0 ];
         }
 
-        private QuestionnaireBusinessContext GetQuestionnaireBusinessContext ()
+        private QuestionnaireBusinessContext GetQuestionnaireBusinessContext ( bool createEmpty = false )
         {
-            var options = new DbContextOptionsBuilder< QuestionnaireDbContext >()
+
+            if ( _options == null ) {
+                _options = new DbContextOptionsBuilder< QuestionnaireDbContext >()
                             .UseSqlite( _connection )
                             .Options;
+            }
 
-            return new QuestionnaireBusinessContext( options, new TestDataSeeder() );
+            return createEmpty
+                        ? new QuestionnaireBusinessContext( _options, null )
+                        : new QuestionnaireBusinessContext( _options, new TestDataSeeder() );
         }
 
         private AnswerOpen GetOpenAnswer ( IQuestionnaireBusinessContext context )

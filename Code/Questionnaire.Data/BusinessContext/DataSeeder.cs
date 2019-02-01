@@ -34,7 +34,7 @@ namespace Questionnaire.Data.BusinessContext
         public static SheetTable QuestionMultipleChoiceTable { get; private set; }
         
 
-        public static IEnumerable< Region > GetRegions ()
+        public virtual IEnumerable< Region > GetRegions ()
         {
             try {
                 if ( RegionSheetTable == default( SheetTable ) ) {
@@ -49,7 +49,7 @@ namespace Questionnaire.Data.BusinessContext
             }
         }
 
-        public static IEnumerable< City > GetCities ()
+        public virtual IEnumerable< City > GetCities ()
         {
             try {
                 if ( CitySheetTable == default( SheetTable ) ) {
@@ -64,7 +64,7 @@ namespace Questionnaire.Data.BusinessContext
             }
         }
 
-        public static IEnumerable< FirmType > GetFirmTypes ()
+        public virtual IEnumerable< FirmType > GetFirmTypes ()
         {
             try {
                 if ( FirmTypeSheetTable == default( SheetTable ) ) {
@@ -79,7 +79,7 @@ namespace Questionnaire.Data.BusinessContext
             }
         }
 
-        public static IEnumerable< Firm > GetFirms ()
+        public virtual IEnumerable< Firm > GetFirms ()
         {
             try {
                 if ( FirmSheetTable == default( SheetTable ) ) {
@@ -94,7 +94,7 @@ namespace Questionnaire.Data.BusinessContext
             }
         }
 
-        public static IEnumerable< Category > GetCategories ()
+        public virtual IEnumerable< Category > GetCategories ()
         {
             try {
                 if ( CategoryTable == default( SheetTable ) ) {
@@ -109,7 +109,7 @@ namespace Questionnaire.Data.BusinessContext
             }
         }
 
-        public static IEnumerable< Section > GetSections ()
+        public virtual IEnumerable< Section > GetSections ()
         {
             try {
                 if ( SectionTable == default( SheetTable ) ) {
@@ -126,7 +126,7 @@ namespace Questionnaire.Data.BusinessContext
             }
         }
 
-        public static IEnumerable< QuestionMultipleChoice > GetMultipleChoiceQuestions ()
+        public virtual IEnumerable< QuestionMultipleChoice > GetMultipleChoiceQuestions ()
         {
             try {
                 if ( QuestionMultipleChoiceTable == default( SheetTable ) ) {
@@ -141,7 +141,7 @@ namespace Questionnaire.Data.BusinessContext
             }
         }
 
-        public static IEnumerable< QuestionOpen > GetOpenQuestions ()
+        public virtual IEnumerable< QuestionOpen > GetOpenQuestions ()
         {
             try {
                 if ( QuestionOpenTable == default( SheetTable ) ) {
@@ -156,23 +156,16 @@ namespace Questionnaire.Data.BusinessContext
             }
         }
 
-        public void SeedData(QuestionnaireBusinessContext context)
+        public void SeedData(IQuestionnaireBusinessContext context)
         {
             context.AddRegions( GetRegions() );
-            //SeedEntitiesWithZeroId(context.Regions, DataSeeder.GetRegions(), context);
-            //SeedEntitiesWithZeroId(context.Cities, DataSeeder.GetCities(), context);
-            //SeedEntitiesWithZeroId(context.FirmTypes, DataSeeder.GetFirmTypes(), context);
-
-            //if (!context.Firms.Any())
-            //{
-            //    context.Firms.AddRange(DataSeeder.GetFirms());
-            //    context.SaveChanges();
-            //}
-
-            //SeedEntitiesWithZeroId(context.Categories, DataSeeder.GetCategories(), context);
-            //SeedEntitiesWithZeroId(context.Sections, DataSeeder.GetSections(), context);
-            //SeedEntitiesWithZeroId(context.MultipleChoiceQuestions, DataSeeder.GetMultipleChoiceQuestions(), context);
-            //SeedEntitiesWithZeroId(context.OpenQuestions, DataSeeder.GetOpenQuestions(), context);
+            context.AddCities( GetCities() );
+            context.AddFirmTypes( GetFirmTypes() );
+            context.AddFirms( GetFirms() );
+            context.AddCategories( GetCategories() );
+            context.AddSections( GetSections() );
+            context.AddMultipleChoiceQuestions( GetMultipleChoiceQuestions() );
+            context.AddOpenQuestions( GetOpenQuestions() );
         }
 
     }
