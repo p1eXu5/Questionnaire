@@ -4,13 +4,13 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NpoiExcel;
+using Agbm.NpoiExcel;
 using Questionnaire.Data.DataContext;
 using Questionnaire.Data.Models;
 
 namespace Questionnaire.Data.BusinessContext
 {
-    public static class Seeder
+    public class DataSeeder : IDataSeeder
     {
         public static string FileNameRegions { get; set; } = @"SeedFiles/Regions.xlsx";
         public static string FileNameCities { get; set; } = @"SeedFiles/Cities.xlsx";
@@ -155,5 +155,25 @@ namespace Questionnaire.Data.BusinessContext
                 return new QuestionOpen[0];
             }
         }
+
+        public void SeedData(QuestionnaireBusinessContext context)
+        {
+            context.AddRegions( GetRegions() );
+            //SeedEntitiesWithZeroId(context.Regions, DataSeeder.GetRegions(), context);
+            //SeedEntitiesWithZeroId(context.Cities, DataSeeder.GetCities(), context);
+            //SeedEntitiesWithZeroId(context.FirmTypes, DataSeeder.GetFirmTypes(), context);
+
+            //if (!context.Firms.Any())
+            //{
+            //    context.Firms.AddRange(DataSeeder.GetFirms());
+            //    context.SaveChanges();
+            //}
+
+            //SeedEntitiesWithZeroId(context.Categories, DataSeeder.GetCategories(), context);
+            //SeedEntitiesWithZeroId(context.Sections, DataSeeder.GetSections(), context);
+            //SeedEntitiesWithZeroId(context.MultipleChoiceQuestions, DataSeeder.GetMultipleChoiceQuestions(), context);
+            //SeedEntitiesWithZeroId(context.OpenQuestions, DataSeeder.GetOpenQuestions(), context);
+        }
+
     }
 }

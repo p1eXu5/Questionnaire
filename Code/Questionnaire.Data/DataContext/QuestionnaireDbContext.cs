@@ -24,15 +24,12 @@ namespace Questionnaire.Data.DataContext
             if ( !optionsBuilder.IsConfigured ) {
 
                 try {
-                    var connectionStr = ConfigurationManager
-                                        .ConnectionStrings[ "Questionnaire" ].ConnectionString;
-
+                    var connectionStr = ConfigurationManager.ConnectionStrings[ "Questionnaire" ].ConnectionString;
                     optionsBuilder.UseSqlServer( connectionStr );
                 }
                 catch ( Exception ) {
                     throw new ConfigurationErrorsException("Какая-то беда с connectionString.");
                 }
-
             }
         }
 
@@ -50,7 +47,6 @@ namespace Questionnaire.Data.DataContext
             modelBuilder.Entity< AnswerOpen >()
                         .Property( a => a.Num )
                         .ValueGeneratedNever();
-
 
 
             modelBuilder.Entity< AnswerMultipleChoice >().HasAlternateKey( a => new { a.Id, a.FirmId, a.Num } );

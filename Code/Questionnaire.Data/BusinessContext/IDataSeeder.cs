@@ -9,6 +9,6 @@ namespace Questionnaire.Data.BusinessContext
 {
     public interface IDataSeeder
     {
-        void SeedData ( QuestionnaireDbContext context );
+        void SeedData ( QuestionnaireBusinessContext context );
     }
 }

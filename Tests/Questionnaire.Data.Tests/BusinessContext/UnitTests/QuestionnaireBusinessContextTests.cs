@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Helpers.Extensions;
+using Agbm.Helpers.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.Sqlite;
 using NUnit.Framework;
@@ -204,42 +204,42 @@ namespace Questionnaire.Data.Tests.BusinessContext.UnitTests
 
         private void SavePaths ()
         {
-            _paths[ 0 ] = Seeder.FileNameRegions;
-            Seeder.FileNameRegions = Seeder.FileNameRegions.AppendAssemblyPath();
+            _paths[ 0 ] = DataSeeder.FileNameRegions;
+            DataSeeder.FileNameRegions = DataSeeder.FileNameRegions.AppendAssemblyPath();
 
-            _paths[ 1 ] = Seeder.FileNameCities;
-            Seeder.FileNameCities = Seeder.FileNameCities.AppendAssemblyPath();
+            _paths[ 1 ] = DataSeeder.FileNameCities;
+            DataSeeder.FileNameCities = DataSeeder.FileNameCities.AppendAssemblyPath();
 
-            _paths[ 2 ] = Seeder.FileNameFirmTypes;
-            Seeder.FileNameFirmTypes = Seeder.FileNameFirmTypes.AppendAssemblyPath();
+            _paths[ 2 ] = DataSeeder.FileNameFirmTypes;
+            DataSeeder.FileNameFirmTypes = DataSeeder.FileNameFirmTypes.AppendAssemblyPath();
 
-            _paths[ 3 ] = Seeder.FileNameFirms;
-            Seeder.FileNameFirms = Seeder.FileNameFirms.AppendAssemblyPath();
+            _paths[ 3 ] = DataSeeder.FileNameFirms;
+            DataSeeder.FileNameFirms = DataSeeder.FileNameFirms.AppendAssemblyPath();
 
 
-            _paths[ 4 ] = Seeder.FileNameCategories;
-            Seeder.FileNameCategories = Seeder.FileNameCategories.AppendAssemblyPath();
+            _paths[ 4 ] = DataSeeder.FileNameCategories;
+            DataSeeder.FileNameCategories = DataSeeder.FileNameCategories.AppendAssemblyPath();
 
-            _paths[ 5 ] = Seeder.FileNameSections;
-            Seeder.FileNameSections = Seeder.FileNameSections.AppendAssemblyPath();
+            _paths[ 5 ] = DataSeeder.FileNameSections;
+            DataSeeder.FileNameSections = DataSeeder.FileNameSections.AppendAssemblyPath();
 
-            _paths[ 6 ] = Seeder.FileNameQuestionMultipleChoiceList;
-            Seeder.FileNameQuestionMultipleChoiceList = Seeder.FileNameQuestionMultipleChoiceList.AppendAssemblyPath();
+            _paths[ 6 ] = DataSeeder.FileNameQuestionMultipleChoiceList;
+            DataSeeder.FileNameQuestionMultipleChoiceList = DataSeeder.FileNameQuestionMultipleChoiceList.AppendAssemblyPath();
 
-            _paths[ 7 ] = Seeder.FileNameQuestionOpenList;
-            Seeder.FileNameQuestionOpenList = Seeder.FileNameQuestionOpenList.AppendAssemblyPath();
+            _paths[ 7 ] = DataSeeder.FileNameQuestionOpenList;
+            DataSeeder.FileNameQuestionOpenList = DataSeeder.FileNameQuestionOpenList.AppendAssemblyPath();
         }
 
         private void RestorePath ()
         {
-            Seeder.FileNameQuestionOpenList = _paths[ 7 ];
-            Seeder.FileNameQuestionMultipleChoiceList = _paths[ 6 ];
-            Seeder.FileNameSections = _paths[ 5 ];
-            Seeder.FileNameCategories = _paths[ 4 ];
-            Seeder.FileNameFirms = _paths[ 3 ];
-            Seeder.FileNameFirmTypes = _paths[ 2 ];
-            Seeder.FileNameCities = _paths[ 1 ];
-            Seeder.FileNameSections = _paths[ 0 ];
+            DataSeeder.FileNameQuestionOpenList = _paths[ 7 ];
+            DataSeeder.FileNameQuestionMultipleChoiceList = _paths[ 6 ];
+            DataSeeder.FileNameSections = _paths[ 5 ];
+            DataSeeder.FileNameCategories = _paths[ 4 ];
+            DataSeeder.FileNameFirms = _paths[ 3 ];
+            DataSeeder.FileNameFirmTypes = _paths[ 2 ];
+            DataSeeder.FileNameCities = _paths[ 1 ];
+            DataSeeder.FileNameSections = _paths[ 0 ];
         }
 
         private QuestionnaireBusinessContext GetQuestionnaireBusinessContext ()

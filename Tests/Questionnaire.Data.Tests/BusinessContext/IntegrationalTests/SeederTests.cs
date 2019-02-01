@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Helpers.Extensions;
+using Agbm.Helpers.Extensions;
 using NUnit.Framework;
 using Questionnaire.Data.BusinessContext;
 
@@ -12,225 +12,225 @@ namespace Questionnaire.Data.Tests.BusinessContext.IntegrationalTests
         public void GetRegions_FileExists_Returns14Regions ()
         {
             // Arrange:
-            var oldFileName = Seeder.FileNameRegions;
-            Seeder.FileNameRegions = Seeder.FileNameRegions.AppendAssemblyPath();
+            var oldFileName = DataSeeder.FileNameRegions;
+            DataSeeder.FileNameRegions = DataSeeder.FileNameRegions.AppendAssemblyPath();
 
             // Action:
-            var res = Seeder.GetRegions().ToList();
+            var res = DataSeeder.GetRegions().ToList();
 
             // Assert:
             Assert.That( 14 == res.Count, $"res.Count: { res.Count }" );
 
             // Clean:
-            Seeder.FileNameRegions = oldFileName;
+            DataSeeder.FileNameRegions = oldFileName;
         }
 
         [Test]
         public void Getegions_FileDoesNotExists_ReturnEmptyRegionCollection ()
         {
             // Arrange:
-            var originFile = Seeder.FileNameRegions;
-            Seeder.FileNameRegions = "";
+            var originFile = DataSeeder.FileNameRegions;
+            DataSeeder.FileNameRegions = "";
 
             // Action:
-            var res = Seeder.GetRegions();
+            var res = DataSeeder.GetRegions();
 
             // Assert:
             Assert.That( !res.Any() );
-            Seeder.FileNameRegions = originFile;
+            DataSeeder.FileNameRegions = originFile;
         }
 
 
         [Test]
         public void GetCities_FileExists_Returns4Cities ()
         {
-            var oldFileName = Seeder.FileNameCities;
-            Seeder.FileNameCities = Seeder.FileNameCities.AppendAssemblyPath();
+            var oldFileName = DataSeeder.FileNameCities;
+            DataSeeder.FileNameCities = DataSeeder.FileNameCities.AppendAssemblyPath();
 
-            var res = Seeder.GetCities().ToList();
+            var res = DataSeeder.GetCities().ToList();
 
             Assert.That( 5 == res.Count, $"res.Count: { res.Count }" );
-            Seeder.FileNameCities = oldFileName;
+            DataSeeder.FileNameCities = oldFileName;
         }
 
         [Test]
         public void GetCities_FileDoesNotExists_ReturnEmptyCityCollection ()
         {
             // Arrange:
-            var originFile = Seeder.FileNameCities;
-            Seeder.FileNameCities = "";
+            var originFile = DataSeeder.FileNameCities;
+            DataSeeder.FileNameCities = "";
 
             // Action:
-            var res = Seeder.GetCities();
+            var res = DataSeeder.GetCities();
 
             // Assert:
             Assert.That( !res.Any() );
-            Seeder.FileNameCities = originFile;
+            DataSeeder.FileNameCities = originFile;
         }
 
 
         [ Test ]
         public void GetFirmTypes_FileExists_Returns10FirmTypes ()
         {
-            var oldFileName = Seeder.FileNameFirmTypes;
-            Seeder.FileNameFirmTypes = Seeder.FileNameFirmTypes.AppendAssemblyPath();
+            var oldFileName = DataSeeder.FileNameFirmTypes;
+            DataSeeder.FileNameFirmTypes = DataSeeder.FileNameFirmTypes.AppendAssemblyPath();
 
-            var res = Seeder.GetFirmTypes().ToList();
+            var res = DataSeeder.GetFirmTypes().ToList();
 
             Assert.That( 10 == res.Count, $"res.Count: { res.Count }"   );
-            Seeder.FileNameFirmTypes = oldFileName;
+            DataSeeder.FileNameFirmTypes = oldFileName;
         }
 
         [ Test ]
         public void GetFirmTypes_FileDoesNotExists_ReturnEmptyFirmTypeCollection ()
         {
             // Arrange:
-            var originFile = Seeder.FileNameFirmTypes;
-            Seeder.FileNameFirmTypes = "";
+            var originFile = DataSeeder.FileNameFirmTypes;
+            DataSeeder.FileNameFirmTypes = "";
 
             // Action:
-            var res = Seeder.GetFirmTypes();
+            var res = DataSeeder.GetFirmTypes();
 
             // Assert:
             Assert.That( !res.Any() );
-            Seeder.FileNameFirmTypes = originFile;
+            DataSeeder.FileNameFirmTypes = originFile;
         }
 
 
         [ Test ]
         public void GetFirms_FileExists_Returns4Firms ()
         {
-            var oldFileName = Seeder.FileNameFirms;
-            Seeder.FileNameFirms = Seeder.FileNameFirms.AppendAssemblyPath();
+            var oldFileName = DataSeeder.FileNameFirms;
+            DataSeeder.FileNameFirms = DataSeeder.FileNameFirms.AppendAssemblyPath();
 
-            var res = Seeder.GetFirms().ToList();
+            var res = DataSeeder.GetFirms().ToList();
 
             Assert.That( 4 == res.Count, $"res.Count: { res.Count }"  );
-            Seeder.FileNameFirms = oldFileName;
+            DataSeeder.FileNameFirms = oldFileName;
         }
 
         [ Test ]
         public void GetFirms_FileDoesNotExists_ReturnEmptyFirmCollection ()
         {
             // Arrange:
-            var originFile = Seeder.FileNameFirms;
-            Seeder.FileNameFirms = "";
+            var originFile = DataSeeder.FileNameFirms;
+            DataSeeder.FileNameFirms = "";
 
             // Action:
-            var res = Seeder.GetFirms();
+            var res = DataSeeder.GetFirms();
 
             // Assert:
             Assert.That( !res.Any() );
-            Seeder.FileNameFirms = originFile;
+            DataSeeder.FileNameFirms = originFile;
         }
 
 
         [ Test ]
         public void GetCategories_FileExists_Returns3Categories ()
         {
-            var oldFileName = Seeder.FileNameCategories;
-            Seeder.FileNameCategories = Seeder.FileNameCategories.AppendAssemblyPath();
+            var oldFileName = DataSeeder.FileNameCategories;
+            DataSeeder.FileNameCategories = DataSeeder.FileNameCategories.AppendAssemblyPath();
 
-            var res = Seeder.GetCategories().ToList();
+            var res = DataSeeder.GetCategories().ToList();
 
             Assert.That( 3 == res.Count, $"res.Count: { res.Count }"  );
-            Seeder.FileNameCategories = oldFileName;
+            DataSeeder.FileNameCategories = oldFileName;
         }
 
         [ Test ]
         public void GetCategories_FileDoesNotExists_ReturnEmptyCategoryCollection ()
         {
             // Arrange:
-            var originFile = Seeder.FileNameCategories;
-            Seeder.FileNameCategories = "";
+            var originFile = DataSeeder.FileNameCategories;
+            DataSeeder.FileNameCategories = "";
 
             // Action:
-            var res = Seeder.GetCategories();
+            var res = DataSeeder.GetCategories();
 
             // Assert:
             Assert.That( !res.Any() );
-            Seeder.FileNameCategories = originFile;
+            DataSeeder.FileNameCategories = originFile;
         }
 
         [ Test ]
         public void GetSections_FileExists_Returns8Sections ()
         {
-            var oldFileName = Seeder.FileNameSections;
-            Seeder.FileNameSections = Seeder.FileNameSections.AppendAssemblyPath();
+            var oldFileName = DataSeeder.FileNameSections;
+            DataSeeder.FileNameSections = DataSeeder.FileNameSections.AppendAssemblyPath();
 
-            var res = Seeder.GetSections().ToList();
+            var res = DataSeeder.GetSections().ToList();
 
             Assert.That( 8 == res.Count, $"res.Count: { res.Count }"  );
-            Seeder.FileNameSections = oldFileName;
+            DataSeeder.FileNameSections = oldFileName;
         }
 
         [ Test ]
         public void GetSections_FileDoesNotExists_ReturnEmptySectionCollection ()
         {
             // Arrange:
-            var originFile = Seeder.FileNameSections;
-            Seeder.FileNameSections = "";
+            var originFile = DataSeeder.FileNameSections;
+            DataSeeder.FileNameSections = "";
 
             // Action:
-            var res = Seeder.GetSections();
+            var res = DataSeeder.GetSections();
 
             // Assert:
             Assert.That( !res.Any() );
-            Seeder.FileNameSections = originFile;
+            DataSeeder.FileNameSections = originFile;
         }
 
         [ Test ]
         public void GetMultipleChoiceQuestions_FileExists_Returns48Questions ()
         {
-            var oldFileName = Seeder.FileNameQuestionMultipleChoiceList;
-            Seeder.FileNameQuestionMultipleChoiceList = Seeder.FileNameQuestionMultipleChoiceList.AppendAssemblyPath();
+            var oldFileName = DataSeeder.FileNameQuestionMultipleChoiceList;
+            DataSeeder.FileNameQuestionMultipleChoiceList = DataSeeder.FileNameQuestionMultipleChoiceList.AppendAssemblyPath();
 
-            var res = Seeder.GetMultipleChoiceQuestions().ToList();
+            var res = DataSeeder.GetMultipleChoiceQuestions().ToList();
 
             Assert.That( 48 == res.Count, $"res.Count: { res.Count }"  );
-            Seeder.FileNameQuestionMultipleChoiceList = oldFileName;
+            DataSeeder.FileNameQuestionMultipleChoiceList = oldFileName;
         }
 
         [ Test ]
         public void GetMultipleChoiceQuestions_FileDoesNotExists_ReturnEmptyQuestionCollection ()
         {
             // Arrange:
-            var originFile = Seeder.FileNameQuestionMultipleChoiceList;
-            Seeder.FileNameQuestionMultipleChoiceList = "";
+            var originFile = DataSeeder.FileNameQuestionMultipleChoiceList;
+            DataSeeder.FileNameQuestionMultipleChoiceList = "";
 
             // Action:
-            var res = Seeder.GetMultipleChoiceQuestions();
+            var res = DataSeeder.GetMultipleChoiceQuestions();
 
             // Assert:
             Assert.That( !res.Any() );
-            Seeder.FileNameQuestionMultipleChoiceList = originFile;
+            DataSeeder.FileNameQuestionMultipleChoiceList = originFile;
         }
 
         [ Test ]
         public void GetOpenQuestions_FileExists_Returns9Questions ()
         {
-            var oldFileName = Seeder.FileNameQuestionOpenList;
-            Seeder.FileNameQuestionOpenList = Seeder.FileNameQuestionOpenList.AppendAssemblyPath();
+            var oldFileName = DataSeeder.FileNameQuestionOpenList;
+            DataSeeder.FileNameQuestionOpenList = DataSeeder.FileNameQuestionOpenList.AppendAssemblyPath();
 
-            var res = Seeder.GetOpenQuestions().ToList();
+            var res = DataSeeder.GetOpenQuestions().ToList();
 
             Assert.That( 9 == res.Count, $"res.Count: { res.Count }"  );
-            Seeder.FileNameQuestionOpenList = oldFileName;
+            DataSeeder.FileNameQuestionOpenList = oldFileName;
         }
 
         [ Test ]
         public void GetOpenQuestions_FileDoesNotExists_ReturnEmptyQuestionCollection ()
         {
             // Arrange:
-            var originFile = Seeder.FileNameQuestionOpenList;
-            Seeder.FileNameQuestionOpenList = "";
+            var originFile = DataSeeder.FileNameQuestionOpenList;
+            DataSeeder.FileNameQuestionOpenList = "";
 
             // Action:
-            var res = Seeder.GetOpenQuestions();
+            var res = DataSeeder.GetOpenQuestions();
 
             // Assert:
             Assert.That( !res.Any() );
-            Seeder.FileNameQuestionOpenList = originFile;
+            DataSeeder.FileNameQuestionOpenList = originFile;
         }
     }
 }

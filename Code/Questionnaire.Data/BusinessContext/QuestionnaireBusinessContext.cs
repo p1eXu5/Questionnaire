@@ -25,12 +25,12 @@ namespace Questionnaire.Data.BusinessContext
         #region Ctor
 
         public QuestionnaireBusinessContext ()
-            : this ( new MainDataSeeder() )
+            : this ( new DataSeeder() )
         {
             _context = new QuestionnaireDbContext();
             _context.Database.Migrate();
 
-            _dataSeeder.SeedData( _context );
+            _dataSeeder.SeedData( this );
         }
 
         private QuestionnaireBusinessContext ( IDataSeeder dataSeeder )
@@ -46,8 +46,7 @@ namespace Questionnaire.Data.BusinessContext
             _context = new QuestionnaireDbContext( options );
             _context.Database.EnsureCreated();
 
-            _dataSeeder.SeedData( _context );
-
+            _dataSeeder.SeedData( this );
         }
 
         #endregion
@@ -178,6 +177,18 @@ namespace Questionnaire.Data.BusinessContext
              _context.OpenAnswers.RemoveRange( _context.OpenAnswers.Where( a => a.FirmId == firmId && a.Num == employeeNum ) );
             _context.MultipleChoiceAnswers.RemoveRange( _context.MultipleChoiceAnswers.Where( a => a.FirmId == firmId && a.Num == employeeNum ) );
             _context.SaveChanges();
+        }
+
+        public void AddRegions ( IEnumerable< Region > regions )
+        {
+            if (regions == null) throw new ArgumentNullException( nameof( regions ), "Region collection cannot be null.");
+
+            using ( var enumerator = regions.GetEnumerator() ) {
+
+                while ( enumerator.MoveNext() ) {
+                    var storedRegion = _context.Regions.FirstOrDefault( r => r.Name.Equals( enumerator.Current.Name ) );
+                }
+            }
         }
 
         public void SaveChanges () => _context.SaveChanges();

@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Helpers.Extensions;
+using Agbm.Helpers.Extensions;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using Questionnaire.Data.BusinessContext;
@@ -15,26 +15,26 @@ namespace Questionnaire.Data.Tests.BusinessContext.IntegrationalTests
         [ SetUp ]
         public void SavePaths ()
         {
-            _paths[ 0 ] = Seeder.FileNameRegions;
-            Seeder.FileNameRegions = Seeder.FileNameRegions.AppendAssemblyPath();
+            _paths[ 0 ] = DataSeeder.FileNameRegions;
+            DataSeeder.FileNameRegions = DataSeeder.FileNameRegions.AppendAssemblyPath();
 
-            _paths[ 1 ] = Seeder.FileNameCities;
-            Seeder.FileNameCities = Seeder.FileNameCities.AppendAssemblyPath();
+            _paths[ 1 ] = DataSeeder.FileNameCities;
+            DataSeeder.FileNameCities = DataSeeder.FileNameCities.AppendAssemblyPath();
 
-            _paths[ 2 ] = Seeder.FileNameFirmTypes;
-            Seeder.FileNameFirmTypes = Seeder.FileNameFirmTypes.AppendAssemblyPath();
+            _paths[ 2 ] = DataSeeder.FileNameFirmTypes;
+            DataSeeder.FileNameFirmTypes = DataSeeder.FileNameFirmTypes.AppendAssemblyPath();
 
-            _paths[ 3 ] = Seeder.FileNameFirms;
-            Seeder.FileNameFirms = Seeder.FileNameFirms.AppendAssemblyPath();
+            _paths[ 3 ] = DataSeeder.FileNameFirms;
+            DataSeeder.FileNameFirms = DataSeeder.FileNameFirms.AppendAssemblyPath();
         }
 
         [ TearDown ]
         public void RestorePath ()
         {
-            Seeder.FileNameFirms = _paths[ 3 ];
-            Seeder.FileNameFirmTypes = _paths[ 2 ];
-            Seeder.FileNameCities = _paths[ 1 ];
-            Seeder.FileNameSections = _paths[ 0 ];
+            DataSeeder.FileNameFirms = _paths[ 3 ];
+            DataSeeder.FileNameFirmTypes = _paths[ 2 ];
+            DataSeeder.FileNameCities = _paths[ 1 ];
+            DataSeeder.FileNameSections = _paths[ 0 ];
         }
 
 

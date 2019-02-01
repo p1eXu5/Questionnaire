@@ -31,17 +31,9 @@ namespace Questionnaire.DesktopClient
                 startupWnd.Show();
 
                 var wnd = new MainWindow();
-
                 var businessContext = new QuestionnaireBusinessContext();
-
-                // IDialogRegistrator:
-                DialogRegistrator dialogRegistrator = new DialogRegistrator( wnd );
-                dialogRegistrator.Register< ResumeClearDialogViewModel, ResumeClearDialogWindow >();
-                dialogRegistrator.Register< CannotExitViewModel, CannotExitWindow >();
-                dialogRegistrator.Register< AboutProgramViewModel, AboutProgramWindow >();
-                dialogRegistrator.Register< AreYouSureViewModel, AreYouSureDialog >();
-
-                var mainViewModel = new MainViewModel(businessContext, dialogRegistrator );
+                new DataSeeder();
+                var mainViewModel = new MainViewModel(businessContext, GetDialogRegistrator( wnd ) );
 
                 wnd.DataContext = mainViewModel;
 
@@ -65,6 +57,17 @@ namespace Questionnaire.DesktopClient
                 App.Current.Shutdown( 0x00040000 );
 #endif
             }
+        }
+
+        private IDialogRegistrator GetDialogRegistrator ( Window ownerWindow )
+        {
+            IDialogRegistrator dialogRegistrator = new DialogRegistrator( ownerWindow );
+            dialogRegistrator.Register<ResumeClearDialogViewModel, ResumeClearDialogWindow>();
+            dialogRegistrator.Register<CannotExitViewModel, CannotExitWindow>();
+            dialogRegistrator.Register<AboutProgramViewModel, AboutProgramWindow>();
+            dialogRegistrator.Register<AreYouSureViewModel, AreYouSureDialog>();
+
+            return dialogRegistrator;
         }
     }
 }

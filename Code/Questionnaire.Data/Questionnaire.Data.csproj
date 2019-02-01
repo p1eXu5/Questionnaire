@@ -129,7 +129,7 @@
     <Compile Include="BusinessContext\IQuestionnaireBusinessContext.cs" />
     <Compile Include="BusinessContext\MainDataSeeder.cs" />
     <Compile Include="BusinessContext\QuestionnaireBusinessContext.cs" />
-    <Compile Include="BusinessContext\Seeder.cs" />
+    <Compile Include="BusinessContext\DataSeeder.cs" />
     <Compile Include="DataContext\QuestionnaireDbContext.cs" />
     <Compile Include="ImportModels\FirmImportModel.cs" />
     <Compile Include="Migrations\20190106155716_InitialCreate.cs" />
@@ -171,12 +171,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NpoiExcel\NpoiExcel.csproj">
-      <Project>{47680bf8-c76a-44b9-bde3-694f1a73ccb1}</Project>
-      <Name>NpoiExcel</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
     <Content Include="SeedFiles\QuestionMultipleChoiceList.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -187,6 +181,12 @@
     <Content Include="SeedFiles\QuestionOpenList.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Agbm.Tools\Code\Agbm.NpoiExcel\Agbm.NpoiExcel.csproj">
+      <Project>{47680bf8-c76a-44b9-bde3-694f1a73ccb1}</Project>
+      <Name>Agbm.NpoiExcel</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
