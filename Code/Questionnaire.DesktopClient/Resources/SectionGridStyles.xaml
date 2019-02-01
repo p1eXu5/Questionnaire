@@ -4,6 +4,7 @@
     <Style TargetType="Border" x:Key="st_SectionGrid.Border">
         <Setter Property="BorderBrush" Value="Black" />
         <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Background" Value="Transparent" />
     </Style>
 
     <Style TargetType="TextBlock" x:Key="st_SectionGrid.TextBlock" >

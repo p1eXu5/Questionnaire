@@ -184,11 +184,13 @@ namespace Questionnaire
 
             if ( 0 == employeeCount ) return cells;
 
+            // right table header
             var row = FillLeftTableHeader( cells, firm );
-
 
             // sections
             foreach ( var section in sections ) {
+
+                // subheader
                 row = FillLeftTableSectionHeader( row, cells, section );
 
                 var questions = context.GetMultipleChoiceQuestions().Where( q => q.SectionId == section.Id )
@@ -216,11 +218,11 @@ namespace Questionnaire
                     cells.Add( new ExportingCell( yesAnswerCount, row, 2, new byte[] { 0xe2, 0xf0, 0xd9 } ) );
                     cells.Add( new ExportingCell( $"{yesAnswerPercent:N2}", row, 3, new byte[] { 0xe2, 0xf0, 0xd9 } ) );
 
-                    cells.Add( new ExportingCell( noAnswerCount, row, 4, new byte[] { 0xe2, 0xf0, 0xd9 } ) );
-                    cells.Add( new ExportingCell( $"{noAnswerPercent:N2}", row, 5, new byte[] { 0xe2, 0xf0, 0xd9 } ) );
+                    cells.Add( new ExportingCell( undefinedAnswerCount, row, 4, new byte[] { 0xe2, 0xf0, 0xd9 } ) );
+                    cells.Add( new ExportingCell( $"{undefinedAnswerPersent:N2}", row, 5, new byte[] { 0xe2, 0xf0, 0xd9 } ) );
 
-                    cells.Add( new ExportingCell( undefinedAnswerCount, row, 6, new byte[] { 0xe2, 0xf0, 0xd9 } ) );
-                    cells.Add( new ExportingCell( $"{undefinedAnswerPersent:N2}", row, 7, new byte[] { 0xe2, 0xf0, 0xd9 } ) );
+                    cells.Add( new ExportingCell( noAnswerCount, row, 6, new byte[] { 0xe2, 0xf0, 0xd9 } ) );
+                    cells.Add( new ExportingCell( $"{noAnswerPercent:N2}", row, 7, new byte[] { 0xe2, 0xf0, 0xd9 } ) );
                 }
             }
 
@@ -280,22 +282,19 @@ namespace Questionnaire
 
                         // employee answers
                         for ( int i = 0; i < answerGroups.Length; ++i ) {
-                            IEnumerable< dynamic > answerCategories =
-                                answerType.GetProperty( "Categories" ).GetValue( answerGroups[ i ] );
+
+                            IEnumerable< dynamic > answerCategories = answerType.GetProperty( "Categories" ).GetValue( answerGroups[ i ] );
                             if ( !answerCategories.Any() ) goto loadSum;
 
-                            var answerCategory =
-                                answerCategories.FirstOrDefault( c => c.GetType().GetProperty( "CategoryId" ).GetValue( c ) ==
-                                                                      categories[ categoryIndex ].Id );
+                            var answerCategory = answerCategories.FirstOrDefault( c => c.GetType()
+                                                                                        .GetProperty( "CategoryId" )
+                                                                                        .GetValue( c ) == categories[ categoryIndex ].Id );
                             if ( answerCategory == null ) goto loadSum;
 
-                            IEnumerable< dynamic > answerSections =
-                                answerCategory.GetType().GetProperty( "Sections" ).GetValue( answerCategory );
+                            IEnumerable< dynamic > answerSections = answerCategory.GetType().GetProperty( "Sections" ).GetValue( answerCategory );
                             if ( !answerSections.Any() ) goto loadSum;
 
-                            var answerSection =
-                                answerSections.FirstOrDefault( s => s.GetType().GetProperty( "SectionId" ).GetValue( s ) ==
-                                                                    section.Id );
+                            var answerSection = answerSections.FirstOrDefault( s => s.GetType().GetProperty( "SectionId" ).GetValue( s ) == section.Id );
                             if ( answerSection == null ) goto loadSum;
 
                             sum = answerSection.GetType().GetProperty( "AnswerSum" ).GetValue( answerSection );
@@ -364,7 +363,7 @@ namespace Questionnaire
         }
 
         /// <summary>
-        /// Adds header into left table.
+        /// Adds header into left table organized as "№ | Вопрос | Варианты ответов ".
         /// </summary>
         /// <param name="cells"></param>
         /// <param name="firm"></param>
@@ -382,7 +381,7 @@ namespace Questionnaire
         }
 
         /// <summary>
-        /// Adds section header into left table.
+        /// Adds section header into left table organized as "section.Id | section.Name | Да | % | Не знаю | % | Нет | %".
         /// </summary>
         /// <param name="row"></param>
         /// <param name="cells"></param>

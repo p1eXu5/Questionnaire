@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Questionnaire.DesktopClient.Views.UserControls"
+             xmlns:beh="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:bs="clr-namespace:Questionnaire.DesktopClient.Behaviors"
              mc:Ignorable="d" 
              d:DesignHeight="200" d:DesignWidth="600">
     <Grid VerticalAlignment="Center" 
@@ -21,6 +22,7 @@
 
         <Border Grid.Column="0"
                 Style="{StaticResource st_SectionGrid.Border}"
+                BorderThickness="1,0,1,1"
                 >
             <TextBlock Text="{Binding QuestionGeneratedNum}"
                        Style="{StaticResource st_SectionGrid.TextBlock}"
@@ -31,6 +33,7 @@
         <Border Grid.Column="1"
                 Style="{StaticResource st_SectionGrid.Border}"
                 Padding="10,5,5,5"
+                BorderThickness="0,0,1,1"
                  >
             <TextBlock Text="{Binding Text}"
                        Style="{StaticResource st_SectionGrid.TextBlock}"
@@ -41,32 +44,51 @@
                        />
         </Border>
 
-
         <Border Grid.Column="2"
                 Style="{StaticResource st_SectionGrid.Border}"
+                BorderThickness="0,0,1,1"
+                IsHitTestVisible="True"
                 >
-                <ToggleButton Style="{StaticResource MaterialDesignSwitchDarkToggleButton}"
-                              ToolTip="MaterialDesignSwitchDarkToggleButton"
-                              IsChecked="{Binding YesAnswer, Mode=TwoWay}" 
-                              />
-            </Border>
+            <ToggleButton Style="{StaticResource MaterialDesignSwitchDarkToggleButton}"
+                          ToolTip="MaterialDesignSwitchDarkToggleButton"
+                          IsChecked="{Binding YesAnswer, Mode=TwoWay}"
+                          >
+            </ToggleButton>
+
+
+            <beh:Interaction.Behaviors>
+                <bs:ToggleIsCheckedBehavior />
+            </beh:Interaction.Behaviors>
+
+        </Border>
 
         <Border Grid.Column="3" 
                 Style="{StaticResource st_SectionGrid.Border}"
+                BorderThickness="0,0,1,1"
                 >
             <ToggleButton Style="{StaticResource MaterialDesignSwitchDarkToggleButton}"
                               ToolTip="MaterialDesignSwitchDarkToggleButton"
                               IsChecked="{Binding UndefinedAnswer, Mode=TwoWay}"  
                               />
+
+            <beh:Interaction.Behaviors>
+                <bs:ToggleIsCheckedBehavior />
+            </beh:Interaction.Behaviors>
+
         </Border>
 
         <Border Grid.Column="4"
                 Style="{StaticResource st_SectionGrid.Border}"
+                BorderThickness="0,0,1,1"
                 >
             <ToggleButton Style="{StaticResource MaterialDesignSwitchDarkToggleButton}"
                               ToolTip="MaterialDesignSwitchDarkToggleButton"
                               IsChecked="{Binding NoAnswer, Mode=TwoWay}" 
                               />
+
+            <beh:Interaction.Behaviors>
+                <bs:ToggleIsCheckedBehavior />
+            </beh:Interaction.Behaviors>
         </Border>
     </Grid>
 </UserControl>

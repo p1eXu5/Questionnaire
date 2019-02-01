@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -23,6 +24,15 @@ namespace Questionnaire.DesktopClient.Views.UserControls
         public QuestionMultipleChoiceView ()
         {
             InitializeComponent();
+        }
+
+        private void Border_OnMouseDown ( object sender, MouseButtonEventArgs e )
+        {
+            if (!(sender is Border border) ) return;
+
+            if (!(border.Child is ToggleButton tb)) return;
+
+            tb.IsChecked ^= true;
         }
     }
 }

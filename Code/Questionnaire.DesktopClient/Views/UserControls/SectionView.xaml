@@ -5,11 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Questionnaire.DesktopClient.Views.UserControls"
              mc:Ignorable="d" 
-             d:DesignHeight="800" d:DesignWidth="800"
+             Height="Auto" Width="Auto"
              >
 <UserControl.Resources>
 
-    <Style x:Key="st_Questionnaire.ListBoxItem" TargetType="ListBoxItem">
+    <Style x:Key="st_ListBox.ListBoxItem" TargetType="ListBoxItem">
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="HorizontalAlignment" Value="Left" />
@@ -34,114 +34,128 @@
                 HorizontalAlignment="Center"
                 >
         <Grid VerticalAlignment="Center" 
-          HorizontalAlignment="Center"
-          IsSharedSizeScope="True"
-          SnapsToDevicePixels="True"
-          IsHitTestVisible="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, 
-                                     Path=IsHitTestVisible}"
-          >
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="40" SharedSizeGroup="gr_QuestionGeneratedQuestionGeneratedNum" />
-            <ColumnDefinition Width="360" SharedSizeGroup="gr_Text" />
-            <ColumnDefinition Width="70" SharedSizeGroup="gr_Yes" />
-            <ColumnDefinition Width="70" SharedSizeGroup="gr_Undefined" />
-            <ColumnDefinition Width="70" SharedSizeGroup="gr_No" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" MinHeight="40" />
-            <RowDefinition Height="0.5*" MinHeight="22" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        
-        <!-- 0: HeaderTop -->
-        <Border Style="{StaticResource st_SectionGrid.Border}"
-                >
-            <TextBlock Text="№"
-                       Style="{StaticResource st_SectionGrid.TextBlock}"
-                       FontWeight="Bold"
-                       />
-        </Border>
+              HorizontalAlignment="Center"
+              IsSharedSizeScope="True"
+              SnapsToDevicePixels="True"
+              IsHitTestVisible="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, 
+                                         Path=IsHitTestVisible}"
+              >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40" SharedSizeGroup="gr_QuestionGeneratedQuestionGeneratedNum" />
+                <ColumnDefinition Width="360" SharedSizeGroup="gr_Text" />
+                <ColumnDefinition Width="70" SharedSizeGroup="gr_Yes" />
+                <ColumnDefinition Width="70" SharedSizeGroup="gr_Undefined" />
+                <ColumnDefinition Width="70" SharedSizeGroup="gr_No" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" MinHeight="40" />
+                <RowDefinition Height="0.5*" MinHeight="22" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-        <Border Grid.Column="1" Grid.Row="0" 
-                Style="{StaticResource st_SectionGrid.Border}"
-                >
-            <TextBlock Text="Вопрос"
-                       Style="{StaticResource st_SectionGrid.TextBlock}"
-                       FontWeight="Bold"
-                       />
-        </Border>
+            <!-- 0: № -->
+            <Border Style="{StaticResource st_SectionGrid.Border}"
+                    >
+                <TextBlock Text="№"
+                           Style="{StaticResource st_SectionGrid.TextBlock}"
+                           FontWeight="Bold"
+                           />
+            </Border>
 
-        <Border Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="3"
-                Style="{StaticResource st_SectionGrid.Border}"
-                >
-            <TextBlock Text="Варианты ответов"
-                       Style="{StaticResource st_SectionGrid.TextBlock}"
-                       FontWeight="Bold"
-                       />
-        </Border>
+            <!-- 1: Вопрос -->
+            <Border Grid.Column="1" Grid.Row="0" 
+                    Style="{StaticResource st_SectionGrid.Border}"
+                    BorderThickness="0,1,1,1"
+                    >
+                <TextBlock Text="Вопрос"
+                           Style="{StaticResource st_SectionGrid.TextBlock}"
+                           FontWeight="Bold"
+                           />
+            </Border>
 
-        <!-- 1: HeaderBottom -->
-        <Border Grid.Column="0" Grid.Row="1" 
-                Style="{StaticResource st_SectionGrid.Border}"
-                >
-            <TextBlock Text="{Binding Id}"
-                       Style="{StaticResource st_SectionGrid.TextBlock}"
-                       FontWeight="Bold"
-                       />
-        </Border>
+            <!-- 2: Варианты ответов -->
+            <Border Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="3"
+                    Style="{StaticResource st_SectionGrid.Border}"
+                    BorderThickness="0,1,1,1"
+                    >
+                <TextBlock Text="Варианты ответов"
+                           Style="{StaticResource st_SectionGrid.TextBlock}"
+                           FontWeight="Bold"
+                           />
+            </Border>
 
-        <Border Grid.Column="1" Grid.Row="1" 
-                Style="{StaticResource st_SectionGrid.Border}"
-                 >
-            <TextBlock Text="{Binding Name}"
-                       Style="{StaticResource st_SectionGrid.TextBlock}"
-                       FontWeight="Bold"
-                        />
-        </Border>
+            <!-- 0: section.Id -->
+            <Border Grid.Column="0" Grid.Row="1" 
+                    Style="{StaticResource st_SectionGrid.Border}"
+                    BorderThickness="1,0,1,1"
+                    >
+                <TextBlock Text="{Binding Id}"
+                           Style="{StaticResource st_SectionGrid.TextBlock}"
+                           FontWeight="Bold"
+                           />
+            </Border>
 
-        <Border Grid.Column="2" Grid.Row="1" 
-                Style="{StaticResource st_SectionGrid.Border}"
-                >
-            <TextBlock Text="Да"
-                       Style="{StaticResource st_SectionGrid.TextBlock}"
-                       FontWeight="Bold"
-                       />
-        </Border>
+            <!-- 1: section.Name -->
+            <Border Grid.Column="1" Grid.Row="1" 
+                    Style="{StaticResource st_SectionGrid.Border}"
+                    BorderThickness="0,0,1,1"
+                     >
+                <TextBlock Text="{Binding Name}"
+                           Style="{StaticResource st_SectionGrid.TextBlock}"
+                           FontWeight="Bold"
+                            />
+            </Border>
 
-        <Border Grid.Column="3" Grid.Row="1" 
-                Style="{StaticResource st_SectionGrid.Border}"
-                >
-            <TextBlock Text="Не знаю"
-                       Style="{StaticResource st_SectionGrid.TextBlock}"
-                       FontWeight="Bold"
-                       />
-        </Border>
+            <!-- 2: Да -->
+            <Border Grid.Column="2" Grid.Row="1" 
+                    Style="{StaticResource st_SectionGrid.Border}"
+                    BorderThickness="0,0,1,1"
+                    >
+                <TextBlock Text="Да"
+                           Style="{StaticResource st_SectionGrid.TextBlock}"
+                           FontWeight="Bold"
+                           />
+            </Border>
 
-        <Border Grid.Column="4" Grid.Row="1" 
-                Style="{StaticResource st_SectionGrid.Border}"
-                >
-            <TextBlock Text="Нет"
-                       Style="{StaticResource st_SectionGrid.TextBlock}"
-                       FontWeight="Bold"
-                       />
-        </Border>
+            <!-- 3: Не знаю -->
+            <Border Grid.Column="3" Grid.Row="1" 
+                    Style="{StaticResource st_SectionGrid.Border}"
+                    BorderThickness="0,0,1,1"
+                    >
+                <TextBlock Text="Не знаю"
+                           Style="{StaticResource st_SectionGrid.TextBlock}"
+                           FontWeight="Bold"
+                           />
+            </Border>
 
-        <!-- 2: Questions -->
-        <ListBox Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="2" 
-                 ItemsSource="{Binding QuestionMultipleChoiceVmCollection}"
-                 ItemContainerStyle="{StaticResource st_Questionnaire.ListBoxItem}"
-                 >
+            <!-- 3: Нет -->
+            <Border Grid.Column="4" Grid.Row="1" 
+                    Style="{StaticResource st_SectionGrid.Border}"
+                    BorderThickness="0,0,1,1"
+                    >
+                <TextBlock Text="Нет"
+                           Style="{StaticResource st_SectionGrid.TextBlock}"
+                           FontWeight="Bold"
+                           />
+            </Border>
 
-        </ListBox>
+            <!-- 2: Questions -->
+            <ListBox Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="2" 
+                     ItemsSource="{Binding QuestionMultipleChoiceVmCollection}"
+                     ItemContainerStyle="{StaticResource st_ListBox.ListBoxItem}"
+                     >
 
-        <!--FooterTop--> 
-        <ListBox Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="3" 
-                 ItemsSource="{Binding QuestionOpenVmCollection}"
-                 ItemContainerStyle="{StaticResource st_Questionnaire.ListBoxItem}"
-                 />
+            </ListBox>
 
-    </Grid>
+            <!--FooterTop-->
+            <ListBox Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="3" 
+                     ItemsSource="{Binding QuestionOpenVmCollection}"
+                     ItemContainerStyle="{StaticResource st_ListBox.ListBoxItem}"
+                     />
+
+        </Grid>
+
         <Border Height="120">
             <Button Width="145" Content="Далее"
                     Command="{Binding NextSectionCommand}"

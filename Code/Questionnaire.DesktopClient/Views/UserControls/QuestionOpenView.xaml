@@ -24,6 +24,7 @@
 
         <Border Grid.Column="0" Grid.Row="0" 
                 Style="{StaticResource st_SectionGrid.Border}"
+                BorderThickness="1,0,1,1"
                 >
             <TextBlock Text="{Binding QuestionGeneratedNum}"
                        Style="{StaticResource st_SectionGrid.TextBlock}"
@@ -33,6 +34,7 @@
 
         <Border Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="0" 
                 Style="{StaticResource st_SectionGrid.Border}"
+                BorderThickness="0,0,1,1"
                 >
             <TextBlock Text="{Binding Text}"
                        Style="{StaticResource st_SectionGrid.TextBlock}"
@@ -44,6 +46,7 @@
         <!-- FooterBottom -->
         <Border Grid.Column="0" Grid.Row="1" 
                 Style="{StaticResource st_SectionGrid.Border}"
+                BorderThickness="1,0,1,1"
                 >
             <!-- Dummy -->
             <TextBlock Text=""
@@ -54,6 +57,7 @@
 
         <Border Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="1" 
                 Style="{StaticResource st_SectionGrid.Border}"
+                BorderThickness="0,0,1,1"
                 >
             <TextBox Text="{Binding Answer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      Style="{StaticResource st_SectionGrid.TextBox}"

@@ -9,11 +9,9 @@
              d:DataContext="{d:DesignInstance vm:QuestionnaireRunnerViewModel}"
 
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
-
+             Height="Auto" Width="Auto"
              >
-    
-    <Grid>
+    <Grid >
         <uc:SectionView DataContext="{Binding SectionA}" >
             <uc:SectionView.Style>
                 <Style TargetType="UserControl">

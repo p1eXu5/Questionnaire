@@ -22,7 +22,7 @@
         FontFamily="{DynamicResource MaterialDesignFont}"
 
         Title="Тестирование для сотрудников склада (анонимно)" 
-        MinHeight="800" MinWidth="800" Width="800"
+        d:DesignWidth="800" d:DesignHeight="550"
         ResizeMode="CanResize"
         WindowStyle="SingleBorderWindow"
         >
@@ -79,89 +79,92 @@
             </MenuItem>
         </Menu>
 
-        <Grid Height="Auto" Width="Auto" Margin="0" >
-            <StackPanel VerticalAlignment="Center" 
-                        HorizontalAlignment="Center"
-                        Visibility="Visible"
-                        MinWidth="300"
-                        Opacity="0"
-                        Margin="0"
-                        IsHitTestVisible="False"
-                        >
-                <ComboBox
-                    materialDesign:HintAssist.Hint="Город"
-                    MinWidth="100"
-                    Margin="20,0"
-                    ItemsSource="{Binding Cities}"
-                    Style="{StaticResource MaterialDesignFloatingHintComboBox}"
-                    SelectedItem="{Binding SelectedCity}"
-                    DisplayMemberPath="Name"
-                    >
-                    <ComboBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <VirtualizingStackPanel />
-                        </ItemsPanelTemplate>
-                    </ComboBox.ItemsPanel>
-                </ComboBox>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" 
+                      HorizontalScrollBarVisibility="Auto">
 
-                <ComboBox
-                    materialDesign:HintAssist.Hint="Филиал"
-                    MinWidth="72"
-                    Margin="20,0,20,20"
-                    ItemsSource="{Binding Firms}"
-                    Style="{StaticResource MaterialDesignFloatingHintComboBox}"
-                    SelectedItem="{Binding SelectedFirm}"
-                    DisplayMemberPath="Name"
-                    >
-                    <ComboBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <VirtualizingStackPanel />
-                        </ItemsPanelTemplate>
-                    </ComboBox.ItemsPanel>
-                </ComboBox>
+            <Grid Margin="0">
 
-                <Button Content="Начать тест" Background="Transparent" 
+                <StackPanel VerticalAlignment="Center" 
+                            HorizontalAlignment="Center"
+                            Visibility="Visible"
+                            MinWidth="300"
+                            Opacity="0"
+                            Margin="0"
+                            IsHitTestVisible="False"
+                            >
+                    <ComboBox materialDesign:HintAssist.Hint="Город"
+                              MinWidth="100"
+                              Margin="20,0"
+                              ItemsSource="{Binding Cities}"
+                              Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                              SelectedItem="{Binding SelectedCity}"
+                              DisplayMemberPath="Name"
+                              >
+                        <ComboBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel />
+                            </ItemsPanelTemplate>
+                        </ComboBox.ItemsPanel>
+                    </ComboBox>
+
+                    <ComboBox materialDesign:HintAssist.Hint="Филиал"
+                              MinWidth="72"
+                              Margin="20,0,20,20"
+                              ItemsSource="{Binding Firms}"
+                              Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                              SelectedItem="{Binding SelectedFirm}"
+                              DisplayMemberPath="Name"
+                              >
+                        <ComboBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel />
+                            </ItemsPanelTemplate>
+                        </ComboBox.ItemsPanel>
+                    </ComboBox>
+
+                    <Button Content="Начать тест" Background="Transparent" 
                         Foreground="{DynamicResource MaterialDesignLightForeground}"
                         Width="150"
                         Margin="0,20"
                         Command="{Binding RunTestCommand}"
                         />
 
-                <StackPanel.Style>
-                    <Style TargetType="StackPanel">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsRunning}" Value="False">
-                                <DataTrigger.EnterActions>
-                                    <BeginStoryboard Storyboard="{StaticResource an_Appearance}" />
-                                </DataTrigger.EnterActions>
-                                <DataTrigger.ExitActions>
-                                    <BeginStoryboard Storyboard="{StaticResource an_Disappearance}" />
-                                </DataTrigger.ExitActions>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </StackPanel.Style>
-            </StackPanel>
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsRunning}" Value="False">
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard Storyboard="{StaticResource an_Appearance}" />
+                                    </DataTrigger.EnterActions>
+                                    <DataTrigger.ExitActions>
+                                        <BeginStoryboard Storyboard="{StaticResource an_Disappearance}" />
+                                    </DataTrigger.ExitActions>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+                </StackPanel>
 
-            <uc:QuestionnaireRunnerUserControl DataContext="{Binding QuestionnaireRunner}" >
-                <uc:QuestionnaireRunnerUserControl.Style>
-                    <Style TargetType="UserControl">
-                        <Setter Property="Opacity" Value="0" />
-                        <Setter Property="IsHitTestVisible" Value="False" />
-                        <Setter Property="Margin" Value="10"></Setter>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding DataContext.IsRunning, ElementName=m_MainWindow}" Value="True">
-                                <DataTrigger.EnterActions>
-                                    <BeginStoryboard Storyboard="{StaticResource an_Appearance}" />
-                                </DataTrigger.EnterActions>
-                                <DataTrigger.ExitActions>
-                                    <BeginStoryboard Storyboard="{StaticResource an_Disappearance}" />
-                                </DataTrigger.ExitActions>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </uc:QuestionnaireRunnerUserControl.Style>
-            </uc:QuestionnaireRunnerUserControl>
-        </Grid>
+                <uc:QuestionnaireRunnerUserControl DataContext="{Binding QuestionnaireRunner}" >
+                    <uc:QuestionnaireRunnerUserControl.Style>
+                        <Style TargetType="UserControl">
+                            <Setter Property="Opacity" Value="0" />
+                            <Setter Property="IsHitTestVisible" Value="False" />
+                            <Setter Property="Margin" Value="10"></Setter>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding DataContext.IsRunning, ElementName=m_MainWindow}" Value="True">
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard Storyboard="{StaticResource an_Appearance}" />
+                                    </DataTrigger.EnterActions>
+                                    <DataTrigger.ExitActions>
+                                        <BeginStoryboard Storyboard="{StaticResource an_Disappearance}" />
+                                    </DataTrigger.ExitActions>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </uc:QuestionnaireRunnerUserControl.Style>
+                </uc:QuestionnaireRunnerUserControl>
+            </Grid>
+        </ScrollViewer>
     </DockPanel>
 </Window>
