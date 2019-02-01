@@ -68,6 +68,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Behaviors\ToggleIsCheckedBehavior.cs" />
     <Compile Include="ViewModels\DialogViewModels\AboutProgramViewModel.cs" />
     <Compile Include="ViewModels\DialogViewModels\AreYouSureViewModel.cs" />
     <Compile Include="ViewModels\DialogViewModels\CannotExitViewModel.cs" />

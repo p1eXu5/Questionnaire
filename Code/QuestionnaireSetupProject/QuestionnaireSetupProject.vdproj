@@ -1377,12 +1377,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_F037932873F36F8FEC64F81D52467C99"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_F0C853605E7A96EC365E9F4E3CA7925A"
         "OwnerKey" = "8:_709C7FF81D154FAAB311DF0ADF1316F1"
         "MsmSig" = "8:_UNDEFINED"
@@ -1456,12 +1450,6 @@
         "Entry"
         {
         "MsmKey" = "8:_FC64FF398E9E597E9E8043AA52C29BE4"
-        "OwnerKey" = "8:_709C7FF81D154FAAB311DF0ADF1316F1"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_709C7FF81D154FAAB311DF0ADF1316F1"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -2183,6 +2171,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_435FF5579710AD4197D9C32583107BA5"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_709C7FF81D154FAAB311DF0ADF1316F1"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -6736,32 +6730,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F037932873F36F8FEC64F81D52467C99"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:System.ComponentModel.Annotations, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
-                "ScatterAssemblies"
-                {
-                }
-            "SourcePath" = "8:System.ComponentModel.Annotations.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_D98B1C6C05924705A5CAD9C7C8A3F804"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F0C853605E7A96EC365E9F4E3CA7925A"
             {
             "AssemblyRegister" = "3:1"
@@ -7151,11 +7119,11 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Questionnaire"
         "ProductCode" = "8:{4907E276-68CD-4380-8E4A-201E80D073AC}"
-        "PackageCode" = "8:{6CA7E7E4-D6D4-44E9-8DCF-B5032CC77B76}"
+        "PackageCode" = "8:{D9E39B2A-4C1B-4F9C-BBF4-F984EFAF24F1}"
         "UpgradeCode" = "8:{E5F2456A-94C7-403E-A3A6-39329D852BF3}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
-        "RemovePreviousVersions" = "11:TRUE"
+        "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
         "ProductVersion" = "8:1.0.5"
