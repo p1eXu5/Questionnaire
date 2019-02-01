@@ -33,7 +33,6 @@ namespace Questionnaire.DesktopClient
                 var wnd = new MainWindow();
 
                 var businessContext = new QuestionnaireBusinessContext();
-                var questionnaire = new QuestionnaireContext( businessContext );
 
                 // IDialogRegistrator:
                 DialogRegistrator dialogRegistrator = new DialogRegistrator( wnd );
@@ -42,7 +41,7 @@ namespace Questionnaire.DesktopClient
                 dialogRegistrator.Register< AboutProgramViewModel, AboutProgramWindow >();
                 dialogRegistrator.Register< AreYouSureViewModel, AreYouSureDialog >();
 
-                var mainViewModel = new MainViewModel( questionnaire, dialogRegistrator );
+                var mainViewModel = new MainViewModel(businessContext, dialogRegistrator );
 
                 wnd.DataContext = mainViewModel;
 

@@ -73,9 +73,11 @@
     <Compile Include="ViewModels\DialogViewModels\AreYouSureViewModel.cs" />
     <Compile Include="ViewModels\DialogViewModels\CannotExitViewModel.cs" />
     <Compile Include="ViewModels\DialogViewModels\ResumeClearDialogViewModel.cs" />
+    <Compile Include="ViewModels\EntityViewModel\FirmViewModel.cs" />
     <Compile Include="ViewModels\EntityViewModel\QuestionMultipleChoiceViewModel.cs" />
     <Compile Include="ViewModels\EntityViewModel\QuestionOpenViewModel.cs" />
     <Compile Include="ViewModels\EntityViewModel\SectionViewModel.cs" />
+    <Compile Include="ViewModels\IMainViewModel.cs" />
     <Compile Include="ViewModels\IStageViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\NextSectionRequestedEventArgs.cs" />

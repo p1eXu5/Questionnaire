@@ -9,6 +9,9 @@ namespace Questionnaire.Data.BusinessContext
 {
     public interface IQuestionnaireBusinessContext
     {
+        int GetNextNumOfTested ( int firmId );
+        bool HasMultipleChoiceAnswers ();
+
         IEnumerable< Region > GetRegions ();
         IEnumerable< City > GetCities ();
         IEnumerable< Firm > GetFirms ();

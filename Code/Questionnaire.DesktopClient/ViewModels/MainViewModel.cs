@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Windows.Data;
@@ -9,20 +9,23 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using Microsoft.Win32;
+using Questionnaire.Data.BusinessContext;
 using Questionnaire.Data.Models;
 using Questionnaire.DesktopClient.ViewModels.DialogViewModels;
+using Questionnaire.DesktopClient.ViewModels.EntityViewModel;
 using Questionnaire.MvvmBase;
 
 namespace Questionnaire.DesktopClient.ViewModels
 {
-    public class MainViewModel : ViewModel
+    public class MainViewModel : ViewModel, IMainViewModel
     {
         #region Fields
 
-        private readonly IQuestionnaireContext _questionnaireContext;
+        private readonly IQuestionnaireBusinessContext _questionnaireContext;
         private readonly IDialogRegistrator _dialogRegistrator;
         private City _selectedCity;
-        private Firm _selectedFirm;
+        private readonly ObservableCollection< FirmViewModel > _firms;
+        private FirmViewModel _selectedFirm;
         private readonly ICollectionView _firmsView;
 
         private bool _isRunning;
@@ -33,15 +36,17 @@ namespace Questionnaire.DesktopClient.ViewModels
 
         #region Ctor
 
-        public MainViewModel ( IQuestionnaireContext questionnaireContext, IDialogRegistrator dialogRegistrator )
+        public MainViewModel ( IQuestionnaireBusinessContext questionnaireContext, IDialogRegistrator dialogRegistrator )
         {
             _questionnaireContext = questionnaireContext ?? throw new ArgumentNullException( nameof( questionnaireContext ), @"IQuestionnaireContext cannot be null." );
             _dialogRegistrator = dialogRegistrator ?? throw new ArgumentNullException( nameof( dialogRegistrator ), @"IDialogRegistrator cannot be null." );
 
             Cities = _questionnaireContext.GetCities().ToArray();
-            Firms = _questionnaireContext.GetFirms().Where( f => f.Id > 1 ).ToArray();
 
-            if ( !Firms.Any() ) throw new ArgumentException( "Firms is empty" );
+            // firm with id equaled 1 is undefined firm
+            _firms = new ObservableCollection< FirmViewModel >( _questionnaireContext.GetFirms().Where( f => f.Id > 1 ).Select( f => new FirmViewModel( f, this ) ) );
+            if (!_firms.Any() ) throw new ArgumentException( "Firms is empty" );
+            Firms = new ReadOnlyObservableCollection< FirmViewModel >( _firms );
 
             _firmsView = CollectionViewSource.GetDefaultView( Firms );
 
@@ -61,6 +66,8 @@ namespace Questionnaire.DesktopClient.ViewModels
 
         #region Properties
 
+        public IQuestionnaireBusinessContext Context => _questionnaireContext;
+
         public IEnumerable< City > Cities { get; }
 
         public City SelectedCity
@@ -77,9 +84,9 @@ namespace Questionnaire.DesktopClient.ViewModels
             }
         }
 
-        public IEnumerable< Firm > Firms { get; }
+        public ReadOnlyObservableCollection< FirmViewModel > Firms { get; }
 
-        public Firm SelectedFirm
+        public FirmViewModel SelectedFirm
         {
             get => _selectedFirm;
             set {
@@ -152,12 +159,12 @@ namespace Questionnaire.DesktopClient.ViewModels
                 return;
             }
 
-            _firmsView.Filter = ( firm ) => (( Firm )firm).CityId == cityId;
+            _firmsView.Filter = ( firm ) => (( FirmViewModel )firm).CityId == cityId;
         }
 
         private void RunTest ( object obj )
         {
-            QuestionnaireRunner.LoadTestQuestions( _selectedFirm );
+            QuestionnaireRunner.LoadTestQuestions( _selectedFirm.Firm );
             IsRunning = true;
         }
 
@@ -169,6 +176,7 @@ namespace Questionnaire.DesktopClient.ViewModels
         private void OnStopped ( object sender, EventArgs args )
         {
             IsRunning = false;
+            SelectedFirm.UpdateName();
             ((MvvmCommand)RunTestCommand).RaiseCanExecuteChanged();
             ((MvvmCommand)DeleteAnswersCommand).RaiseCanExecuteChanged();
             ((MvvmCommand)ExportAnswersCommand).RaiseCanExecuteChanged();
@@ -202,8 +210,7 @@ namespace Questionnaire.DesktopClient.ViewModels
 
             if ( sfd.ShowDialog() == true ) {
 
-                //File.Create( sfd.FileName );
-                _questionnaireContext.MakeReport( sfd.FileName );
+                ReportMaker.MakeReport( sfd.FileName, _questionnaireContext );
             }
         }
 

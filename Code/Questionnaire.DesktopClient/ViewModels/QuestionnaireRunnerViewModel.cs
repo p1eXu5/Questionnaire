@@ -16,7 +16,7 @@ namespace Questionnaire.DesktopClient.ViewModels
     {
         #region Fields
 
-        private readonly IQuestionnaireContext _questionnaireContext;
+        private readonly IQuestionnaireBusinessContext _questionnaireContext;
 
         private Queue< SectionViewModel > _sections;
 
@@ -32,7 +32,7 @@ namespace Questionnaire.DesktopClient.ViewModels
 
         #region Ctor
 
-        public QuestionnaireRunnerViewModel ( IQuestionnaireContext questionnairContext )
+        public QuestionnaireRunnerViewModel ( IQuestionnaireBusinessContext questionnairContext )
         {
             _questionnaireContext = questionnairContext ?? throw new ArgumentNullException( nameof( questionnairContext ), @"IQuestionnaireContext cannot be null." );
 

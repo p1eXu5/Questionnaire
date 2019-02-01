@@ -64,6 +64,25 @@ namespace Questionnaire.Data.BusinessContext
 
         #region Methods
 
+        public int GetNextNumOfTested(int firmId)
+        {
+            var openAnsw = GetOpenAnswers().Where(a => a.FirmId == firmId).ToArray();
+            var multiAnsw = GetMultipleChoiceAnswers().Where(a => a.FirmId == firmId).ToArray();
+
+            if (openAnsw.Length == 0 && multiAnsw.Length == 0) return 1;
+
+            if (openAnsw.Length == 0) return multiAnsw.Max(a => a.Num) + 1;
+            if (multiAnsw.Length == 0) return openAnsw.Max(a => a.Num) + 1;
+
+            var multiNum = multiAnsw.Max(a => a.Num);
+            var openNum = openAnsw.Max(a => a.Num);
+
+            return multiNum >= openNum ? multiNum + 1 : openNum + 1;
+        }
+
+        public bool HasMultipleChoiceAnswers() => GetMultipleChoiceAnswers().Any();
+
+
         public IEnumerable< Region > GetRegions ()
         {
             return _context.Regions.AsNoTracking().OrderBy( s => s.Name ).ToArray();
