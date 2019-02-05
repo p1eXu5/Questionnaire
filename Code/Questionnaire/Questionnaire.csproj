@@ -42,8 +42,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AnswerValueConverter.cs" />
-    <Compile Include="IAnswerValueConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReportMaker.cs" />
     <Compile Include="ReportOrientation.cs" />

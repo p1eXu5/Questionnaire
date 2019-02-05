@@ -125,11 +125,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BusinessContext\AnswerConverters\AnswerValueConverter.cs" />
     <Compile Include="BusinessContext\Comparers\FirmEqualityComparer.cs" />
     <Compile Include="BusinessContext\Comparers\QuestionEqualityComparer.cs" />
     <Compile Include="BusinessContext\Contracts\IMultipleAnswersChecker.cs" />
     <Compile Include="BusinessContext\Contracts\IService.cs" />
     <Compile Include="BusinessContext\Extensions\EntityExtensions.cs" />
+    <Compile Include="BusinessContext\AnswerConverters\IAnswerValueConverter.cs" />
     <Compile Include="BusinessContext\IDataSeeder.cs" />
     <Compile Include="BusinessContext\IQuestionnaireBusinessContext.cs" />
     <Compile Include="BusinessContext\MainDataSeeder.cs" />

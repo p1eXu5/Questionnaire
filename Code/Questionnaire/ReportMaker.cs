@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Agbm.NpoiExcel;
 using Agbm.Helpers.Extensions;
 using Questionnaire.Data.BusinessContext;
+using Questionnaire.Data.BusinessContext.AnswerConverters;
 using Questionnaire.Data.Models;
 
 namespace Questionnaire
@@ -186,6 +187,7 @@ namespace Questionnaire
 
             // right table header
             var row = FillLeftTableHeader( cells, firm );
+            var converter = context.Converter;
 
             // sections
             foreach ( var section in sections ) {
@@ -202,13 +204,13 @@ namespace Questionnaire
                 foreach ( var question in questions ) {
                     var questionAnswers = firmAnswers.Where( a => a.Question.Id == question.Id ).ToArray();
 
-                    var yesAnswerCount = questionAnswers.Count( a => a.Answer == AnswerValueConverter.YES_UNSWER );
+                    var yesAnswerCount = questionAnswers.Count( a => converter.IsYesAnswer( a ) );
                     var yesAnswerPercent = ( double )yesAnswerCount / employeeCount;
 
-                    var noAnswerCount = questionAnswers.Count( a => a.Answer == AnswerValueConverter.NO_ANSWER );
+                    var noAnswerCount = questionAnswers.Count( a => converter.IsNoAnswer( a ) );
                     var noAnswerPercent = ( double )noAnswerCount / employeeCount;
 
-                    var undefinedAnswerCount = questionAnswers.Count( a => a.Answer == AnswerValueConverter.UNDEFINED_ANSWER );
+                    var undefinedAnswerCount = questionAnswers.Count( a => converter.IsUndefinedAnswer( a ) );
                     var undefinedAnswerPersent = ( double )undefinedAnswerCount / employeeCount;
 
                     ++row;
@@ -262,6 +264,9 @@ namespace Questionnaire
                 cells.Add( new ExportingCell( "Сумма", row, columnDiff + 4 + answerGroups.Length,
                                              new byte[] { 0xb4, 0xc7, 0xe7 } ) );
 
+                // ===================
+                // *** Right Table ***
+                // ===================
                 ++row;
 
                 var categorySums = new int[categories.Length];
@@ -284,35 +289,33 @@ namespace Questionnaire
                         for ( int i = 0; i < answerGroups.Length; ++i ) {
 
                             IEnumerable< dynamic > answerCategories = answerType.GetProperty( "Categories" ).GetValue( answerGroups[ i ] );
-                            if ( !answerCategories.Any() ) goto loadSum;
+                            if ( !answerCategories.Any() ) continue;
 
                             var answerCategory = answerCategories.FirstOrDefault( c => c.GetType()
                                                                                         .GetProperty( "CategoryId" )
                                                                                         .GetValue( c ) == categories[ categoryIndex ].Id );
-                            if ( answerCategory == null ) goto loadSum;
+                            if ( answerCategory == null ) continue;
 
                             IEnumerable< dynamic > answerSections = answerCategory.GetType().GetProperty( "Sections" ).GetValue( answerCategory );
-                            if ( !answerSections.Any() ) goto loadSum;
+                            if ( !answerSections.Any() ) continue;
 
                             var answerSection = answerSections.FirstOrDefault( s => s.GetType().GetProperty( "SectionId" ).GetValue( s ) == section.Id );
-                            if ( answerSection == null ) goto loadSum;
+                            if ( answerSection == null ) continue;
 
-                            sum = answerSection.GetType().GetProperty( "AnswerSum" ).GetValue( answerSection );
-
-                            loadSum:
-                            cells.Add( new ExportingCell( sum, row, columnDiff + 4 + i, new byte[] { 0xb4, 0xc7, 0xe7 } ) );
-                            categorySums[ categoryIndex ] += sum;
+                            int answerSum = answerSection.GetType().GetProperty( "AnswerSum" ).GetValue( answerSection );
+                            cells.Add( new ExportingCell( answerSum, row, columnDiff + 4 + i, new byte[] { 0xb4, 0xc7, 0xe7 } ) );
+                            sum += answerSum;
                         }
 
-                        // employee answer sum
-                        cells.Add( new ExportingCell( categorySums[ categoryIndex ], row, columnDiff + 4 + answerGroups.Length,
+                        // section sum
+                        cells.Add( new ExportingCell( sum, row, columnDiff + 4 + answerGroups.Length,
                                                      new byte[] { 0xb4, 0xc7, 0xe7 } ) );
 
-                        var average = sum * 1.0 / (employeeCount * SECTION_COEFFICIENT);
-
                         // факт
+                        var average = sum * 1.0 / (employeeCount * SECTION_COEFFICIENT);
                         cells.Add( new ExportingCell( $"{average:N2}", row, columnDiff + 3, null ) );
 
+                        categorySums[ categoryIndex ] += sum;
                         ++row;
                     }
                 }

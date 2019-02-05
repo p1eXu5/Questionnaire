@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Questionnaire.Data.BusinessContext.AnswerConverters;
 using Questionnaire.Data.Models;
 
 namespace Questionnaire.Data.BusinessContext
 {
     public interface IQuestionnaireBusinessContext
     {
+        IAnswerValueConverter Converter { get; }
+
         int GetNextNumOfTested ( int firmId );
         bool HasMultipleChoiceAnswers ();
 

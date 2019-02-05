@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Questionnaire.Data.BusinessContext.AnswerConverters;
 using Questionnaire.Data.BusinessContext.Comparers;
 using Questionnaire.Data.BusinessContext.Visitors;
 using Questionnaire.Data.DataContext;
@@ -17,6 +18,7 @@ namespace Questionnaire.Data.BusinessContext
         #region Fields
 
         private readonly QuestionnaireDbContext _context;
+        private readonly IAnswerValueConverter _converter = new AnswerValueConverter();
 
         private bool _disposed;
 
@@ -59,6 +61,8 @@ namespace Questionnaire.Data.BusinessContext
 
 
         #region Methods
+
+        public IAnswerValueConverter Converter => _converter;
 
         public int GetNextNumOfTested(int firmId)
         {
@@ -143,7 +147,7 @@ namespace Questionnaire.Data.BusinessContext
                                                      group s by s.Question.SectionId into sec
                                                      select new {
                                                          SectionId = sec.Key,
-                                                         AnswerSum = sec.Sum( s => s.Answer )
+                                                         AnswerSum = sec.Sum( a => _converter.Convert( a ) )
                                                      }
                                       }				  
                      }).ToArray();
