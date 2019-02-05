@@ -179,6 +179,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="BusinessContext\QuestionnaireBusinessContext.cd" />
     <None Include="packages.config" />
     <Content Include="SeedFiles\QuestionMultipleChoiceList.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -153,13 +153,15 @@ namespace Questionnaire.Data.BusinessContext
 
         public void AddAnswer ( AnswerMultipleChoice answer )
         {
-            _context.MultipleChoiceAnswers.Add( Check.Checked( (dynamic)answer ) );
+            Check.CheckAnswer( answer );
+            _context.MultipleChoiceAnswers.Add( answer );
             _context.SaveChanges();
         }
 
         public void AddAnswer ( AnswerOpen answer )
         {
-            _context.OpenAnswers.Add( Check.Checked( (dynamic)answer ) );
+            Check.CheckAnswer( answer );
+            _context.OpenAnswers.Add( answer );
             _context.SaveChanges();
         }
 
@@ -302,12 +304,11 @@ namespace Questionnaire.Data.BusinessContext
 
         static class Check
         {
-            public static dynamic Checked ( dynamic answer )
+            public static void CheckAnswer ( AnswerBase answer )
             {
                 if ( (int)answer.Num <= 0 ) throw new ArgumentException("EmployeeNum cannot be not greater than zero");
                 if ( answer.Firm == null )  throw new ArgumentException("Firm cannot be null");
 
-                return answer;
             }
         }
     }

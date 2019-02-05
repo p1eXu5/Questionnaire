@@ -23,14 +23,11 @@ namespace Questionnaire.DesktopClient.ViewModels.EntityViewModel
             QuestionGeneratedNum = $"{ question.SectionId }.{ index }";
         }
 
-        public string QuestionGeneratedNum { get; }
-
-        public string Text => _question.Text;
-
-        public bool IsAnswered => YesAnswer || NoAnswer || UndefinedAnswer;
-
         public AnswerMultipleChoice AnswerMultipleChoice => _answerMultipleChoice;
 
+        public string QuestionGeneratedNum { get; }
+        public string Text => _question.Text;
+        public bool IsAnswered => YesAnswer || NoAnswer || UndefinedAnswer;
 
         public bool YesAnswer
         {
