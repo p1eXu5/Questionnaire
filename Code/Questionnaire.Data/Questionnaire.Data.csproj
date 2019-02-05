@@ -127,14 +127,19 @@
   <ItemGroup>
     <Compile Include="BusinessContext\Comparers\FirmEqualityComparer.cs" />
     <Compile Include="BusinessContext\Comparers\QuestionEqualityComparer.cs" />
+    <Compile Include="BusinessContext\Contracts\IMultipleAnswersChecker.cs" />
+    <Compile Include="BusinessContext\Contracts\IService.cs" />
     <Compile Include="BusinessContext\Extensions\EntityExtensions.cs" />
     <Compile Include="BusinessContext\IDataSeeder.cs" />
     <Compile Include="BusinessContext\IQuestionnaireBusinessContext.cs" />
     <Compile Include="BusinessContext\MainDataSeeder.cs" />
+    <Compile Include="BusinessContext\MultipleAnswersChecker.cs" />
     <Compile Include="BusinessContext\QuestionnaireBusinessContext.cs" />
     <Compile Include="BusinessContext\DataSeeder.cs" />
     <Compile Include="BusinessContext\Comparers\NameEntityComparer.cs" />
+    <Compile Include="BusinessContext\Service.cs" />
     <Compile Include="BusinessContext\Visitors\EntityChecker.cs" />
+    <Compile Include="DataContext\CheckerExtensions\QuestionnaireDbContextExtension.cs" />
     <Compile Include="DataContext\QuestionnaireDbContext.cs" />
     <Compile Include="ImportModels\FirmImportModel.cs" />
     <Compile Include="Migrations\20190106155716_InitialCreate.cs" />
@@ -197,6 +202,7 @@
       <Name>Agbm.NpoiExcel</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

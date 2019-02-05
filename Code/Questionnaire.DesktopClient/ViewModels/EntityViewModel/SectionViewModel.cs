@@ -58,7 +58,6 @@ namespace Questionnaire.DesktopClient.ViewModels.EntityViewModel
             );
 
             QuestionOpenVmCollection = new ReadOnlyObservableCollection< QuestionOpenViewModel >( _questionOpenVmCollection );
-
             NextSectionCommand = new MvvmCommand( NextSection, CanMoveNextSection );
         }
 

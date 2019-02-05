@@ -6,6 +6,7 @@ using System;
 using System.IO;
 using System.Windows;
 using Questionnaire.Data.BusinessContext;
+using Questionnaire.Data.DataContext;
 using Questionnaire.Data.Models;
 using Questionnaire.DesktopClient.ViewModels;
 using Questionnaire.DesktopClient.ViewModels.DialogViewModels;
@@ -32,6 +33,10 @@ namespace Questionnaire.DesktopClient
 
                 var wnd = new MainWindow();
                 var businessContext = new QuestionnaireBusinessContext( new DataSeeder() );
+
+                using ( var checker = new MultipleAnswersChecker( new QuestionnaireDbContext() ) ) {
+                    checker.CheckAnswers();
+                }
                 
                 var mainViewModel = new MainViewModel( businessContext, GetDialogRegistrator( wnd ) );
 
